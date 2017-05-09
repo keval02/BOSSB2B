@@ -34,7 +34,7 @@ public class GlobalVariable {
     public static String window = "window_end";
 
     public static String share = "https://play.google.com/store/apps/details?id=com.nivida.user.Boss&hl=en";
-    public static String link2 = "http://192.168.1.221/boss/";
+   // public static String link = "http://192.168.1.221/boss/";
    // public static String link = "http://www.bossindia.com/";
    public static final String link="http://demo.bossindia.com/";
 

@@ -3,9 +3,12 @@ package com.nivida.bossb2b;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
@@ -16,12 +19,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nivida.bossb2b.Bean.BeanVendor;
 import com.nivida.bossb2b.Bean.BeanVendorName;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,7 +56,10 @@ public class VendorListAdapter extends BaseAdapter {
     Date date1;
 
     int totalSize=0;
+    int selectedPosition = 0;
     private static LayoutInflater inflater = null;
+
+    LinearLayout layout_cemara;
 
     public VendorListAdapter(Context context, List<BeanVendorName> vnames, Activity activity ) {
 
@@ -208,6 +218,8 @@ public class VendorListAdapter extends BaseAdapter {
         final TextView d_dendtime = (TextView) dialogView.findViewById(R.id.d_dendtime);
         final TextView d_dstartlatitude = (TextView) dialogView.findViewById(R.id.d_dstartlatitude);
         final TextView d_dstartlongitude = (TextView) dialogView.findViewById(R.id.d_dstartlongitude);
+         layout_cemara = (LinearLayout) dialogView.findViewById(R.id.layout_camera);
+      final LinearLayout  layout_direct_cemara = (LinearLayout) dialogView.findViewById(R.id.layout_direct_cemara);
 
         final TextView d_dcomments = (TextView) dialogView.findViewById(R.id.d_dcomments);
         // final TextView d_dcity=(TextView)dialogView.findViewById(R.id.d_dcity);
@@ -258,65 +270,64 @@ public class VendorListAdapter extends BaseAdapter {
                 .resize(150 , 150)
                 .into(d_img1);
 
-        d_img1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        Log.e("getAttachments" , "-->" + vnames.get(position).getAttachmentPaths());
+
+        for(int i=0 ; i<vnames.get(position).getAttachmentPaths().size();i++){
 
 
-                String path = Web.LINK+img_1;
+            View view = inflater.inflate(R.layout.layout_history_subimage , null);
 
-                Log.e("path" ,"-->" +path);
-
-                Intent intent = new Intent(context, InfoZoomView.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("imageInfoPath" , path);
-                Log.e("Imagepath" , "..?" +path);
-                context.startActivity(intent);
-
-              //  showFullImageView(path);
-
-            }
-        });
+            ImageView img_attachment = (ImageView) view.findViewById(R.id.img_attachment);
+            ImageView img_remove = (ImageView) view.findViewById(R.id.img_remove);
+            TextView txt_imagePath = (TextView) view.findViewById(R.id.txt_imagePath);
 
 
+            img_remove.setVisibility(View.GONE);
 
-            d_img2.setOnClickListener(new View.OnClickListener() {
+            img_attachment.setMaxWidth(50);
+            img_attachment.setMaxHeight(50);
+
+
+            Picasso.with(context)
+                    .load(vnames.get(position).getAttachmentPaths().get(i))
+                    .error(R.drawable.noimagefound)
+                    .into(img_attachment);
+
+            txt_imagePath.setText(vnames.get(position).getAttachmentPaths().get(i));
+
+            img_attachment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String path = Web.LINK + img_2;
+                    ArrayList<String> imagePaths = new ArrayList<>();
 
-                    Log.e("path", "-->" + path);
+                    for (int i = 0; i < layout_direct_cemara.getChildCount(); i++) {
+                        View view = layout_direct_cemara.getChildAt(i);
+                        String path = ((TextView) view.findViewById(R.id.txt_imagePath)).getText().toString();
 
-                    Intent intent = new Intent(context, InfoZoomView.class);
+                        if (path.equalsIgnoreCase(vnames.get(position).getAttachmentPaths().get(i)))
+                            //selectedPosition = i;
+
+
+                        imagePaths.add(path);
+                    }
+
+                    Intent intent = new Intent(context, FullZoomViewActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("imageInfoPath", path);
-                    Log.e("Imagepath", "..?" + path);
+                    intent.putStringArrayListExtra("imagePaths", imagePaths);
+                    //intent.putExtra("ImagePosition", selectedPosition);
                     context.startActivity(intent);
-
                 }
             });
 
 
+            layout_direct_cemara.addView(view);
 
 
-            d_img3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    String path = Web.LINK + img_3;
-                    Log.e("path", "-->" + path);
-
-                    Intent intent = new Intent(context, InfoZoomView.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("imageInfoPath", path);
-                    Log.e("Imagepath", "..?" + path);
-                    context.startActivity(intent);
 
 
-                }
-            });
 
 
+        }
 
 
 
@@ -342,6 +353,23 @@ public class VendorListAdapter extends BaseAdapter {
         } else {
             d_dmobilenumber.setText(vnames.get(position).getPhone_no());
         }
+
+
+
+        d_dmobilenumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String no = d_dmobilenumber.getText().toString();
+                if(!no.equalsIgnoreCase("N/A")){
+
+                    ClipboardManager _clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                    _clipboard.setText(no);
+                    Toast.makeText(context, "Copied", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
 
         String starttime1 = vnames.get(position).getStart_time();
@@ -483,14 +511,5 @@ public class VendorListAdapter extends BaseAdapter {
         b.show();
     }
 
-   private void showFullImageView(String path){
-
-      String imagePaths = path;
-
-       Intent intent = new Intent(context, FullZoomViewActivity.class);
-       intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-       intent.putExtra("imageInfoPath" , imagePaths);
-       Log.e("Imagepath" , "..?" +imagePaths);
-   }
 
 }

@@ -7,22 +7,15 @@ import android.content.IntentSender;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.design.widget.NavigationView;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,8 +32,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.nivida.bossb2b.Bean.BeanVendor;
-import com.nivida.bossb2b.Bean.BeanVendorName;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -148,6 +139,11 @@ public class Thank extends AppCompatActivity implements
         btn_con = (Button) findViewById(R.id.btncon);
 
 
+        if (prefs.getRole_id().equalsIgnoreCase(C.DISTRIBUTOR_ROLE)) {
+
+            end_btn.setText("Back To Home");
+        }
+
         btn_con.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,77 +161,22 @@ public class Thank extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(Thank.this, HomeActivity.class);
-                startActivity(i);
-                finish();
-                /*if (Internet.isConnectingToInternet(getApplicationContext())) {
 
+                if (prefs.getRole_id().equalsIgnoreCase(C.DISTRIBUTOR_ROLE)) {
 
-                    final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                    Intent i = new Intent(Thank.this, DistributorLogin.class);
+                    startActivity(i);
+                    finish();
 
-                    if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                        buildAlertMessageNoGps();
-                    }
-                    else if ((!radio2.isChecked() && !radio1.isChecked() && !radio3.isChecked())) {
-
-                        Toast.makeText(Thank.this, "Please Select Any Meeting Type First", Toast.LENGTH_SHORT).show();
-
-
-                    }
-
-                    else {
-                        Log.e("currentLatitude", "" + currentLatitude);
-                        Log.e("currentLongitude", "" + currentLongitude);
-
-
-                        *//*start_time.setVisibility(View.VISIBLE);*//*
-
-                        *//*lv_vendor.setVisibility(View.VISIBLE);
-                        view_list.setVisibility(View.VISIBLE);
-                        btn_start_meeting.setVisibility(View.GONE);
-                        txt_vendor_name.setVisibility(View.VISIBLE);
-                        meeting_list.setVisibility(View.VISIBLE);
-
-                        txt_start_meeting_time.setVisibility(View.INVISIBLE);
-                        order_show.setVisibility(View.GONE);
-                        route_end.setEnabled(true);
-                        route_start.setEnabled(true);
-                        new_vendor.setEnabled(false);
-*//*
-
-                        String root_date = GetCurrentDateTime();
-                        comments = edit_comment.getText().toString().trim();
-
-                        String end_map = "http://maps.google.com/maps?q=loc:" + "" + currentLatitude + "," + currentLongitude;
-                        Log.e("start_map", "" + end_map);
-                        Log.e("root_date", "" + root_date);
-
-
-
-
-                        int meetings_type1 = 0;
-
-                        if (rg.getCheckedRadioButtonId() == R.id.radio1) {
-
-
-                            meetings_type1 = 3;
-                        } else if (rg.getCheckedRadioButtonId() == R.id.radio2) {
-                            meetings_type1 = 2;
-
-                        } else if (rg.getCheckedRadioButtonId() == R.id.radio3) {
-                            meetings_type1 = 1;
-
-                        }
-
-                        new end_meeting(root_date, comments, meetings_type1, end_map).execute();
-
-
-
-                    }
 
                 } else {
-                    Internet.noInternet(getApplicationContext());
-                }*/
+
+                    Intent i = new Intent(Thank.this, HomeActivity.class);
+                    startActivity(i);
+                    finish();
+
+                }
+
             }
 
 

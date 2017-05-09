@@ -1,5 +1,8 @@
 package com.nivida.bossb2b.Bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Ajay on 11/25/2016.
  */
@@ -51,6 +54,16 @@ public class BeanVendorName {
     String meetingID="0";
     String filter_user_id = "";
     String filter_frim_name = "";
+
+    ArrayList<String> attachmentPaths =new ArrayList<>();
+
+    public ArrayList<String> getAttachmentPaths() {
+        return attachmentPaths;
+    }
+
+    public void setAttachmentPaths(ArrayList<String> attachmentPaths) {
+        this.attachmentPaths = attachmentPaths;
+    }
 
     public String getFilter_user_id() {
         return filter_user_id;

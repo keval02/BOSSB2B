@@ -20,16 +20,28 @@
         <TextView
             android:id="@+id/txt_dis_names"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:ellipsize="end"
-            android:gravity=""
+            android:gravity="start|center"
             android:padding="5dp"
+            android:layout_weight="1"
             android:singleLine="true"
-            android:textColor="#000"
-            android:textSize="16sp"
+            android:textColor="#424242"
+            android:textSize="14sp"
 
             />
+
+
+        <ImageView
+            android:id="@+id/img_disinfo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:layout_gravity="center"
+            android:src="@drawable/infonew"/>
+
 
     </LinearLayout>
 

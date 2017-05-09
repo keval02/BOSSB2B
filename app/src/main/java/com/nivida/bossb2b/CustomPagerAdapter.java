@@ -84,7 +84,7 @@ class CustomPagerAdapter extends PagerAdapter {
         //img.setImageResource(images[position]);
     	Log.e(array_image.get(position)+"", ""+GlobalVariable.link+"files/"+array_image.get(position));
 
-        C.loadImage(mContext,GlobalVariable.link+"files/"+array_image.get(position),R.drawable.boss_logo_final,img);
+        C.loadImage(mContext,GlobalVariable.link+"files/"+array_image.get(position),R.drawable.noimagefound,img);
 
         img.setOnClickListener(new View.OnClickListener() {
             @Override

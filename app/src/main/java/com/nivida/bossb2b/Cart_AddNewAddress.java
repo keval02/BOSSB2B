@@ -111,6 +111,8 @@ public class Cart_AddNewAddress extends AppCompatActivity {
         mobileNum = intent.getStringExtra("Mobileno");
         firmName = intent.getStringExtra("firmName");
 
+        Log.e("Name" , firmName+lastName);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         // Sets the Toolbar to act as the ActionBar for this Activity window.
@@ -1053,7 +1055,16 @@ public class Cart_AddNewAddress extends AppCompatActivity {
 
                 List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 
-                parameters.add(new BasicNameValuePair("user_id", pref.getVendor_id()));
+                if(pref.getRole_id().equalsIgnoreCase(C.DISTRIBUTOR_ROLE)&& pref.isListClicked()==false){
+
+                    parameters.add(new BasicNameValuePair("user_id", pref.getUser_id()));
+
+                }
+                else{
+
+                    parameters.add(new BasicNameValuePair("user_id", pref.getVendor_id()));
+                }
+
                 parameters.add(new BasicNameValuePair("first_name", firstName));
                 parameters.add(new BasicNameValuePair("last_name", lastName));
                 parameters.add(new BasicNameValuePair("email", emailID));
@@ -1070,6 +1081,8 @@ public class Cart_AddNewAddress extends AppCompatActivity {
 
 
                 Log.e("", "" + parameters);
+
+                Log.e("parameters" , "-->" + parameters);
 
                 json = new ServiceHandler().makeServiceCall(GlobalVariable.link + "Address/App_Add_Address", ServiceHandler.POST, parameters);
                 //String json = new ServiceHandler.makeServiceCall(GlobalVariable.link+"App_Registration",ServiceHandler.POST,params);

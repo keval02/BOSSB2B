@@ -6,7 +6,10 @@ package com.nivida.bossb2b;
 public class Web {
     //public static final String LINK="http://www.bossindia.com/";
     public static final String LINK="http://demo.bossindia.com/";
+  //  public static final String LINK="http://192.168.1.221/boss/";
     public static final String IMAGELINK=LINK+"files/";
+    public static final String IMAGELINK2="http://demo.bossindia.com";
+    //public static final String IMAGELINK2="http://192.168.1.221/boss/";
 
 
 
@@ -16,6 +19,7 @@ public class Web {
     public static final String COMPANY_SALESPERSON = "User/App_Get_Distributor_Retailer_By_Company_Sales_Person/";
     public static final String USERLISTFORREPORT = "User/App_Dist_Retailer_By_Company_Sales_Person";
     public static final String DISTRIBUTOR_SALESPERSON = "User/App_Get_List_Retailer_By_Distributor_Sales/";
+    public static final String GETRETAILERS = "User/App_GetRetailer";
     public static final String START_MEETING = "Meetings/App_Add_Meetings";
     public static final String ROUTE_END= "Routes/App_Route_End";
     public static final String GET_CATEGORY="Category/App_GetCategory";

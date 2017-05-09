@@ -112,7 +112,7 @@ public class RetailerReport extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
                 InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                in.hideSoftInputFromWindow(txt_search_by_company.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                in.hideSoftInputFromWindow(autoTextView.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
 
                 return true;
@@ -176,9 +176,9 @@ public class RetailerReport extends AppCompatActivity {
                         vendorListAdapter.notifyDataSetChanged();
 
                     } else if (position == 1) {
-                        new Company_sales_Person3(C.DISTRIBUTOR_ROLE).execute();
+                      //  new Company_sales_Person3(C.DISTRIBUTOR_ROLE).execute();
                     } else if (position == 2) {
-                        new Company_sales_Person3(C.DIS_RETAILER_ROLE).execute();
+                      //  new Company_sales_Person3(C.DIS_RETAILER_ROLE).execute();
                     }
                 }
 
@@ -307,7 +307,7 @@ public class RetailerReport extends AppCompatActivity {
             adapterType.notifyDataSetChanged();
             spinner_type.setEnabled(false);
 
-            new Company_sales_Person3(C.DIS_RETAILER_ROLE).execute();
+          //  new Company_sales_Person3(C.DIS_RETAILER_ROLE).execute();
         }
     }
 
@@ -417,7 +417,7 @@ public class RetailerReport extends AppCompatActivity {
         String startdate;
         String selectedUserID = "0";
 
-         String vendorID = "";
+        String vendorID = "";
 
         public app_GetAllhistory(String vendorID) {
             this.vendorID = vendorID;
@@ -450,7 +450,7 @@ public class RetailerReport extends AppCompatActivity {
             List<NameValuePair> parameters = new ArrayList<NameValuePair>();
             //parameters.add(new BasicNameValuePair("user_id", prefs.getUser_id()));
             parameters.add(new BasicNameValuePair("vendor_id", vendorID));
-            Log.e("parameters",vendorID);
+            Log.e("parameters", vendorID);
             Log.e("user_id", "" + selectedUserID);
             // Log.e("","" + login_arry);
             String json = new ServiceHandler().makeServiceCall(Web.LINK + Web.GET_HISTORY, ServiceHandler.POST, parameters);
@@ -522,6 +522,17 @@ public class RetailerReport extends AppCompatActivity {
                             bean_historymeeting.setEnd_longitude(jobject_meeting_history.getString("end_longitude"));
                             Log.e("end1", "" + jobject_meeting_history.getString("end_longitude"));
                             bean_historymeeting.setComments(jobject_meeting_history.getString("comments"));
+
+                            ArrayList<String> attachments = new ArrayList<>();
+
+                            attachments.add(Web.IMAGELINK2 +jobject_meeting_history.getString("attachments1"));
+                            attachments.add(Web.IMAGELINK2 +jobject_meeting_history.getString("attachments2"));
+                            attachments.add(Web.IMAGELINK2 +jobject_meeting_history.getString("attachments3"));
+
+                            bean_historymeeting.setAttachmentPaths(attachments);
+
+
+
 
                             bean_historymeeting.setAttachments1(jobject_meeting_history.getString("attachments1"));
                             bean_historymeeting.setAttachments2(jobject_meeting_history.getString("attachments2"));
@@ -635,10 +646,25 @@ public class RetailerReport extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             Log.e("parameter", parameters.toString());
+            if (prefs.getRole_id().equalsIgnoreCase(C.DISTRIBUTOR_ROLE)) {
 
-            String json = new ServiceHandler().makeServiceCall(Web.LINK + "User/App_Dist_Retailer_Name_By_Company_Sales_Person", ServiceHandler.POST, parameters);
 
-            return json;
+                parameters.add(new BasicNameValuePair("distributor_id" , prefs.getUser_id()));
+
+                String json = new ServiceHandler().makeServiceCall(Web.LINK + "User/App_GetRetailer", ServiceHandler.POST, parameters);
+
+                Log.e("parameters" ,"--->" +parameters);
+                return json;
+            } else {
+
+                String json = new ServiceHandler().makeServiceCall(Web.LINK + "User/App_Dist_Retailer_Name_By_Company_Sales_Person", ServiceHandler.POST, parameters);
+                return json;
+
+            }
+
+
+
+
 
         }
 

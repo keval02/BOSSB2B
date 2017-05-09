@@ -7,10 +7,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -50,17 +55,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import javax.microedition.khronos.opengles.GL;
 
 
 public class CheckoutPage extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
+
+    private static final int CAMERA_REQUEST = 1888;
+    public static final int CAMERA_DIRECT = 2;
+    private String imgPath = "";
+    String imagepath1 = "";
 
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private double currentLatitude;
@@ -112,7 +123,7 @@ public class CheckoutPage extends AppCompatActivity
     String user_id = "";
 
     TextView tv_coupondiscount;
-    LinearLayout lnr_amount_detail, lnr_subtotal, lnr_total, lnr_coupon;
+    LinearLayout lnr_amount_detail, lnr_subtotal, lnr_total, lnr_coupon , layout_direct_cemara;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,6 +187,7 @@ public class CheckoutPage extends AppCompatActivity
 
         tv_coupondiscount = (TextView) this.findViewById(R.id.tv_coupondiscount);
         lnr_coupon = (LinearLayout) this.findViewById(R.id.lnr_coupon);
+
         categeory = (TextView) findViewById(R.id.txt_categeory_name);
 
 
@@ -219,6 +231,8 @@ public class CheckoutPage extends AppCompatActivity
                         i.putExtra("Mobileno", mobileNum);
                         i.putExtra("CompanyName", Companyname);
                         i.putExtra("firmName", firmName);
+
+                        Log.e("Name", firstName + lastName);
                         startActivity(i);
 
 
@@ -299,12 +313,42 @@ public class CheckoutPage extends AppCompatActivity
                 dialogBuilder.setView(dialogView);
 
                 final EditText edt_comment = (EditText) dialogView.findViewById(R.id.edt_comment);
+                LinearLayout layout_camera = (LinearLayout) dialogView.findViewById(R.id.layout_camera);
+                layout_direct_cemara = (LinearLayout) dialogView.findViewById(R.id.layout_direct_cemara);
+
+                ImageView camera_icon = (ImageView) dialogView.findViewById(R.id.im_cemara_direct_icon);
 
                 Button btn_go = (Button) dialogView.findViewById(R.id.btn_send);
                 Button btn_cancel = (Button) dialogView.findViewById(R.id.btn_cancel);
 
                 final AlertDialog b = dialogBuilder.create();
                 b.show();
+
+                /*if (appPrefs.getRole_id().equalsIgnoreCase(C.DISTRIBUTOR_ROLE)) {
+                    layout_camera.setVisibility(View.VISIBLE);
+                }
+*/
+
+                camera_icon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        int count = layout_direct_cemara.getChildCount();
+
+                        if(count < 1){
+
+                            takeImage(CAMERA_REQUEST);
+                        }else {
+
+
+                            Toast.makeText(CheckoutPage.this, "You can Upload only one Image", Toast.LENGTH_SHORT).show();
+
+                        }
+
+
+                    }
+                });
+
 
                 btn_cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -329,7 +373,15 @@ public class CheckoutPage extends AppCompatActivity
                         try {
                             JSONObject jobject_OrderUserData = new JSONObject();
                             //jobject_OrderUserData.put("user_id", user_array_from_db.get(0).getUser_id());
-                            jobject_OrderUserData.put("user_id", appPrefs.getVendor_id());
+                            if (appPrefs.getRole_id().equalsIgnoreCase(C.DISTRIBUTOR_ROLE) && appPrefs.isListClicked() == false) {
+
+                                jobject_OrderUserData.put("user_id", appPrefs.getUser_id());
+                            } else {
+
+                                jobject_OrderUserData.put("user_id", appPrefs.getVendor_id());
+                            }
+
+
                             jobject_OrderUserData.put("billing_address_id", selected_billing_address_id);
                             jobject_OrderUserData.put("shipping_address_id", selected_shipping_address_id);
                             jobject_OrderUserData.put("latitude", appPrefs.getRoute_startLat());
@@ -519,11 +571,14 @@ public class CheckoutPage extends AppCompatActivity
                 parameters.add(new BasicNameValuePair("meeting_id", appPrefs.getMeetings_id()));
                 Log.e("", appPrefs.getMeetings_id());
 
-                if (!docPath.equalsIgnoreCase("")) {
-                    parameters.add(new BasicNameValuePair("attachment", docPath));
+                if(appPrefs.getRole_id().equalsIgnoreCase(C.DISTRIBUTOR_ROLE)){
+                    if(!appPrefs.getDisImage1().isEmpty())
+                        parameters.add(new BasicNameValuePair("attachment" , appPrefs.getDisImage1()));
                 }
 
-
+              /*  if (!docPath.equalsIgnoreCase("")) {
+                    parameters.add(new BasicNameValuePair("attachment", imagepath1));
+                }*/
 
 
                 //json = new ServiceHandler().makeServiceCall(GlobalVariable.server_link+"ProductEnquiry/App_AddProductEnquiry",ServiceHandler.POST,parameters);
@@ -533,13 +588,20 @@ public class CheckoutPage extends AppCompatActivity
                     json = new ServiceHandler().makeServiceCall(GlobalVariable.link + GlobalVariable.API_ADD_B2B_ORDER_THIRD, ServiceHandler.POST, parameters, 1);
                     Log.e("Link", "" + GlobalVariable.link + GlobalVariable.API_ADD_B2B_ORDER_THIRD);
 
-                } else if (appPrefs.getRole_id().equalsIgnoreCase(C.COMP_SALES_ROLE) && appPrefs.getSelectedUserRole().equalsIgnoreCase(C.DIS_RETAILER_ROLE)){
+                } else if (appPrefs.getRole_id().equalsIgnoreCase(C.COMP_SALES_ROLE) && appPrefs.getSelectedUserRole().equalsIgnoreCase(C.DIS_RETAILER_ROLE)) {
                     json = new ServiceHandler().makeServiceCall(GlobalVariable.link + GlobalVariable.API_ADD_B2B_ORDER_FOURTH, ServiceHandler.POST, parameters, 1);
                     Log.e("Link", "" + GlobalVariable.link + GlobalVariable.API_ADD_B2B_ORDER_FOURTH);
-                }
-                else if (appPrefs.getRole_id().equalsIgnoreCase(C.DIS_SALES_ROLE) && appPrefs.getSelectedUserRole().equalsIgnoreCase(C.DIS_RETAILER_ROLE)){
+                } else if (appPrefs.getRole_id().equalsIgnoreCase(C.DIS_SALES_ROLE) && appPrefs.getSelectedUserRole().equalsIgnoreCase(C.DIS_RETAILER_ROLE)) {
                     json = new ServiceHandler().makeServiceCall(GlobalVariable.link + GlobalVariable.API_ADD_B2B_ORDER_FIFTH, ServiceHandler.POST, parameters);
                     Log.e("Link", "" + GlobalVariable.link + GlobalVariable.API_ADD_B2B_ORDER_FIFTH);
+                } else if (appPrefs.getRole_id().equalsIgnoreCase(C.DISTRIBUTOR_ROLE) && appPrefs.isListClicked() == false) {
+
+                    json = new ServiceHandler().makeServiceCall(GlobalVariable.link + GlobalVariable.API_ADD_B2B_ORDER, ServiceHandler.POST, parameters);
+                    Log.e("Link", "" + GlobalVariable.link + GlobalVariable.API_ADD_B2B_ORDER);
+                } else if (appPrefs.getRole_id().equalsIgnoreCase(C.DISTRIBUTOR_ROLE) && appPrefs.isListClicked() == true) {
+                    json = new ServiceHandler().makeServiceCall(GlobalVariable.link + GlobalVariable.API_ADD_B2B_ORDER_SECOND, ServiceHandler.POST, parameters);
+                    Log.e("Link", "" + GlobalVariable.link + GlobalVariable.API_ADD_B2B_ORDER_SECOND);
+
                 }
 
 
@@ -591,11 +653,17 @@ public class CheckoutPage extends AppCompatActivity
                         db = new Database(CheckoutPage.this);
                         db.removeFromCart(null);
                         db.close();
+                        appPrefs.setDisImage1("");
+                        appPrefs.setDisImage2("");
+                        appPrefs.setDisImage3("");
+                        appPrefs.setDisComment("");
                         loadingView.dismiss();
                         Intent i = new Intent(CheckoutPage.this, Thank.class);
+
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i);
 
+                        //appPrefs.setListClicked(false);
                         finish();
                     }
                 }
@@ -785,6 +853,8 @@ public class CheckoutPage extends AppCompatActivity
 
             for (int i = 0; i < bean_cart.size(); i++) {
                 totalQty += bean_cart.get(i).getQuantity();
+
+
             }
 
             return totalQty;
@@ -819,8 +889,20 @@ public class CheckoutPage extends AppCompatActivity
         protected String doInBackground(Void... params) {
             List<NameValuePair> pairs = new ArrayList<>();
 
-            pairs.add(new BasicNameValuePair("user_id", appPrefs.getVendor_id()));
-            Log.e("vendor_id", "-> " + appPrefs.getVendor_id());
+
+            if (appPrefs.getRole_id().equalsIgnoreCase(C.DISTRIBUTOR_ROLE) && appPrefs.isListClicked() == false) {
+
+
+                pairs.add(new BasicNameValuePair("user_id", appPrefs.getUser_id()));
+                Log.e("vendor_id", "-> " + appPrefs.getVendor_id());
+
+
+            } else {
+                pairs.add(new BasicNameValuePair("user_id", appPrefs.getVendor_id()));
+                Log.e("vendor_id", "-> " + appPrefs.getVendor_id());
+
+
+            }
 
             String json = new ServiceHandler().makeServiceCall(Web.LINK + Web.GET_ADDRESS, ServiceHandler.POST, pairs);
 
@@ -866,6 +948,9 @@ public class CheckoutPage extends AppCompatActivity
                         beanAddress.setPincode(address.getString("pincode"));
                         beanAddress.setMobile_no(address.getString("mobile"));
                         beanAddress.setFirm_name(address.getString("firm_name"));
+
+                        Log.e("firmName", "-->" + beanAddress.getFirm_name());
+
                         beanAddress.setCity(City.getString("name"));
                         beanAddress.setState(State.getString("name"));
                         beanAddress.setCountry(Country.getString("name"));
@@ -981,6 +1066,143 @@ public class CheckoutPage extends AppCompatActivity
         appPrefs.setAddednewAddress(false);
         super.onBackPressed();
     }
+
+
+    private void takeImage(int requestCode){
+
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT , setImageUri());
+        startActivityForResult(cameraIntent , requestCode);
+    }
+
+    public Uri setImageUri(){
+
+        File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/" , "image" + new Date().getTime() + ".png");
+        Uri imgUri = Uri.fromFile(file);
+        this.imgPath = file.getAbsolutePath();
+        return imgUri;
+    }
+
+    public String getImagePath(){
+
+        return imgPath;
+
+    }
+
+    public Bitmap decodeFile(String path) {
+        try {
+            // Decode image size
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(path, o);
+            // The new size we want to scale to
+            final int REQUIRED_SIZE = 500;
+
+            // Find the correct scale value. It should be the power of 2.
+            int scale = 1;
+            while (o.outWidth / scale / 2 >= REQUIRED_SIZE && o.outHeight / scale / 2 >= REQUIRED_SIZE)
+                scale *= 2;
+
+            // Decode with inSampleSize
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize = scale;
+            return BitmapFactory.decodeFile(path, o2);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+
+            String selectedImagePath = getImagePath();
+
+            Bitmap photo = decodeFile(selectedImagePath);
+
+            /*im_direct_cemara2.setImageBitmap(photo);
+            im_direct_cemara3.setImageBitmap(photo);*/
+            //layout_imageview_1.setVisibility(View.GONE);
+            // im_cemara_icon.setVisibility(View.VISIBLE);
+            imagepath1 = "";
+            //Uri tempUri = getImageUri(getApplicationContext(), photo);
+
+            imagepath1 = selectedImagePath;
+            resizeImage(selectedImagePath);
+            Log.e("image path", imagepath1);
+        } /*else if (requestCode == CAMERA_DIRECT && resultCode == RESULT_OK) {
+            String selectedImagePath = getImagePath();
+
+            Bitmap photo = decodeFile(selectedImagePath);
+
+
+            //Bitmap photo = (Bitmap) data.getExtras().get("data");
+            im_direct_cemara1.setVisibility(View.VISIBLE);
+            im_direct_cemara1.setImageBitmap(photo);
+            //layout_imageview_1.setVisibility(View.GONE);
+            // im_cemara_icon.setVisibility(View.VISIBLE);
+            imagepath2 = "";
+            //Uri tempUri = getImageUri(getApplicationContext(), photo);
+
+            imagepath2 = selectedImagePath;
+            resizeImage(selectedImagePath);
+            Log.e("image path2", imagepath2);
+        }*/
+
+    }
+
+    public void resizeImage(String path) {
+        Bitmap image2 = decodeFile(path);
+        File file = new File(path);
+        try {
+            double xFactor = 0;
+            double width = Double.valueOf(image2.getWidth());
+            Log.v("WIDTH", String.valueOf(width));
+            double height = Double.valueOf(image2.getHeight());
+            Log.v("height", String.valueOf(height));
+            if (width > height) {
+                xFactor = 841 / width;
+            } else {
+                xFactor = 595 / width;
+            }
+
+
+            Log.v("Nheight", String.valueOf(width * xFactor));
+            Log.v("Nweight", String.valueOf(height * xFactor));
+            int Nheight = (int) ((xFactor * height));
+            int NWidth = (int) (xFactor * width);
+
+            Bitmap bm = Bitmap.createScaledBitmap(image2, NWidth, Nheight, true);
+            file.createNewFile();
+            FileOutputStream ostream = new FileOutputStream(file);
+            bm.compress(Bitmap.CompressFormat.JPEG, 40, ostream);
+
+            final View view = getLayoutInflater().inflate(R.layout.layout_subimage_add, null);
+            ImageView img_attachment = (ImageView) view.findViewById(R.id.img_attachment);
+            ImageView img_remove = (ImageView) view.findViewById(R.id.img_remove);
+            TextView txt_imagePath = (TextView) view.findViewById(R.id.txt_imagePath);
+
+            img_attachment.setImageBitmap(bm);
+            txt_imagePath.setText(path);
+
+            img_remove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    layout_direct_cemara.removeView(view);
+                }
+            });
+
+
+            layout_direct_cemara.addView(view);
+
+            ostream.close();
+        } catch (Exception e) {
+
+        }
+    }
+
 
 
 }

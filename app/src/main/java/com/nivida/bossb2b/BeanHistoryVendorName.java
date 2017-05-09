@@ -1,5 +1,7 @@
 package com.nivida.bossb2b;
 
+import java.util.ArrayList;
+
 /**
  * Created by Ajay on 1/23/2017.
  */
@@ -68,6 +70,16 @@ public class BeanHistoryVendorName {
     String meetingID="0";
 
     String companySalesPersonName="";
+
+    ArrayList<String> attachmentPaths = new ArrayList<>();
+
+    public ArrayList<String> getAttachmentPaths() {
+        return attachmentPaths;
+    }
+
+    public void setAttachmentPaths(ArrayList<String> attachmentPaths) {
+        this.attachmentPaths = attachmentPaths;
+    }
 
     public String getCompanySalesPersonName() {
         return companySalesPersonName;

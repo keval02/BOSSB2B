@@ -14,4 +14,5 @@
     <string name="to_date">To Date</string>
     <string name="cancel">Cancel</string>
     <string name="Call"><u>Call</u></string>
+    <string name="title_activity_maps">Map</string>
 </resources>

@@ -11,10 +11,12 @@ public class BeanReatailerHierarchy {
     String last_name = "";
     String email_id="";
     String phone_no="";
+    String mobile_no="";
     String address_1="";
     String address_2="";
     String address_3="";
     String city_name="";
+    String pincode = "";
 
 
     public String getFirm_shop_name() {
@@ -95,5 +97,22 @@ public class BeanReatailerHierarchy {
 
     public void setCity_name(String city_name) {
         this.city_name = city_name;
+    }
+
+
+    public String getMobile_no() {
+        return mobile_no;
+    }
+
+    public void setMobile_no(String mobile_no) {
+        this.mobile_no = mobile_no;
+    }
+
+    public String getPincode() {
+        return pincode;
+    }
+
+    public void setPincode(String pincode) {
+        this.pincode = pincode;
     }
 }

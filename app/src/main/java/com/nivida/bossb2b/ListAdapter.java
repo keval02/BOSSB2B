@@ -91,4 +91,10 @@ public class ListAdapter extends BaseAdapter {
     public List<BeanVendor> getCurrentRetailers(){
         return this.names;
     }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+        Log.e("size","-->"+this.names.size());
+    }
 }

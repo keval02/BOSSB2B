@@ -78,12 +78,6 @@ public class All_History extends AppCompatActivity {
         setContentView(R.layout.activity_all__history);
 
         prefs = new AppPref(getApplicationContext());
-
-/*cart = (ImageView) findViewById(R.id.cart_icon);
-        notify = (ImageView) findViewById(R.id.notify);*/
-       /* notification = (ImageView) findViewById(R.id.cart_icon);
-
-        cart_count = (TextView) findViewById(R.id.updatecart);*/
         final Calendar c = Calendar.getInstance();
         System.out.println("Current time => " + c.getTime());
 
@@ -96,8 +90,7 @@ public class All_History extends AppCompatActivity {
         btn_ready = (Button) findViewById(R.id.btn_ready);
         txt_search_by_company = (EditText) findViewById(R.id.txt_searchby_company);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        // Sets the Toolbar to act as the ActionBar for this Activity window.
-        // Make sure the toolbar exists in the activity and is not null
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -108,21 +101,6 @@ public class All_History extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-/*
-
-        cart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext() , InvoiceActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-
-*/
-
         txt_search_by_company.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -181,7 +159,8 @@ public class All_History extends AppCompatActivity {
         final Calendar c = Calendar.getInstance();
 
 
-        SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("01-MM-yyyy");
+        SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("dd-MM-yyyy");
+        c.add(Calendar.DATE, -1);
         String from = simpleDateFormat1.format(c.getTime());
 
         ed_fromdate.setText(from);
@@ -191,7 +170,7 @@ public class All_History extends AppCompatActivity {
 
         final Calendar calendar = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        calendar.add(Calendar.DATE , -1);
+        calendar.add(Calendar.DATE, -1);
         String todate = simpleDateFormat.format(calendar.getTime());
 
         ed_todate.setText(todate);
@@ -205,10 +184,6 @@ public class All_History extends AppCompatActivity {
         bt_history = (Button) findViewById(R.id.bt_history);
 
         list_all_history = (ListView) findViewById(R.id.list_all_history);
-
-        //historylist=new CustomAdapterlist(this,array_historylist);
-        ///list_all_history.setAdapter(historylist);
-//        historylist.notifyDataSetChanged();
 
 
         ed_fromdate.setOnClickListener(new View.OnClickListener() {
@@ -231,10 +206,10 @@ public class All_History extends AppCompatActivity {
 
                 if (ed_fromdate.getText().toString().equals("")) {
                     Toast.makeText(All_History.this, "Please Select From Date", Toast.LENGTH_SHORT).show();
-                    // edt_name.setFocusable(true);
+
                 } else if (ed_todate.getText().toString().equals("")) {
                     Toast.makeText(All_History.this, "Please Select To Date", Toast.LENGTH_SHORT).show();
-                    // edt_desi.setFocusable(true);
+
                 } else {
 
                     showdilog();
@@ -341,7 +316,7 @@ public class All_History extends AppCompatActivity {
         final String mMonth2 = String.valueOf(mMonth);
         final String mDay2 = String.valueOf(mDay);
 
-            datePickerDialog = new DatePickerDialog(this,
+        datePickerDialog = new DatePickerDialog(this,
                 new DatePickerDialog.OnDateSetListener() {
 
                     @Override
@@ -361,7 +336,6 @@ public class All_History extends AppCompatActivity {
         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         datePickerDialog.show();
     }
-
 
     private void todate() {
 
@@ -562,23 +536,29 @@ public class All_History extends AppCompatActivity {
                             Log.e("end1", "" + jobject_meeting_history.getString("end_longitude"));
                             bean_historymeeting.setComments(jobject_meeting_history.getString("comments"));
 
+
+                            ArrayList<String> attachments = new ArrayList<>();
+
+                            attachments.add(Web.IMAGELINK2 +jobject_meeting_history.getString("attachments1"));
+                            attachments.add(Web.IMAGELINK2 +jobject_meeting_history.getString("attachments2"));
+                            attachments.add(Web.IMAGELINK2 +jobject_meeting_history.getString("attachments3"));
+
+                            bean_historymeeting.setAttachmentPaths(attachments);
+
+
+
                             bean_historymeeting.setAttachments1(jobject_meeting_history.getString("attachments1"));
                             bean_historymeeting.setAttachments2(jobject_meeting_history.getString("attachments2"));
                             bean_historymeeting.setAttachments3(jobject_meeting_history.getString("attachments3"));
-                            Log.e("Attach1111111111", "" + jobject_meeting_history.getString("attachments1"));
+
                             bean_historymeeting.setStart_location(jobject_meeting_history.getString("start_location"));
                             bean_historymeeting.setEnd_location(jobject_meeting_history.getString("end_location"));
-                            // bean_historymeeting.setStart_battery_status(jobject_meeting_history.getString("start_battery_status"));
-                            // bean_historymeeting.setEnd_battery_status(jobject_meeting_history.getString("end_battery_status"));
 
 
                             JSONObject jobject_company_profile = main.getJSONObject("CompanyProfile");
                             JSONObject jobject_User = main.getJSONObject("User");
 
 
-
-                            /*bean_historymeeting.setStr_id(jobject_company_profile.getString("social_login_id"));
-                            bean_historymeeting.setStr_responce(jobject_company_profile.getString("social_login_responce"));*/
                             bean_historymeeting.setEmail_id(jobject_company_profile.getString("email_id"));
                             bean_historymeeting.setPhone_no(jobject_company_profile.getString("phone_no"));
                             bean_historymeeting.setFirst_name(jobject_company_profile.getString("first_name"));
@@ -586,7 +566,7 @@ public class All_History extends AppCompatActivity {
                             bean_historymeeting.setMiddle_name(jobject_company_profile.getString("middle_name"));
                             Log.e("first name", "" + jobject_company_profile.getString("first_name"));
 
-                            bean_historymeeting.setCompanySalesPersonName(jobject_User.getString("first_name")+" "+jobject_User.getString("last_name"));
+                            bean_historymeeting.setCompanySalesPersonName(jobject_User.getString("first_name") + " " + jobject_User.getString("last_name"));
 
                             JSONObject jsonObject_company = jobject_company_profile.getJSONObject("Distributor");
                             JSONArray Order = main.getJSONArray("Order");
@@ -639,7 +619,7 @@ public class All_History extends AppCompatActivity {
                         list_all_history.setAdapter(null);
                         //vendorListAdapter.notifyDataSetChanged();
                         Toast.makeText(getApplicationContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
-                        Log.e("No Data Found" ,"" +object.getString("message"));
+                        Log.e("No Data Found", "" + object.getString("message"));
                     }
 
                 } catch (JSONException j) {
@@ -800,27 +780,12 @@ public class All_History extends AppCompatActivity {
         System.gc();
         Log.e("System GC", "Called");
 
-        /*int count = db.getCartCount();
-
-        if (count > 0) {
-            cart_count.setText(String.valueOf(count));
-            cart_count.setVisibility(View.VISIBLE);
-
-        }*/
         super.onResume();
     }
 
     @Override
     protected void onStart() {
-        /*int count = db.getCartCount();
 
-        if (count > 0) {
-            cart_count.setText(String.valueOf(count));
-            cart_count.setVisibility(View.VISIBLE);
-
-        } else {
-            cart_count.setText("");
-        }*/
         super.onStart();
     }
 

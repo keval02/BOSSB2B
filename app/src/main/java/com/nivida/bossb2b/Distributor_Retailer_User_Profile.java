@@ -1,22 +1,18 @@
 package com.nivida.bossb2b;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nivida.bossb2b.Bean.BeanReatailerHierarchy;
 import com.nivida.bossb2b.Bean.BeanShowHierarchy;
 import com.nivida.bossb2b.adapter.DistributorListAdapter;
-import com.nivida.bossb2b.adapter.RatailerListAdapter;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -25,9 +21,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 public class Distributor_Retailer_User_Profile extends AppCompatActivity {
@@ -35,11 +28,15 @@ public class Distributor_Retailer_User_Profile extends AppCompatActivity {
     AppPref pref;
     String json = "";
 
-    ListView listview , reailerlist;
+    ListView listview, reailerlist;
+
+    public static Boolean isScrolling = true;
 
     List<BeanShowHierarchy> showHierarchies = new ArrayList<BeanShowHierarchy>();
     List<BeanReatailerHierarchy> reatailerHierarchies = new ArrayList<BeanReatailerHierarchy>();
     DistributorListAdapter distributorListAdapter;
+
+    TextView txt_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +47,12 @@ public class Distributor_Retailer_User_Profile extends AppCompatActivity {
 
 
         listview = (ListView) findViewById(R.id.listview);
+        txt_title = (TextView) findViewById(R.id.txt_title);
+
+
+
+        if(pref.getRole_id().equalsIgnoreCase(C.DIS_SALES_ROLE))
+            txt_title.setText("Retailer Info");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         // Sets the Toolbar to act as the ActionBar for this Activity window.
@@ -64,6 +67,7 @@ public class Distributor_Retailer_User_Profile extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
 
         new get_dis_ret_name().execute();
 
@@ -140,8 +144,6 @@ public class Distributor_Retailer_User_Profile extends AppCompatActivity {
                     JSONObject main = new JSONObject(result_1);
 
 
-
-
                     if (!main.getBoolean("status")) {
 
                         String message = main.getString("message");
@@ -157,7 +159,7 @@ public class Distributor_Retailer_User_Profile extends AppCompatActivity {
 
                         Log.e("messsage", "" + message);
 
-                        Log.e("Data",main.toString());
+                        Log.e("Data", main.toString());
 
 
                         JSONArray dataArray = main.getJSONArray("data");
@@ -165,66 +167,104 @@ public class Distributor_Retailer_User_Profile extends AppCompatActivity {
                         for (int i = 0; i < dataArray.length(); i++) {
 
                             JSONObject arrayObject = dataArray.getJSONObject(i);
+                            JSONArray mainDistributor = arrayObject.getJSONArray("MainDistributor");
+
 
                             BeanShowHierarchy showHierarchy = new BeanShowHierarchy();
-                            showHierarchy.setFirm_shop_name(arrayObject.getString("firm_shop_name"));
+                            for (int k = 0; k < mainDistributor.length(); k++) {
 
 
-                            JSONArray retailers = arrayObject.getJSONArray("Retailers");
+                                JSONObject underDistObject = mainDistributor.getJSONObject(k);
+
+                                JSONObject userObject = underDistObject.getJSONObject("User");
 
 
-
-                            List<BeanReatailerHierarchy> reatailerHierarchies=new ArrayList<>();
-
-                            Log.e("name" , arrayObject.getString("firm_shop_name"));
-                           for (int j = 0; j < retailers.length(); j++){
-
-                               BeanReatailerHierarchy reatailerHierarchy = new BeanReatailerHierarchy();
-                                JSONObject retailermainObject = retailers.getJSONObject(j);
-
-                                JSONObject userObject = retailermainObject.getJSONObject("User");
-
-                               reatailerHierarchy.setId(userObject.getString("id"));
-                               reatailerHierarchy.setFirst_name(userObject.getString("first_name"));
-                               reatailerHierarchy.setLast_name(userObject.getString("last_name"));
-                               reatailerHierarchy.setEmail_id(userObject.getString("email_id"));
-                               reatailerHierarchy.setPhone_no(userObject.getString("phone_no"));
+                                showHierarchy.setFirst_name(userObject.getString("first_name"));
+                                showHierarchy.setLast_name(userObject.getString("last_name"));
+                                showHierarchy.setEmail_id(userObject.getString("email_id"));
+                                showHierarchy.setMobile_no(userObject.getString("mobile_no"));
+                                showHierarchy.setPhone_no(userObject.getString("phone_no"));
 
 
-                               JSONObject addressObject = retailermainObject.getJSONObject("Address");
+                                JSONObject addressObject = underDistObject.getJSONObject("Address");
 
-                               reatailerHierarchy.setAddress_1(addressObject.getString("address_1"));
-                               reatailerHierarchy.setAddress_2(addressObject.getString("address_2"));
-                               reatailerHierarchy.setAddress_3(addressObject.getString("address_3"));
-
-
-                               JSONObject cityObject = addressObject.getJSONObject("City");
-
-                               reatailerHierarchy.setCity_name(cityObject.getString("name"));
+                                showHierarchy.setAddress_1(addressObject.getString("address_1"));
+                                showHierarchy.setAddress_2(addressObject.getString("address_2"));
+                                showHierarchy.setAddress_3(addressObject.getString("address_3"));
+                                showHierarchy.setPincode(addressObject.getString("pincode"));
 
 
-                               JSONObject distributorObject = retailermainObject.getJSONObject("Distributor");
+                                JSONObject cityObject = addressObject.getJSONObject("City");
 
-                               reatailerHierarchy.setFirm_shop_name(distributorObject.getString("firm_shop_name"));
+                                showHierarchy.setName(cityObject.getString("name"));
 
-                               reatailerHierarchies.add(reatailerHierarchy);
+
+                                JSONObject distributorObject = underDistObject.getJSONObject("Distributor");
+
+                                showHierarchy.setFirm_shop_name(distributorObject.getString("firm_shop_name"));
+
+
+                                showHierarchies.add(showHierarchy);
+
+                                //JSONObject retailerMainssObject = mainDistributor.getJSONObject(k);
+                                //JSONArray retailers = mainDistributor.getJSONArray("Retailers");
+
+                                JSONArray retailers = underDistObject.getJSONArray("Retailers");
+
+
+                                List<BeanReatailerHierarchy> reatailerHierarchies = new ArrayList<>();
+
+
+                                for (int j = 0; j < retailers.length(); j++) {
+
+                                    BeanReatailerHierarchy reatailerHierarchy = new BeanReatailerHierarchy();
+                                    JSONObject retailermainObject = retailers.getJSONObject(j);
+
+                                    Log.e("Log2", "Log2");
+                                    JSONObject userssObject = retailermainObject.getJSONObject("User");
+
+                                    Log.e("User", "2ndUser");
+
+                                    reatailerHierarchy.setId(userssObject.getString("id"));
+                                    reatailerHierarchy.setFirst_name(userssObject.getString("first_name"));
+                                    reatailerHierarchy.setLast_name(userssObject.getString("last_name"));
+                                    reatailerHierarchy.setEmail_id(userssObject.getString("email_id"));
+                                    reatailerHierarchy.setPhone_no(userssObject.getString("phone_no"));
+                                    reatailerHierarchy.setMobile_no(userssObject.getString("mobile_no"));
+
+
+                                    JSONObject addressObjects = retailermainObject.getJSONObject("Address");
+
+                                    reatailerHierarchy.setAddress_1(addressObjects.getString("address_1"));
+                                    reatailerHierarchy.setAddress_2(addressObjects.getString("address_2"));
+                                    reatailerHierarchy.setAddress_3(addressObjects.getString("address_3"));
+                                    reatailerHierarchy.setPincode(addressObject.getString("pincode"));
+
+
+                                    JSONObject citysObject = addressObject.getJSONObject("City");
+
+                                    reatailerHierarchy.setCity_name(citysObject.getString("name"));
+
+
+                                    JSONObject distributorsObject = retailermainObject.getJSONObject("Distributor");
+
+                                    reatailerHierarchy.setFirm_shop_name(distributorsObject.getString("firm_shop_name"));
+
+                                    reatailerHierarchies.add(reatailerHierarchy);
 
                               /* reatailerHierarchies.add(reatailerHierarchy);*/
 
+                                }
+
+                                showHierarchy.setReatailerHierarchies(reatailerHierarchies);
+
                             }
-
-                            showHierarchy.setReatailerHierarchies(reatailerHierarchies);
-
-
-
-                            showHierarchies.add(showHierarchy);
 
 
                         }
 
 
-
-                        Log.e("333330" , "djkjjkjdk");
+                        Log.e("333330", "djkjjkjdk");
 
                         distributorListAdapter = new DistributorListAdapter(showHierarchies, getApplicationContext(), Distributor_Retailer_User_Profile.this);
                         distributorListAdapter.notifyDataSetChanged();
@@ -232,9 +272,7 @@ public class Distributor_Retailer_User_Profile extends AppCompatActivity {
                         listview.setAdapter(distributorListAdapter);
 
 
-
-
-                        Log.e("333330" , "djkjjkjdk");
+                        Log.e("333330", "djkjjkjdk");
                     }
 
 

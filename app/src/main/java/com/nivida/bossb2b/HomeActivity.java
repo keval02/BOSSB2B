@@ -11,13 +11,19 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
@@ -50,10 +56,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.nivida.bossb2b.Bean.BeanVendor;
 import com.nivida.bossb2b.Bean.BeanVendorName;
 import com.nivida.bossb2b.Model.APIServices;
@@ -90,6 +103,8 @@ public class HomeActivity extends AppCompatActivity implements
     private static final int CAMERA_REQUEST = 1888;
     public static final int CAMERA_DIRECT = 2;
 
+    protected static final int REQUEST_CHECK_SETTINGS = 0x1;
+
 
     private static final int TIME_DELAY = 2000;
     private static long back_presses;
@@ -125,7 +140,7 @@ public class HomeActivity extends AppCompatActivity implements
     List<BeanVendor> vendornames = new ArrayList<BeanVendor>();
     List<BeanVendorName> v_names = new ArrayList<BeanVendorName>();
 
-    BeanVendor beanVendores = new BeanVendor();
+
 
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private double currentLatitude;
@@ -153,7 +168,7 @@ public class HomeActivity extends AppCompatActivity implements
     ListView lists, meeting_list;
     RadioGroup rg;
     ImageView im_cemara_icon, im_direct_cemara, im_cemara_direct_icon;
-        ListAdapter listAdapter;
+    ListAdapter listAdapter;
     VendorListAdapter vendorListAdapter;
     String topDate;
     EditText edit_comment, txt_search_by_company, txt_search_by_person;
@@ -312,6 +327,15 @@ public class HomeActivity extends AppCompatActivity implements
         });
 
 
+        if (checkPlayServices()) {
+
+            startFusedLocation();
+            registerRequestUpdate(this);
+
+
+        }
+
+
         btn_place_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -339,7 +363,7 @@ public class HomeActivity extends AppCompatActivity implements
                 Log.e("Imagepath22", "-->" + prefs.getImagePath2());
                 Log.e("Imagepath33", "-->" + prefs.getImagePathe3());
 
-                Log.e("count","-->" +layout_cemara.getChildCount());
+                Log.e("count", "-->" + layout_cemara.getChildCount());
 
 
                 Intent intent = new Intent(HomeActivity.this, PlaceOrderActivity.class);
@@ -381,12 +405,19 @@ public class HomeActivity extends AppCompatActivity implements
 
 
                 if (Internet.isConnectingToInternet(getApplicationContext())) {
-                    final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-                    if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                        buildAlertMessageNoGps();
+                    int off = 0;
+                    try {
+                        off = Settings.Secure.getInt(getContentResolver(), Settings.Secure.LOCATION_MODE);
+                    } catch (Settings.SettingNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    if (off == 0) {
+                        displayLocationSettingRequest(getApplicationContext());
                     } else {
 
+
+                        displayLocationSettingRequest(getApplicationContext());
                         route_end.setGravity(Gravity.CENTER);
                         Log.e("currentLatitude", "" + currentLatitude);
                         Log.e("currentLongitude", "" + currentLongitude);
@@ -464,8 +495,6 @@ public class HomeActivity extends AppCompatActivity implements
 
 
                 if (Internet.isConnectingToInternet(getApplicationContext())) {
-                    final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
 
                     new_vendor.setBackgroundColor(Color.parseColor("#ffffff"));
                     vendor.setBackgroundColor(Color.parseColor("#7BC552"));
@@ -474,7 +503,7 @@ public class HomeActivity extends AppCompatActivity implements
                     img_refersh.setVisibility(View.VISIBLE);
 
                     vendor.setEnabled(true);
-                    // btn_new_start_meeting.setVisibility(View.GONE);
+
 
 
                     String start_location = "http://maps.google.com/maps?q=loc:" + "" + currentLatitude + "," + currentLongitude;
@@ -493,7 +522,7 @@ public class HomeActivity extends AppCompatActivity implements
 
 
                         if (prefs.getRole_id().equalsIgnoreCase(C.COMP_SALES_ROLE)) {
-                            //new Company_sales_Person3().execute();
+
                             loadingView.show();
                             Call<VendorDataList> dataListCall = apiServices.companySalesPerson(prefs.getUser_id());
                             dataListCall.enqueue(HomeActivity.this);
@@ -503,12 +532,12 @@ public class HomeActivity extends AppCompatActivity implements
                             loadingView.show();
                             Call<VendorDataList> dataListCall = apiServices.distSalesPersonList(prefs.getUser_id());
                             dataListCall.enqueue(HomeActivity.this);
-                            //new Distributour_sales_person().execute();
+
                         }
                     } else {
 
-                        // dataBase.getAllData();
 
+                        lists.setVisibility(View.VISIBLE);
                         vendornames = dataBase.getAllData();
                         listAdapter = new ListAdapter(getApplicationContext(), vendornames);
                         lists.setAdapter(listAdapter);
@@ -517,30 +546,6 @@ public class HomeActivity extends AppCompatActivity implements
 
 
                     }
-
-
-                    /*if (prefs.isOnceclicked()) {
-
-                        listAdapter = new ListAdapter(getApplicationContext(), dataBase.getAllData());
-                        lists.setAdapter(listAdapter);
-                        listAdapter.notifyDataSetChanged();
-                        lv_search.setVisibility(View.VISIBLE);
-
-
-                    } else {
-
-
-                        if (prefs.getRole_id().equalsIgnoreCase(C.COMP_SALES_ROLE)) {
-                            new Company_sales_Person3().execute();
-
-                        } else {
-
-                            new Distributour_sales_person().execute();
-                        }
-
-
-                    }*/
-
 
                 } else {
                     Internet.noInternet(getApplicationContext());
@@ -682,12 +687,16 @@ public class HomeActivity extends AppCompatActivity implements
             public void onClick(View v) {
 
                 if (Internet.isConnectingToInternet(getApplicationContext())) {
-
-                    final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-                    if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                        buildAlertMessageNoGps();
+                    int off = 0;
+                    try {
+                        off = Settings.Secure.getInt(getContentResolver(), Settings.Secure.LOCATION_MODE);
+                    } catch (Settings.SettingNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    if (off == 0) {
+                        displayLocationSettingRequest(getApplicationContext());
                     } else {
+                        displayLocationSettingRequest(getApplicationContext());
                         Log.e("currentLatitude", "" + currentLatitude);
                         Log.e("currentLongitude", "" + currentLongitude);
                         btn_start_meeting.setGravity(Gravity.START | Gravity.CENTER);
@@ -767,69 +776,74 @@ public class HomeActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 if (Internet.isConnectingToInternet(getApplicationContext())) {
-
-
-                    final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-                    if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                        buildAlertMessageNoGps();
-
-                    } else if ((!radio2.isChecked() && !radio1.isChecked() && !radio3.isChecked())) {
-
-                        Toast.makeText(HomeActivity.this, "Please Select Any Meeting Type First", Toast.LENGTH_SHORT).show();
-
-
-                    } else {
-                        Log.e("currentLatitude", "" + currentLatitude);
-                        Log.e("currentLongitude", "" + currentLongitude);
-
-
-                        start_time.setVisibility(View.VISIBLE);
-
-                        lv_vendor.setVisibility(View.VISIBLE);
-                        view_list.setVisibility(View.VISIBLE);
-                        btn_start_meeting.setVisibility(View.GONE);
-                        meeting_list.setVisibility(View.VISIBLE);
-                        view_list.setVisibility(View.VISIBLE);
-                        txt_start_meeting_time.setVisibility(View.INVISIBLE);
-                        order_show.setVisibility(View.GONE);
-                        route_end.setEnabled(true);
-                        route_start.setEnabled(true);
-                        new_vendor.setEnabled(false);
-
-
-                        String root_date = GetCurrentDateTime();
-                        comments = edit_comment.getText().toString().trim();
-
-                        String end_map = "http://maps.google.com/maps?q=loc:" + "" + currentLatitude + "," + currentLongitude;
-                        Log.e("start_map", "" + end_map);
-                        Log.e("root_date", "" + root_date);
-
-
-                        int meetings_type1 = 0;
-
-
-                        if (rg.getCheckedRadioButtonId() == R.id.radio1) {
-
-
-                            meetings_type1 = 3;
-
-                        } else if (rg.getCheckedRadioButtonId() == R.id.radio2) {
-                            meetings_type1 = 2;
-
-
-                        } else if (rg.getCheckedRadioButtonId() == R.id.radio3) {
-                            meetings_type1 = 1;
-
-
-                        }
-                        prefs.setNewvendorAdd(false);
-
-
-                        new end_meeting(root_date, comments, meetings_type1, end_map, currentLongitude, currentLatitude).execute();
-                        db.removeFromCart(null);
+                    int off = 0;
+                    try {
+                        off = Settings.Secure.getInt(getContentResolver(), Settings.Secure.LOCATION_MODE);
+                    } catch (Settings.SettingNotFoundException e) {
+                        e.printStackTrace();
                     }
+                    if (off == 0) {
+                        displayLocationSettingRequest(getApplicationContext());
+                    } else {
+                        displayLocationSettingRequest(getApplicationContext());
+                        if ((!radio2.isChecked() && !radio1.isChecked() && !radio3.isChecked())) {
 
+                            Toast.makeText(HomeActivity.this, "Please Select Any Meeting Type First", Toast.LENGTH_SHORT).show();
+
+
+                        } else {
+                            Log.e("currentLatitude", "" + currentLatitude);
+                            Log.e("currentLongitude", "" + currentLongitude);
+
+
+                            start_time.setVisibility(View.VISIBLE);
+
+                            lv_vendor.setVisibility(View.VISIBLE);
+                            view_list.setVisibility(View.VISIBLE);
+                            btn_start_meeting.setVisibility(View.GONE);
+                            meeting_list.setVisibility(View.VISIBLE);
+                            view_list.setVisibility(View.VISIBLE);
+                            txt_start_meeting_time.setVisibility(View.INVISIBLE);
+                            order_show.setVisibility(View.GONE);
+                            route_end.setEnabled(true);
+                            route_start.setEnabled(true);
+                            new_vendor.setEnabled(false);
+
+
+
+
+                            String root_date = GetCurrentDateTime();
+                            comments = edit_comment.getText().toString().trim();
+
+                            String end_map = "http://maps.google.com/maps?q=loc:" + "" + currentLatitude + "," + currentLongitude;
+                            Log.e("start_map", "" + end_map);
+                            Log.e("root_date", "" + root_date);
+
+
+                            int meetings_type1 = 0;
+
+
+                            if (rg.getCheckedRadioButtonId() == R.id.radio1) {
+
+
+                                meetings_type1 = 3;
+
+                            } else if (rg.getCheckedRadioButtonId() == R.id.radio2) {
+                                meetings_type1 = 2;
+
+
+                            } else if (rg.getCheckedRadioButtonId() == R.id.radio3) {
+                                meetings_type1 = 1;
+
+
+                            }
+                            prefs.setNewvendorAdd(false);
+
+
+                            new end_meeting(root_date, comments, meetings_type1, end_map, currentLongitude, currentLatitude).execute();
+                            db.removeFromCart(null);
+                        }
+                    }
 
                 } else {
                     Internet.noInternet(getApplicationContext());
@@ -844,11 +858,19 @@ public class HomeActivity extends AppCompatActivity implements
 
 
                 if (Internet.isConnectingToInternet(getApplicationContext())) {
-                    final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-                    if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                        buildAlertMessageNoGps();
+                    int off = 0;
+                    try {
+                        off = Settings.Secure.getInt(getContentResolver(), Settings.Secure.LOCATION_MODE);
+                    } catch (Settings.SettingNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    if (off == 0) {
+                        displayLocationSettingRequest(getApplicationContext());
                     } else {
+
+
+                        displayLocationSettingRequest(getApplicationContext());
                         Log.e("currentLatitude", "" + currentLatitude);
                         Log.e("currentLongitude", "" + currentLongitude);
                         route_start.setGravity(Gravity.CENTER);
@@ -866,6 +888,7 @@ public class HomeActivity extends AppCompatActivity implements
                         view_list.setVisibility(View.GONE);
                         route_start.setEnabled(true);
 
+                        lists.setVisibility(View.GONE);
                         route_end.setEnabled(false);
                         Date d = new Date();
                         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
@@ -889,11 +912,11 @@ public class HomeActivity extends AppCompatActivity implements
             }
         });
 
+
         img_refersh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (prefs.getRole_id().equalsIgnoreCase(C.COMP_SALES_ROLE)) {
-                    //new Company_sales_Person3().execute();
                     loadingView.show();
                     Call<VendorDataList> dataListCall = apiServices.companySalesPerson(prefs.getUser_id());
                     dataListCall.enqueue(HomeActivity.this);
@@ -903,7 +926,6 @@ public class HomeActivity extends AppCompatActivity implements
                     loadingView.show();
                     Call<VendorDataList> dataListCall = apiServices.distSalesPersonList(prefs.getUser_id());
                     dataListCall.enqueue(HomeActivity.this);
-                    //new Distributour_sales_person().execute();
                 }
 
 
@@ -1074,7 +1096,6 @@ public class HomeActivity extends AppCompatActivity implements
 
     }
 
-
     private void takeimage(int requestCode) {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -1120,25 +1141,14 @@ public class HomeActivity extends AppCompatActivity implements
 
     }
 
-  /*  public Bitmap decodeFile(String path){
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        try {
+        if (ActivityCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-            Bitmap original = BitmapFactory.decodeStream(getAssets().open(path));
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            original.compress(Bitmap.CompressFormat.JPEG , 0 , outputStream);
-            Bitmap decode = BitmapFactory.decodeStream(new ByteArrayInputStream(outputStream.toByteArray()));
-
-
-                return  decode;
-
-        }catch (Throwable e){
-            e.printStackTrace();
         }
-
-
-        return null;
-    }*/
+    }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -1173,33 +1183,6 @@ public class HomeActivity extends AppCompatActivity implements
 
             }
         }
-        /*if (requestCode == CAMERA_DIRECT && resultCode == RESULT_OK) {
-            String selectedImagePath = getImagePath();
-
-            Bitmap photo = decodeFile(selectedImagePath);
-
-
-            im_direct_cemara.setVisibility(View.VISIBLE);
-            im_direct_cemara.setImageBitmap(photo);
-            imagepath2 = "";
-
-            imagepath2 = selectedImagePath;
-            resizeImage(selectedImagePath);
-            Log.e("image path2", imagepath2);
-        }
-        if (requestCode == CAMERA_DIRECT && resultCode == RESULT_OK) {
-            String selectedImagePath = getImagePath();
-
-            Bitmap photo = decodeFile(selectedImagePath);
-            im_direct_cemara.setVisibility(View.VISIBLE);
-            im_direct_cemara.setImageBitmap(photo);
-            imagepath3 = "";
-
-            imagepath3 = selectedImagePath;
-            resizeImage(selectedImagePath);
-            Log.e("image path3", imagepath3);
-        }
-*/
     }
 
     public void resizeImage(final String path) {
@@ -1249,13 +1232,11 @@ public class HomeActivity extends AppCompatActivity implements
                 @Override
                 public void onClick(View v) {
 
-                    if(prefs.getImagePath1().equalsIgnoreCase(txt_imagePath.getText().toString())){
+                    if (prefs.getImagePath1().equalsIgnoreCase(txt_imagePath.getText().toString())) {
                         prefs.setImagePath1("");
-                    }
-                    else if(prefs.getImagePath2().equalsIgnoreCase(txt_imagePath.getText().toString())){
+                    } else if (prefs.getImagePath2().equalsIgnoreCase(txt_imagePath.getText().toString())) {
                         prefs.setImagePath2("");
-                    }
-                    else if(prefs.getImagePathe3().equalsIgnoreCase(txt_imagePath.getText().toString())){
+                    } else if (prefs.getImagePathe3().equalsIgnoreCase(txt_imagePath.getText().toString())) {
                         prefs.setImagePathe3("");
                     }
 
@@ -1450,17 +1431,6 @@ public class HomeActivity extends AppCompatActivity implements
         }
     }
 
-    /**
-     * If locationChanges change lat and long
-     *
-     * @param location
-     */
-    @Override
-    public void onLocationChanged(Location location) {
-        currentLatitude = location.getLatitude();
-        currentLongitude = location.getLongitude();
-    }
-
 
     private String GetCurrentDateTime() {
 
@@ -1473,26 +1443,6 @@ public class HomeActivity extends AppCompatActivity implements
         return formattedDate;
 
     }
-
-
-    private void buildAlertMessageNoGps() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                        dialog.cancel();
-                    }
-                });
-        final AlertDialog alert = builder.create();
-        alert.show();
-    }
-
 
     public void logout() {
 
@@ -1529,6 +1479,7 @@ public class HomeActivity extends AppCompatActivity implements
                             startActivity(intent);
                             db1.Delete_user_table();
                             db.removeFromCart(null);
+                            prefs.clearData(getApplicationContext());
 
                             dialog.cancel();
 
@@ -1827,278 +1778,6 @@ public class HomeActivity extends AppCompatActivity implements
 
 
     }
-
-    public class Company_sales_Person3 extends AsyncTask<Void, Void, String> {
-
-        boolean status;
-        private String result;
-        public StringBuilder sb;
-        private InputStream is;
-
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            try {
-                loadingView = new ProgressActivity(HomeActivity.this, "");
-
-                loadingView.setCancelable(false);
-                loadingView.show();
-
-            } catch (Exception e) {
-
-            }
-
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-
-
-            try {
-
-                List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-                parameters.add(new BasicNameValuePair("com_sales_per_id", prefs.getUser_id()));
-                Log.e("com_sales_per_id", "" + prefs.getUser_id());
-                String json = new ServiceHandler().makeServiceCall(Web.LINK + Web.COMPANY_SALESPERSON, ServiceHandler.POST, parameters);
-                Log.e("Link", "" + Web.LINK + Web.COMPANY_SALESPERSON);
-                return json;
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("error: " + e.toString());
-
-            }
-            return json;
-
-
-        }
-
-        @Override
-        protected void onPostExecute(String json) {
-            super.onPostExecute(json);
-            loadingView.dismiss();
-
-            //dataBase.deleteList(vendornames);
-
-            dataBase.deleteList();
-
-            if (json == null || json.isEmpty()) {
-                Toast.makeText(HomeActivity.this, "Server Error Occured\nPlease Try Again Later!", Toast.LENGTH_SHORT).show();
-            } else {
-                Log.e("json", json);
-
-                try {
-                    JSONObject object = new JSONObject(json);
-
-                    boolean status = object.getBoolean("status");
-
-                    if (status) {
-                        JSONArray dataArray = object.getJSONArray("data");
-                        vendornames.clear();
-
-
-                        for (int i = 0; i < dataArray.length(); i++) {
-                            JSONObject main = dataArray.getJSONObject(i);
-                            JSONObject jobject_companyprofile = main.getJSONObject("User");
-
-                            BeanVendor bean_companyProfile = new BeanVendor();
-                            BeanVendorName beanVendorName = new BeanVendorName();
-
-                            bean_companyProfile.setVendor_id(jobject_companyprofile.getString("id"));
-                            bean_companyProfile.setRole_id(jobject_companyprofile.getString("role_id"));
-
-                            bean_companyProfile.setEmail_id(jobject_companyprofile.getString("email_id"));
-                            bean_companyProfile.setMobile_no(jobject_companyprofile.getString("mobile_no"));
-                            bean_companyProfile.setPhone_no(jobject_companyprofile.getString("phone_no"));
-
-                            bean_companyProfile.setFirst_name(jobject_companyprofile.getString("first_name").trim());
-
-
-                            vendornames.add(bean_companyProfile);
-
-                            JSONObject jobject_address = main.getJSONObject("Address");
-
-                            bean_companyProfile.setAddress(jobject_address.getString("address_1"));
-
-
-                            //Log.e("Address", jobject_address.getString("address_1"));
-
-                            JSONObject jsonObject_company = main.getJSONObject("Distributor");
-
-                            bean_companyProfile.setCompany_name(jsonObject_company.getString("firm_shop_name").trim());
-                            //Log.e("firm_shop_name", bean_companyProfile.getCompany_name());
-
-
-                            dataBase.addTolist(bean_companyProfile);
-
-                            //Log.e("List Of Data", "-->" + dataBase.getAllData());
-
-
-                            Calendar calendar = Calendar.getInstance();
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-                            String called_date = simpleDateFormat.format(calendar.getTime());
-
-                            prefs.setCalled_date(called_date);
-
-
-                            //Log.e("vendornames", "" + vendornames);
-
-
-                        }
-
-                        lv_search.setVisibility(View.VISIBLE);
-
-                        prefs.setOnceclicked(true);
-                    } else {
-
-                        Toast.makeText(getApplicationContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
-                    }
-
-
-                } catch (JSONException e) {
-                    Log.e("Exception", e.getMessage());
-                }
-
-                loadingView.dismiss();
-
-                List<BeanVendor> vendorList = dataBase.getAllData();
-
-                Log.e("Size", "-->Vendors" + vendorList.size());
-
-                listAdapter.updateData(vendorList);
-                listAdapter.notifyDataSetChanged();
-
-            }
-        }
-
-
-    }
-
-
-    public class Distributour_sales_person extends AsyncTask<Void, Void, String> {
-
-        boolean status;
-        private String result;
-        public StringBuilder sb;
-        private InputStream is;
-
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            try {
-                loadingView = new ProgressActivity(HomeActivity.this, "");
-
-                loadingView.setCancelable(false);
-                loadingView.show();
-
-            } catch (Exception e) {
-
-            }
-
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-
-
-            try {
-
-                List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-                parameters.add(new BasicNameValuePair("sales_per_id", prefs.getUser_id()));
-                Log.e("sales_per_id", "" + prefs.getUser_id());
-                String json = new ServiceHandler().makeServiceCall(Web.LINK + Web.DISTRIBUTOR_SALESPERSON, ServiceHandler.POST, parameters);
-                Log.e("Link", "" + Web.LINK + Web.DISTRIBUTOR_SALESPERSON);
-                return json;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("error: " + e.toString());
-
-            }
-            return json;
-
-
-        }
-
-        @Override
-        protected void onPostExecute(String json) {
-            super.onPostExecute(json);
-            loadingView.dismiss();
-
-            dataBase.deleteList();
-
-            if (json == null || json.isEmpty()) {
-                Toast.makeText(HomeActivity.this, "Server Error Occured\nPlease Try Again Later!", Toast.LENGTH_SHORT).show();
-            } else {
-                Log.e("json", json);
-
-                try {
-                    JSONObject object = new JSONObject(json);
-
-                    boolean status = object.getBoolean("status");
-
-                    if (status) {
-                        JSONArray dataArray = object.getJSONArray("data");
-                        vendornames.clear();
-                        for (int i = 0; i < dataArray.length(); i++) {
-                            JSONObject main = dataArray.getJSONObject(i);
-                            JSONObject jobject_companyprofile = main.getJSONObject("User");
-
-                            BeanVendor bean_companyProfile = new BeanVendor();
-                            BeanVendorName beanVendorName = new BeanVendorName();
-
-                            bean_companyProfile.setVendor_id(jobject_companyprofile.getString("id"));
-                            bean_companyProfile.setRole_id(jobject_companyprofile.getString("role_id"));
-                            bean_companyProfile.setEmail_id(jobject_companyprofile.getString("email_id"));
-                            bean_companyProfile.setMobile_no(jobject_companyprofile.getString("mobile_no"));
-                            bean_companyProfile.setPhone_no(jobject_companyprofile.getString("phone_no"));
-                            bean_companyProfile.setFirst_name(jobject_companyprofile.getString("first_name").trim());
-
-                            JSONObject jobject_address = main.getJSONObject("Address");
-
-                            bean_companyProfile.setAddress(jobject_address.getString("address_1"));
-                            Log.e("Address", bean_companyProfile.getAddress());
-
-
-                            JSONObject jsonObject_company = main.getJSONObject("Distributor");
-
-                            bean_companyProfile.setCompany_name(jsonObject_company.getString("firm_shop_name").trim());
-                            Log.e("firm_shop_name", bean_companyProfile.getCompany_name());
-
-
-                            vendornames.add(bean_companyProfile);
-
-
-                            dataBase.addTolist(bean_companyProfile);
-
-                            Log.e("List Of Data", "-->" + dataBase.getAllData());
-
-
-                            Log.e("vendornames", "" + vendornames);
-                            lv_search.setVisibility(View.VISIBLE);
-                            loadingView.dismiss();
-                            listAdapter.notifyDataSetChanged();
-
-                            prefs.setOnceclicked(true);
-
-                        }
-                    } else {
-
-                        Toast.makeText(getApplicationContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
-                    }
-
-
-                } catch (JSONException e) {
-                    Log.e("Exception", e.getMessage());
-                }
-
-            }
-        }
-
-
-    }
-
 
     public class start_meeting extends AsyncTask<Void, Void, String> {
         boolean status;
@@ -2916,6 +2595,15 @@ public class HomeActivity extends AppCompatActivity implements
 
                             bean_historymeeting.setComments(jobject_meeting_history.getString("comments"));
 
+                            ArrayList<String> attachments = new ArrayList<>();
+
+                            attachments.add(Web.IMAGELINK2 + jobject_meeting_history.getString("attachments1"));
+                            attachments.add(Web.IMAGELINK2 + jobject_meeting_history.getString("attachments2"));
+                            attachments.add(Web.IMAGELINK2 + jobject_meeting_history.getString("attachments3"));
+
+                            bean_historymeeting.setAttachmentPaths(attachments);
+
+
                             bean_historymeeting.setAttachments1(jobject_meeting_history.getString("attachments1"));
                             bean_historymeeting.setAttachments2(jobject_meeting_history.getString("attachments2"));
                             bean_historymeeting.setAttachments3(jobject_meeting_history.getString("attachments3"));
@@ -3294,6 +2982,196 @@ public class HomeActivity extends AppCompatActivity implements
             }
 
         }
+
+    }
+
+
+    private boolean checkPlayServices() {
+
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+
+        if (resultCode != ConnectionResult.SUCCESS) {
+
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+
+                Toast.makeText(this, "Get Data", Toast.LENGTH_SHORT).show();
+            } else {
+
+
+                Toast.makeText(this, "Doesnt Able", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            return false;
+        }
+        return true;
+
+    }
+
+    private void startFusedLocation() {
+
+        if (mGoogleApiClient == null) {
+
+            mGoogleApiClient = new GoogleApiClient.Builder(this).addApi(LocationServices.API).addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                @Override
+                public void onConnected(@Nullable Bundle bundle) {
+
+                }
+
+                @Override
+                public void onConnectionSuspended(int i) {
+
+                }
+            }).addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+                @Override
+                public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+                }
+            }).build();
+            mGoogleApiClient.connect();
+        } else {
+            mGoogleApiClient.connect();
+        }
+    }
+
+    private void registerRequestUpdate(final LocationListener listener) {
+
+        mLocationRequest = LocationRequest.create();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(1000);
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+
+                    if (ActivityCompat.checkSelfPermission(HomeActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(HomeActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
+                    LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, listener);
+
+
+                } catch (SecurityException e) {
+
+                    e.printStackTrace();
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+                    if (!isGoogleApiClientConnected()) {
+
+                        mGoogleApiClient.connect();
+                    }
+
+                    registerRequestUpdate(listener);
+                }
+
+
+            }
+        }, 1000);
+
+
+    }
+
+    private boolean isGoogleApiClientConnected() {
+
+        return mGoogleApiClient != null && mGoogleApiClient.isConnected();
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+        setCurrentLatitude(location.getLatitude());
+        setCurrentLongitude(location.getLongitude());
+
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopFusedLocation();
+    }
+
+    private void stopFusedLocation() {
+
+        if (mGoogleApiClient != null) {
+
+            mGoogleApiClient.disconnect();
+        }
+
+
+    }
+
+
+    public double getCurrentLatitude() {
+        return currentLatitude;
+    }
+
+    public void setCurrentLatitude(double currentLatitude) {
+        this.currentLatitude = currentLatitude;
+    }
+
+    public double getCurrentLongitude() {
+        return currentLongitude;
+    }
+
+    public void setCurrentLongitude(double currentLongitude) {
+        this.currentLongitude = currentLongitude;
+    }
+
+    private void displayLocationSettingRequest(Context context) {
+
+
+        GoogleApiClient googleApiClient = new GoogleApiClient.Builder(context).addApi(LocationServices.API).build();
+        googleApiClient.connect();
+
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        locationRequest.setInterval(10000);
+        locationRequest.setFastestInterval(10000 / 2);
+
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
+
+        builder.setAlwaysShow(true);
+
+        PendingResult<LocationSettingsResult> result = LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build());
+        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+            @Override
+            public void onResult(LocationSettingsResult result) {
+                final Status status = result.getStatus();
+                switch (status.getStatusCode()) {
+                    case LocationSettingsStatusCodes.SUCCESS:
+                        Log.i("", "All location settings are satisfied.");
+
+                        break;
+                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                        Log.i("", "Location settings are not satisfied. Show the user a dialog to upgrade location settings ");
+
+                        try {
+                            // Show the dialog by calling startResolutionForResult(), and check the result
+                            // in onActivityResult().
+                            status.startResolutionForResult(HomeActivity.this, REQUEST_CHECK_SETTINGS);
+                        } catch (IntentSender.SendIntentException e) {
+                            Log.i("", "PendingIntent unable to execute request.");
+                        }
+                        break;
+                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                        Log.i("", "Location settings are inadequate, and cannot be fixed here. Dialog not created.");
+                        break;
+                }
+            }
+        });
+
 
     }
 

@@ -289,6 +289,10 @@ public class LoginActivity extends AppCompatActivity {
                         prefs.setChange_password(jU.getString("change_password"));
                         Log.e("Change Password", prefs.getChange_password());
 
+                        JSONObject distributor = jO.getJSONObject("Distributor");
+
+                        prefs.setFirmShopName(distributor.getString("firm_shop_name"));
+
 
                         if (change_password.equalsIgnoreCase("1")) {
 

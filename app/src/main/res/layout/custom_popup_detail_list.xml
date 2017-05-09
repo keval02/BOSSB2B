@@ -79,7 +79,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Sales Officer :"
-                        android:textSize="16sp"
+                        android:textSize="13sp"
                         android:id="@+id/textView5" />
 
 
@@ -90,7 +90,7 @@
                         android:layout_weight="1"
                         android:text="fname"
 
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/d_dcompanyname"
@@ -98,7 +98,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="lname"
-                        android:textSize="16sp"
+                        android:textSize="13sp"
                         android:visibility="gone" />
 
 
@@ -117,7 +117,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Company Name :"
-                        android:textSize="16sp"
+                        android:textSize="13sp"
                          />
 
                     <TextView
@@ -126,7 +126,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="lname"
-                        android:textSize="16sp"
+                        android:textSize="13sp"
                         />
                 </LinearLayout>
 
@@ -143,7 +143,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Email Id :"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/d_demailid"
@@ -152,7 +152,7 @@
                         android:layout_weight="1"
                         android:text="firmname"
                         android:textColor="#396085"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -168,7 +168,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Mobile No :"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/d_dmobilenumber"
@@ -177,7 +177,7 @@
                         android:layout_weight="1"
                         android:text="creditlimit"
                         android:textColor="#396085"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -193,7 +193,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Start Time :"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/d_dstarttime"
@@ -201,7 +201,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="add1"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -217,7 +217,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="End Time :"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/d_dendtime"
@@ -225,7 +225,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="add2"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -242,7 +242,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Start Location :"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/d_dstartlatitude"
@@ -252,7 +252,7 @@
                         android:autoLink="map"
                         android:text="@string/Map"
                         android:textColor="#396085"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -268,7 +268,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="End Location :"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/d_dstartlongitude"
@@ -277,7 +277,7 @@
                         android:layout_weight="1"
                         android:text="@string/Map"
                         android:textColor="#396085"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -293,7 +293,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Comments :"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/d_dcomments"
@@ -301,7 +301,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text=""
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -319,7 +319,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Meeting Type :"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/meeting_type"
@@ -327,7 +327,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text=""
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -343,7 +343,33 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="03"
                         android:text="Image :"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
+
+                    <HorizontalScrollView
+                        android:layout_weight="2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:id="@+id/layout_direct_cemara"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:scrollbars="horizontal">
+
+
+                        </LinearLayout>
+
+                    </HorizontalScrollView>
+
+
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/layout_camera"
+                        android:layout_weight="1.5"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
                     <ImageView
                         android:id="@+id/img1"
@@ -369,6 +395,8 @@
                         android:layout_marginLeft="5dp"
 
                        />
+
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>

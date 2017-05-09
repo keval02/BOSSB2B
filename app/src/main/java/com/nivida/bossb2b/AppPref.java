@@ -2,6 +2,7 @@ package com.nivida.bossb2b;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 /**
  * Created by Ajay on 11/25/2016.
@@ -101,6 +102,11 @@ public class AppPref {
     String imagePath2 = "";
     String imagePathe3 = "";
 
+    String disComment = "";
+    String disImage1 = "";
+    String disImage2 = "";
+    String disImage3 = "";
+
 
     boolean isServicecalled=false;
 
@@ -120,6 +126,17 @@ public class AppPref {
 
     float meeting_startedLattitude;
     float meeting_startedLongitude;
+
+    boolean distributorLogin = false;
+
+    boolean listClicked = false;
+
+    String firmShopName = "";
+
+    boolean ownClicked = false;
+    boolean retailerClicked = false ;
+
+    String onSelectedUserId = "";
 
 
 
@@ -203,6 +220,20 @@ public class AppPref {
         imagePath2 = appSharedPrefs.getString("imagePath2" , "");
         imagePathe3 = appSharedPrefs.getString("imagePathe3" , "");
 
+        distributorLogin = appSharedPrefs.getBoolean("distributorLogin" , false);
+        listClicked = appSharedPrefs.getBoolean("listClicked" , false);
+
+        firmShopName = appSharedPrefs.getString("firmShopName" , "");
+
+        ownClicked = appSharedPrefs.getBoolean("ownClicked" , false);
+        retailerClicked = appSharedPrefs.getBoolean("retailerClicked" , false);
+
+        onSelectedUserId = appSharedPrefs.getString("onSelectedUserId" , "");
+
+        disComment = appSharedPrefs.getString("disComment" , "");
+        disImage1 = appSharedPrefs.getString("disImage1" , "");
+        disImage2 = appSharedPrefs.getString("disImage2" , "");
+        disImage3 = appSharedPrefs.getString("disImage3" , "");
     }
 
 
@@ -850,4 +881,111 @@ public class AppPref {
         this.imagePathe3 = imagePathe3;
         prefsEditor.putString("imagePathe3" , imagePathe3).commit();
     }
+
+
+    public boolean isDistributorLogin() {
+        return appSharedPrefs.getBoolean("distributorLogin" , false);
+    }
+
+    public void setDistributorLogin(boolean distributorLogin) {
+        this.distributorLogin = distributorLogin;
+        prefsEditor.putBoolean("distributorLogin" , distributorLogin).commit();
+    }
+
+
+    public boolean isListClicked() {
+        return appSharedPrefs.getBoolean("listClicked" , false);
+    }
+
+    public void setListClicked(boolean listClicked) {
+        this.listClicked = listClicked;
+        prefsEditor.putBoolean("listClicked" , listClicked).commit();
+    }
+
+    public String getFirmShopName() {
+        return appSharedPrefs.getString("firmShopName"  , "");
+    }
+
+    public void setFirmShopName(String firmShopName) {
+        this.firmShopName = firmShopName;
+        prefsEditor.putString("firmShopName" , firmShopName).commit();
+    }
+
+    public boolean isOwnClicked() {
+        return appSharedPrefs.getBoolean("ownClicked" , false);
+    }
+
+    public void setOwnClicked(boolean ownClicked) {
+        this.ownClicked = ownClicked;
+        prefsEditor.putBoolean("ownClicked" , ownClicked).commit();
+    }
+
+    public boolean isRetailerClicked() {
+        return appSharedPrefs.getBoolean("retailerClicked"  , false);
+    }
+
+    public void setRetailerClicked(boolean retailerClicked) {
+        this.retailerClicked = retailerClicked;
+        prefsEditor.putBoolean("retailerClicked" , retailerClicked).commit();
+    }
+
+    public String getOnSelectedUserId() {
+        return appSharedPrefs.getString("onSelectedUserId" , "");
+    }
+
+    public void setOnSelectedUserId(String onSelectedUserId) {
+        this.onSelectedUserId = onSelectedUserId;
+        prefsEditor.putString("onSelectedUserId"  , onSelectedUserId).commit();
+    }
+
+    public String getDisComment() {
+        return appSharedPrefs.getString("disComment" , "");
+    }
+
+    public void setDisComment(String disComment) {
+        this.disComment = disComment;
+        prefsEditor.putString("disComment" , disComment).commit();
+    }
+
+    public String getDisImage1() {
+        return appSharedPrefs.getString("disImage1" , "");
+    }
+
+    public void setDisImage1(String disImage1) {
+        this.disImage1 = disImage1;
+        prefsEditor.putString("disImage1" , disImage1).commit();
+    }
+
+    public String getDisImage2() {
+        return appSharedPrefs.getString("disImage2" , "");
+    }
+
+    public void setDisImage2(String disImage2) {
+        this.disImage2 = disImage2;
+        prefsEditor.putString("disImage2" , disImage2).commit();
+    }
+
+    public String getDisImage3() {
+        return appSharedPrefs.getString("disImage3" , "");
+    }
+
+    public void setDisImage3(String disImage3) {
+        this.disImage3 = disImage3;
+        prefsEditor.putString("disImage3" , disImage3).commit();
+    }
+
+    public void clearData(Context context){
+
+
+        SharedPreferences.Editor prefs = context.getSharedPreferences(USER_PREFS , 0).edit();
+        prefs.clear();
+        prefs.commit();
+
+        Log.e("Congo" , "Clear All Data");
+
+
+    }
+
+
+
 }

@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#e1e1e1">
+    android:background="#e1e1e1"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -79,8 +79,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Sales Officer :"
-                        android:textSize="16sp" />
+                        android:text="Distributor FirmShop :"
+                        android:textSize="13sp" />
 
 
                     <TextView
@@ -90,7 +90,7 @@
                         android:layout_weight="1"
                         android:text="fname"
 
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/d_dcompanyname"
@@ -98,7 +98,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="lname"
-                        android:textSize="16sp"
+                        android:textSize="13sp"
                         android:visibility="gone" />
 
 
@@ -109,16 +109,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:layout_weight="1"
-                    android:orientation="horizontal"
-                    >
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Retailer Name :"
-                        android:textSize="16sp"
-                        />
+                        android:text="Retailer FirmShop:"
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/d_dcompanyname1"
@@ -126,8 +124,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="lname"
-                        android:textSize="16sp"
-                        />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -135,58 +132,23 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:layout_weight="1"
-                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Email Id :"
-                        android:textSize="16sp" />
+                        android:text="Retailer Name:"
+                        android:textSize="13sp" />
 
                     <TextView
-                        android:id="@+id/d_demailid"
+                        android:id="@+id/d_firstlast"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="firmname"
-                        android:textColor="#396085"
-                        android:textSize="16sp" />
+                        android:text="lname"
+                        android:textSize="13sp" />
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Mobile No :"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/d_dmobilenumber"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="creditlimit"
-                        android:textColor="#396085"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-
-
-
-
-
-
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -201,15 +163,15 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Address :"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
 
                     <TextView
-                        android:id="@+id/d_dcomments"
+                        android:id="@+id/d_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text=""
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -227,16 +189,94 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="City Name :"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
 
                     <TextView
-                        android:id="@+id/meeting_type"
+                        android:id="@+id/d_cityName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text=""
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Mobile No :"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/d_dmobilenumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="creditlimit"
+                        android:textColor="#396085"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Email Id :"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/d_demailid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="firmname"
+                        android:textColor="#396085"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Telephone No :"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/d_telephone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="creditlimit"
+                        android:textColor="#396085"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
 
 
 

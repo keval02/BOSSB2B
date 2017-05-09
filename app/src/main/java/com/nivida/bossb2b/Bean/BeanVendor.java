@@ -19,7 +19,6 @@ public class BeanVendor {
     Address address;
 
 
-
     String vendor_id = "";
     String user_id = "";
     String company_name = "";
@@ -149,7 +148,7 @@ public class BeanVendor {
     }
 
     public String getAddress() {
-        return address.getCity().getName();
+        return address.getCity().getName() + "  " + address.getAddress();
     }
 
     public void setAddress(String address) {
@@ -302,7 +301,7 @@ public class BeanVendor {
         String pincode = "";
 
         @SerializedName("city_id")
-        String city_id ="";
+        String city_id = "";
 
 
         @SerializedName("City")
@@ -326,10 +325,13 @@ public class BeanVendor {
         }
 
         public String getAddress() {
-            return address1 + "" + address2 + "" + address3;
+            return address1 + "" /*+ address2 + ""*/ /*+ address3*/;
         }
 
-        public void setAddress(String address  ){this.address3= address;}
+        public void setAddress(String address) {
+            this.address3 = address;
+        }
+
 
         public String getCity_id() {
             return city_id;
@@ -350,8 +352,7 @@ public class BeanVendor {
 
     }
 
-    public static class City{
-
+    public static class City {
 
 
         String name = "";
@@ -363,6 +364,7 @@ public class BeanVendor {
         public void setName(String name) {
             this.name = name;
         }
+
     }
 
     public void setUser(User user) {

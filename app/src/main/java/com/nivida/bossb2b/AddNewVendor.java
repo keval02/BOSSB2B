@@ -186,10 +186,6 @@ public class AddNewVendor extends AppCompatActivity {
         rdo_retailer = (RadioButton) findViewById(R.id.rb_retailer);
 
         rdo_retailer.setChecked(true);
-     /*   final EditText edit_alter_email = (EditText) dialog.findViewById(R.id.edit_alter_email);
-        final EditText edit_phone = (EditText) findViewById(R.id.edit_phone);
-        final EditText edit_otherphone = (EditText) findViewById(R.id.edit_otherphone);*/
-
         spn_readymade_country = (Spinner) findViewById(R.id.spn_readymade_country);
         spn_readymade_state = (Spinner) findViewById(R.id.spn_readymade_state);
         spn_ready_city = (Spinner) findViewById(R.id.spn_ready_city);
@@ -499,12 +495,9 @@ public class AddNewVendor extends AppCompatActivity {
 
                 } else if (!email.isEmpty() && !isNewEmail) {
                     Toast.makeText(AddNewVendor.this, "Please Enter Unique Email Id", Toast.LENGTH_LONG).show();
-                    // Globals.CustomToast(Business_Registration.this, "Please enter a valid email address", getLayoutInflater());
+
                     edit_email.requestFocus();
-                } /*else if (edit_pass.getText().toString().equals("")) {
-                    Toast.makeText(AddNewVendor.this, "Please Enter Password", Toast.LENGTH_SHORT).show();
-                    edit_pass.requestFocus();
-                }*/ else if (!pan_no.isEmpty() && pan_no.length() < 10) {
+                }  else if (!pan_no.isEmpty() && pan_no.length() < 10) {
 
                     Toast.makeText(AddNewVendor.this, "Please Enter Valid PAN Number", Toast.LENGTH_SHORT).show();
                     edit_pan.requestFocus();
@@ -514,24 +507,6 @@ public class AddNewVendor extends AppCompatActivity {
                     Toast.makeText(AddNewVendor.this, "Please Select the Distributor", Toast.LENGTH_SHORT).show();
                     spn_distributor.requestFocus();
                 }
-
-
-                /*else if (edit_pan.getText().toString().equals("")) {
-                    Toast.makeText(AddNewVendor.this, "Please Enter PAN Number", Toast.LENGTH_SHORT).show();
-                    edit_pan.requestFocus();
-                }*/  /*else if (edit_vat.getText().toString().equals("")) {
-                    Toast.makeText(AddNewVendor.this, "Please Enter VAT Number", Toast.LENGTH_SHORT).show();
-                    edit_vat.requestFocus();
-                } else if (edit_cst.getText().toString().equals("")) {
-                    Toast.makeText(AddNewVendor.this, "Please Enter CST Number", Toast.LENGTH_SHORT).show();
-                    edit_cst.requestFocus();
-                }*/
-
-
-                /*else if (!rdo_distributor.isChecked() && !rdo_retailer.isChecked()) {
-
-                    Toast.makeText(AddNewVendor.this, "Please Select the type of vendor", Toast.LENGTH_SHORT).show();*/
-                //}
                 else
 
                 {
@@ -596,13 +571,6 @@ public class AddNewVendor extends AppCompatActivity {
                         parameters.add(new BasicNameValuePair("area", "1"));
                         Log.e("area", "" + area);
                     }
-
-
-                /*parameters.add(new BasicNameValuePair("profile_status", String.valueOf(done)));
-                Log.e("profile_status", "" + String.valueOf(done));
-                parameters.add(new BasicNameValuePair("user_id", prefs.getUser_id()));
-                Log.e("user_id", "" + prefs.getUser_id());
-*/
                     parameters.add(new BasicNameValuePair("first_name", first_name));
                     Log.e("first_name", "" + first_name);
                     parameters.add(new BasicNameValuePair("last_name", last_name));
@@ -979,21 +947,6 @@ public class AddNewVendor extends AppCompatActivity {
                         finish();
 
                         loadingView.dismiss();
-                       /* layout_search.setVisibility(View.VISIBLE);
-                        layout_serach_button.setVisibility(View.VISIBLE);
-                        layout_list_vendor.setVisibility(View.VISIBLE);
-                        list_vendors.setVisibility(View.VISIBLE);*/
-                        // scroll.setVisibility(View.GONE);
-
-                        //  new get_companynames().execute();
-                        /*companylist=new CustomAdapterlist(Dsr_main_page.this,array_companylist);
-                        list_vendors.setAdapter(companylist);*/
-                        //Log.e("add_vendor", "add_vendor147");
-                        /*String root_date = GetCurrentDateTime();
-                        String end_map = "http://maps.google.com/maps?q=loc:" + "" + currentLatitude + "," + currentLongitude;
-                        Log.e("end_map", "" + end_map);
-                        comment2 = new_edit_comment.getText().toString().trim();
-                        new end_direct_meeting_end(root_date, end_map, comment2).execute();*/
                     }
                 }
             } catch (JSONException j) {

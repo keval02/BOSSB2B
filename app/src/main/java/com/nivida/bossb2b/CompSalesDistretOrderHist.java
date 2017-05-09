@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nivida.bossb2b.Bean.Bean_Filter_Status;
 import com.nivida.bossb2b.Bean.Bean_Order_history;
@@ -97,7 +98,7 @@ public class CompSalesDistretOrderHist extends AppCompatActivity {
         orderAdapter = new MyOrderAdapter(getApplicationContext(), historyList, this, "Comp_SalesDistRetOrderHist");
         list_myorders.setAdapter(orderAdapter);
 
-        list_myorders.setOnScrollListener(new AbsListView.OnScrollListener() {
+        /*list_myorders.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 int totalListItems = list_myorders.getCount();
@@ -116,7 +117,9 @@ public class CompSalesDistretOrderHist extends AppCompatActivity {
 
             }
         });
+*/
 
+        list_myorders.setOnScrollListener(new EndlessScrollListener());
         lnr_filter = (LinearLayout) findViewById(R.id.lin_filter);
 
         /*lnr_filter.setOnClickListener(new View.OnClickListener() {
@@ -161,7 +164,7 @@ public class CompSalesDistretOrderHist extends AppCompatActivity {
                                 Date toDate1 = sdf.parse(toDate);
 
                                 if (fromDate1.after(toDate1)) {
-                                    C.Toast(getApplicationContext(), "From Date Must be before To Date", getLayoutInflater());
+                                    Toast.makeText(getApplicationContext(), "From Date Must be before To Date", Toast.LENGTH_LONG).show();
                                 } else {
                                     new GetOrderHistory(CompSalesDistretOrderHist.this).execute();
                                 }
@@ -204,7 +207,7 @@ public class CompSalesDistretOrderHist extends AppCompatActivity {
                                 Date toDate1 = sdf.parse(toDate);
 
                                 if (toDate1.before(fromDate1)) {
-                                    C.Toast(getApplicationContext(), "To Date Must be after From Date", getLayoutInflater());
+                                    Toast.makeText(getApplicationContext(), "To Date Must be after From Date", Toast.LENGTH_SHORT).show();
                                 } else {
                                     new GetOrderHistory(CompSalesDistretOrderHist.this).execute();
                                 }
@@ -236,11 +239,29 @@ public class CompSalesDistretOrderHist extends AppCompatActivity {
 
             List<NameValuePair> parameter = new ArrayList<>();
             //   parameter.add(new BasicNameValuePair("owner_id", appPref.getUser_id()));
-            parameter.add(new BasicNameValuePair("page", String.valueOf(page)));
-            parameter.add(new BasicNameValuePair("meeting_id", meetingID));
-            Log.e("user_id", "" + appPref.getUser_id());
+            if (appPref.getRole_id().equalsIgnoreCase(C.DISTRIBUTOR_ROLE)) {
 
-            Log.e("parameters", parameter.toString());
+
+                parameter.add(new BasicNameValuePair("user_id", appPref.getUser_id()));
+                //parameter.add(new BasicNameValuePair("meeting_id", meetingID));
+
+                parameter.add(new BasicNameValuePair("page", String.valueOf(page)));
+                Log.e("user_id", "" + appPref.getUser_id());
+
+                Log.e("parameters", parameter.toString());
+
+
+            } else {
+
+                parameter.add(new BasicNameValuePair("page", String.valueOf(page)));
+                parameter.add(new BasicNameValuePair("meeting_id", meetingID));
+                Log.e("user_id", "" + appPref.getUser_id());
+
+                Log.e("parameters", parameter.toString());
+            }
+
+
+
             /*parameter.add(new BasicNameValuePair("role_id", prefs.getSelectedUserRole()));
             parameter.add(new BasicNameValuePair("owner_id", prefs.getLogin_userid()));
 
@@ -498,7 +519,7 @@ public class CompSalesDistretOrderHist extends AppCompatActivity {
 
                     }
                 } else {
-                    C.Toast(CompSalesDistretOrderHist.this, object.getString("message"), getLayoutInflater());
+                   // Toast.makeText(CompSalesDistretOrderHist.this, object.getString("message"), Toast.LENGTH_LONG).show();
                 }
 
                 int firstVisiblePosition = list_myorders.getFirstVisiblePosition();
@@ -535,5 +556,42 @@ public class CompSalesDistretOrderHist extends AppCompatActivity {
         }*/
 
 
+    }
+
+
+    public class EndlessScrollListener implements AbsListView.OnScrollListener {
+
+        private int visibleThreshold = 5;
+        private int currentPage = 0;
+        private int previousTotal = 0;
+        private boolean loading = true;
+
+        public EndlessScrollListener() {
+        }
+
+        public EndlessScrollListener(int visibleThreshold) {
+            this.visibleThreshold = visibleThreshold;
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem,
+                             int visibleItemCount, int totalItemCount) {
+
+            int totalListItems = list_myorders.getCount();
+            int lastVisiblePosition = list_myorders.getLastVisiblePosition();
+
+            if (lastVisiblePosition == (totalListItems - 1)) {
+                if (page < totalPageCount) {
+                    page += 1;
+                    new GetOrderHistory(CompSalesDistretOrderHist.this).execute();
+                }
+            }
+
+
+        }
+
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+        }
     }
 }

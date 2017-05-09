@@ -73,11 +73,13 @@ class FullImageViewAdapter extends PagerAdapter {
         if(imageList.get(position).startsWith("http")){
             Picasso.with(mContext).load(imageList.get(position))
                     .placeholder(R.drawable.boss_logo_final)
+                    .error(R.drawable.noimagefound)
                     .into(img);
         }
         else {
             Picasso.with(mContext).load(new File(imageList.get(position)))
                     .placeholder(R.drawable.boss_logo_final)
+                    .error(R.drawable.noimagefound)
                     .into(img);
         }
 

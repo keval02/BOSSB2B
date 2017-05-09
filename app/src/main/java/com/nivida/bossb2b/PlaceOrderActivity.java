@@ -1,28 +1,19 @@
 package com.nivida.bossb2b;
 
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.provider.ContactsContract;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -41,8 +32,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.nivida.bossb2b.Database.Quantity;
 
 public class PlaceOrderActivity extends AppCompatActivity implements CategoryListAdapter.OnViewClick, SetSubCategeoryAdapter.OnItemChecked {
 
@@ -105,7 +94,7 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
         categoryListAdapter = new CategoryListAdapter(getApplicationContext(), bean_categeories, this);
 
 
-        setSubCategeoryAdapter = new SetSubCategeoryAdapter(getApplicationContext(), set_product_categeories,this);
+        setSubCategeoryAdapter = new SetSubCategeoryAdapter(getApplicationContext(), set_product_categeories, this);
         productdata_listview.setAdapter(setSubCategeoryAdapter);
 
         LinearLayoutManager horizontalLayoutManagaer
@@ -158,21 +147,19 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
                 List<Bean_Set_Product_Categeory> selectedProducts = setSubCategeoryAdapter.getProducts();
 
                 /*if (selectedProducts.size() > 0  ) {*/
-                    if(db.getCartCount()>0)    {
-                        Intent intent = new Intent(getApplicationContext(), InvoiceActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                if (db.getCartCount() > 0) {
+                    Intent intent = new Intent(getApplicationContext(), InvoiceActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-                        startActivity(intent);
-                        finish();
-                    }
-
-                    else{
+                    startActivity(intent);
+                    finish();
+                } else {
 
 
-                        //Toast.makeText(getApplicationContext() , "Please Add Atleast One Quantity" , Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getApplicationContext() , "Please Add Atleast One Quantity of Product" , Toast.LENGTH_SHORT).show();
 
-                    }
+                    Toast.makeText(getApplicationContext(), "Please Add Atleast One Quantity of Product", Toast.LENGTH_SHORT).show();
+
+                }
 
                 //}
 
@@ -185,7 +172,6 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
 //                }
 
 
-
             }
         });
 
@@ -195,25 +181,22 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
                 List<Bean_Set_Product_Categeory> selectedProducts = setSubCategeoryAdapter.getProducts();
 
 
+                //              if (selectedProducts.size() > 0  ) {
+                if (db.getCartCount() > 0) {
+                    Intent intent = new Intent(getApplicationContext(), InvoiceActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-  //              if (selectedProducts.size() > 0  ) {
-                    if(db.getCartCount()>0)    {
-                        Intent intent = new Intent(getApplicationContext(), InvoiceActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                        startActivity(intent);
-                        finish();
-                    }
-
-                    else{
+                    startActivity(intent);
+                    finish();
+                } else {
 
 
-                       // Toast.makeText(getApplicationContext() , "Please Add Atleast One Quantity" , Toast.LENGTH_SHORT).show();
-                        Toast.makeText(getApplicationContext() , "Please Add Atleast One Quantity of Product" , Toast.LENGTH_SHORT).show();
 
-                    }
+                    Toast.makeText(getApplicationContext(), "Please Add Atleast One Quantity of Product", Toast.LENGTH_SHORT).show();
 
-    //                                }
+                }
+
+                //                                }
 
 
 
@@ -225,9 +208,11 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
 */
 
 
-
             }
         });
+
+
+
 
         new GetCategories("0").execute();
     }
@@ -258,8 +243,7 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
             cart_count.setText(String.valueOf(count));
             cart_count.setVisibility(View.VISIBLE);
 
-        }
-        else {
+        } else {
             cart_count.setVisibility(View.GONE);
         }
     }
@@ -512,9 +496,6 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
                             categeory.setB2b_stock(Product.getString("b2b_stock"));
 
 
-
-
-
                             set_product_categeories.add(categeory);
 
 
@@ -546,8 +527,7 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
             cart_count.setText(String.valueOf(count));
             cart_count.setVisibility(View.VISIBLE);
 
-        }
-        else {
+        } else {
             cart_count.setVisibility(View.GONE);
         }
         super.onResume();
@@ -570,12 +550,18 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
     public void onBackPressed() {
 
 
+        if (prefs.isDistributorLogin() == true) {
+            Intent i = new Intent(PlaceOrderActivity.this, DistributorLogin.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+            finish();
 
-
-        Intent i = new Intent(PlaceOrderActivity.this ,HomeActivity.class );
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(i);
-        finish();
+        } else {
+            Intent i = new Intent(PlaceOrderActivity.this, HomeActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+            finish();
+        }
     }
 
 }

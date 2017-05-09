@@ -530,7 +530,7 @@ public class AddNewUserAddress extends AppCompatActivity {
                 Log.e("", "" + parameters);
 
                 json = new ServiceHandler().makeServiceCall(GlobalVariable.link + "Address/App_Add_Address", ServiceHandler.POST, parameters);
-                //String json = new ServiceHandler.makeServiceCall(GlobalVariable.link+"App_Registration",ServiceHandler.POST,params);
+
                 System.out.println("array: " + json);
                 return json;
             } catch (Exception e) {
