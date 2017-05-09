@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_allowancee"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context="com.nivida.bossb2b.Allowancee">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/custom_tada_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:gravity="center"
+                    android:text="Allowance"
+                    android:textColor="#396085"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="2dp"
+                    android:text="To"
+                    android:textColor="#396085"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/edt_toooo"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+
+                    android:background="@drawable/edittextborder"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text=""
+                    android:textSize="14sp" />
+
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="2dp"
+                    android:padding="2dp"
+                    android:text="HQ"
+                    android:textColor="#396085"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/edt_hqq"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/edittextborder"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text=""
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical">
+
+
+                <EditText
+
+                    android:id="@+id/ed_fromdate"
+                    android:layout_width="250dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="#396085"
+                    android:gravity="center"
+                    android:editable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="Select Date"
+                    android:textColor="#ffffff"
+                    android:textColorHint="#ffffff" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:gravity="center|start"
+                android:padding="2dp"
+                android:text="Travel Particulars:"
+                android:textColor="#396085"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal">
+
+                <LinearLayout
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="2dp"
+                        android:text="From"
+                        android:textColor="#396085"
+                        android:textSize="14sp" />
+
+                    <Spinner
+
+                        android:id="@+id/spinner_from"
+                        android:layout_width="145dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="start"
+
+                        android:background="@drawable/spinner_bg"
+                        android:gravity="center|start"
+                        android:popupBackground="#396085"
+                        android:popupElevation="0dp"
+                        app:popupTheme="@drawable/popup" />
+
+                    <EditText
+                        android:id="@+id/edt_fromm"
+                        android:layout_width="130dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:background="#396085"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text=""
+                        android:textColor="#ffffff"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+
+                        android:padding="2dp"
+                        android:text="To"
+                        android:textColor="#396085"
+                        android:textSize="14sp" />
+
+                    <Spinner
+
+                        android:id="@+id/spinner_too"
+                        android:layout_width="145dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="start"
+
+                        android:background="@drawable/spinner_bg"
+                        android:gravity="center|start"
+                        android:popupBackground="#396085"
+                        android:popupElevation="0dp"
+                        app:popupTheme="@drawable/popup" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <Spinner
+                    android:id="@+id/spinner_afterselect"
+                    android:layout_width="200dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="3dp"
+                    android:background="@drawable/spinner_bg"
+                    android:gravity="center|start"
+                    android:popupBackground="#396085"
+                    android:popupElevation="0dp"
+                    android:visibility="gone"
+                    app:popupTheme="@drawable/popup" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+
+                        android:id="@+id/txt_hqq"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="start|center"
+                        android:padding="2dp"
+                        android:text="Hq"
+                        android:textColor="#396085"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/txt_lodge"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+
+                        android:gravity="start|center"
+                        android:padding="2dp"
+                        android:text="Loadging and Boarding"
+                        android:textColor="#396085"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/txt_exhq"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+
+                        android:gravity="start|center"
+                        android:padding="2dp"
+                        android:text="Ex.HQ"
+                        android:textColor="#396085"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+
+                        android:gravity="start|center"
+                        android:padding="2dp"
+                        android:text="Traveling"
+                        android:textColor="#396085"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/txt_miscexpenses"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_margin="2dp"
+
+                        android:layout_weight="1"
+                        android:gravity="start|center"
+                        android:padding="2dp"
+                        android:text="Misc Expenses"
+                        android:textColor="#396085"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:gravity="start|center"
+                        android:padding="2dp"
+                        android:text="Mobile and Net (Per Month)"
+                        android:textColor="#396085"
+                        android:textSize="14sp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:focusableInTouchMode="true"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/edt_hqprice"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittextborder"
+                        android:drawableLeft="@drawable/ruuuu"
+                        android:drawablePadding="2dp"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:padding="2dp"
+                        android:textSize="14sp" />
+
+
+                    <EditText
+                        android:id="@+id/edt_lodg"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittextborder"
+                        android:drawableLeft="@drawable/ruuuu"
+                        android:drawablePadding="2dp"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:padding="2dp"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
+
+                    <EditText
+                        android:id="@+id/edt_edtexhq"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittextborder"
+                        android:drawableLeft="@drawable/ruuuu"
+                        android:drawablePadding="2dp"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:padding="2dp"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
+
+                    <EditText
+                        android:id="@+id/edt_travel"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittextborder"
+                        android:drawableLeft="@drawable/ruuuu"
+                        android:drawablePadding="2dp"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="5"
+                        android:padding="2dp"
+                        android:textSize="14sp" />
+
+
+                    <EditText
+                        android:id="@+id/edt_miscexpenses"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittextborder"
+                        android:drawableLeft="@drawable/ruuuu"
+                        android:drawablePadding="2dp"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLength="5"
+                        android:padding="2dp"
+
+                        android:textSize="14sp" />
+
+
+                    <EditText
+                        android:id="@+id/edt_mobilenet"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittextborder"
+                        android:drawableLeft="@drawable/ruuuu"
+                        android:drawablePadding="2dp"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:padding="2dp"
+                        android:textSize="14sp" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="2dp"
+                        android:padding="2dp"
+                        android:text="/Month"
+                        android:textColor="#396085"
+                        android:textSize="16sp"
+                        android:visibility="gone" />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/im_cemara_direct_icon"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/camerabackground"
+                android:padding="5dp"
+                android:src="@drawable/camera"
+
+                />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
+
+                <LinearLayout
+                    android:id="@+id/layout_direct_cemara"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="3dp"
+                    android:scrollbars="horizontal">
+
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/edt_cmt"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/edittextborder"
+                    android:focusableInTouchMode="true"
+                    android:hint="Comment"
+                    android:inputType="textCapWords"
+                    android:padding="5dp"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+
+
+                <Button
+                    android:id="@+id/btn_tadaeditreport"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#396085"
+                    android:text="Update Report"
+                    android:textAllCaps="false"
+                    android:textColor="#FFF"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+
+                <Button
+                    android:id="@+id/btn_submit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#396085"
+                    android:text="Save Report"
+                    android:textAllCaps="false"
+                    android:textColor="#FFF"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/btn_tadareport"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#396085"
+                    android:text="Send Report"
+                    android:textAllCaps="false"
+                    android:textColor="#FFF"
+                    android:visibility="gone"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

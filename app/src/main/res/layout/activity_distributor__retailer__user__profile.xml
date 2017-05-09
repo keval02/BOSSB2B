@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.nivida.bossb2b.Distributor_Retailer_User_Profile">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/custom_back_toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="60dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Distributor/Retailer Info"
+            android:textSize="18sp"
+            android:padding="8dp"
+            android:gravity="center"
+            android:background="#396085"
+            android:textStyle="bold"
+            android:layout_margin="5dp"
+            android:textColor="#ffffff"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/black_underline"/>
+    </LinearLayout>
+
+    <ListView
+        android:layout_margin="5dp"
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

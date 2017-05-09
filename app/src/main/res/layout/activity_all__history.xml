@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_all__history"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nivida.bossb2b.All_History">
+    <include layout= "@layout/custom_back_toolbar"
+        android:id="@+id/toolbar"/>
+
+    <LinearLayout
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:focusable="false"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@drawable/edittextborder"
+            android:layout_marginRight="2dp"
+            android:id="@+id/ed_fromdate"
+            android:hint="From Date"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:background="@drawable/edittextborder"
+            android:layout_marginLeft="2dp"
+            android:gravity="center"
+            android:focusable="false"
+            android:id="@+id/ed_todate"
+            android:hint="To Date"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lv_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/txt_searchby_company"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@drawable/edittextborder"
+            android:gravity="center"
+            android:hint="Search By Company Name"
+            android:inputType="textPersonName"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:textAllCaps="false"
+            android:textColor="#396085"
+            android:textColorHint="#396085"
+            android:cursorVisible="true"
+            android:imeOptions="actionSearch"
+            android:visibility="gone"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <ListView
+            android:id="@+id/list_all_history"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:layout_weight="1"
+            android:scrollbarThumbVertical="@drawable/scrollbar_vertical_thumb"
+            >
+        </ListView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:background="#396085"
+                android:id="@+id/bt_history"
+                android:textColor="#ffffff"
+                android:visibility="gone"
+                android:text="Email"
+                />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

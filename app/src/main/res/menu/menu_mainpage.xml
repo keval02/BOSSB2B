@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/homefifty"
+        android:title="Home" />
+    <item
+        android:id="@+id/daseboard"
+        android:icon="@drawable/drdashboard"
+        android:title="Dashboard" />
+    <item
+        android:id="@+id/myaccount"
+        android:icon="@drawable/userfifty"
+        android:title="My Account"
+        />
+
+    <item
+        android:id="@+id/contactus"
+        android:icon="@drawable/messagefifty"
+        android:title="Contact Us" />
+    <item
+        android:id="@+id/history"
+        android:icon="@drawable/clockfifty"
+        android:title="History" />
+    <item
+        android:id="@+id/retailer"
+        android:icon="@drawable/reportfifty"
+        android:title="Meeting Report" />
+    <item
+        android:id="@+id/logout"
+        android:icon="@drawable/logoutfifty"
+        android:title="Logout" />
+
+</menu>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_slider"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:layout_margin="3dp">
+
+    <ImageView
+        android:id="@+id/img_flipperimag"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/background_gradiant"
+        android:paddingLeft="15dp"
+        android:text="hello"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/im_next"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="right|center"
+        android:src="@drawable/right" />
+
+    <ImageView
+        android:id="@+id/im_previous"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="left|center"
+        android:src="@drawable/left" />
+
+</FrameLayout>

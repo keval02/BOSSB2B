@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_edit_tadareport"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nivida.bossb2b.EditTADAReport">
+
+    <include layout="@layout/custom_back_toolbar"
+        android:id="@+id/toolbar"/>
+
+    <LinearLayout
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+        <EditText
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:focusable="false"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@drawable/edittextborder"
+            android:layout_marginRight="2dp"
+            android:id="@+id/ed_tadafromdate"
+            android:hint="From Date"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:background="@drawable/edittextborder"
+            android:layout_marginLeft="2dp"
+            android:gravity="center"
+            android:focusable="false"
+            android:id="@+id/edt_tadatodate"
+            android:hint="To Date"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="6dp"
+        android:background="#396085"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <ListView
+            android:id="@+id/list_edittadareport"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:layout_weight="1"
+
+
+            android:scrollbarThumbVertical="@drawable/scrollbar_vertical_thumb"
+            >
+        </ListView>
+
+</LinearLayout>
+</LinearLayout>

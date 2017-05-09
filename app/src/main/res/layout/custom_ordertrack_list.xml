@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minHeight="40dp"
+        android:text="Date Added"
+        android:id="@+id/txt_date"
+        android:textSize="14sp"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:layout_weight="1"
+        android:layout_margin="1dp"
+        android:textColor="#000"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minHeight="40dp"
+        android:text="Comment"
+        android:id="@+id/txt_comment"
+        android:textSize="14sp"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:layout_weight="1"
+        android:layout_margin="1dp"
+        android:textColor="#000"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minHeight="40dp"
+        android:text="Status"
+        android:id="@+id/txt_status"
+        android:textSize="14sp"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:layout_weight="1"
+        android:layout_margin="1dp"
+        android:textColor="#000"/>
+
+
+
+</LinearLayout>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_gravity="center"
+
+    android:background="#90CAF9">
+
+
+
+
+    <EditText
+        android:layout_width="match_parent"
+
+        android:layout_height="100dp"
+        android:id="@+id/ed_comment"
+        android:hint="Comments"
+        android:gravity="top"
+        android:padding="10dp"
+        android:background="@drawable/background_comment"
+        android:textColor="#000"
+        android:layout_margin="10dp"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="8dp"
+        >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:id="@+id/btn_submit"
+            android:background="#007BC5"
+            android:textColor="#fff"
+            android:layout_marginRight="3dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Skip"
+            android:id="@+id/btn_skip"
+            android:background="#ff7549"
+            android:textColor="#fff"
+            android:layout_marginLeft="3dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+</LinearLayout>

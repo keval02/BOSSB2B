@@ -1,0 +1,27 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+android:background="#ffffff"
+    >
+<include layout="@layout/custom_back_toolbar"
+    android:id="@id/toolbar"/>
+
+
+    <Gallery
+        android:id="@+id/gallery"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="100dp" />
+
+    <com.nivida.bossb2b.ExtendedViewPager
+        android:layout_marginTop="60dp"
+        android:id="@+id/pager_gallery"
+        android:layout_above="@id/gallery"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.nivida.bossb2b.ExtendedViewPager>
+
+
+ 
+</RelativeLayout>

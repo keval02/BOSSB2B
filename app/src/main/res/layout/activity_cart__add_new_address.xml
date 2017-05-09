@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_cart__add_new_address"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.nivida.bossb2b.Cart_AddNewAddress">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/custom_back_toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Customer Details"
+                android:textColor="#396085"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#396085" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="Permanent Address"
+
+                android:textColor="#396085"
+                android:textSize="20sp" />
+            <!--<View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+
+                android:background="@drawable/black_underline"/>-->
+
+            <EditText
+                android:id="@+id/edit_firm_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/edit_background"
+                android:hint="Company Name*"
+                android:inputType="textCapWords"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textColorHint="#c3c3c3"
+                android:textCursorDrawable="@drawable/blackpipe"
+                android:textSize="16sp"
+                android:visibility="gone"/>
+
+            <EditText
+                android:id="@+id/editfirmname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/edit_background"
+                android:hint="Firm Name*"
+                android:inputType="textCapWords"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textColorHint="#c3c3c3"
+                android:textCursorDrawable="@drawable/blackpipe"
+                android:textSize="16sp" />
+
+
+            <EditText
+                android:id="@+id/et_addline1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/edit_background"
+                android:hint="Address-1*"
+                android:inputType="textCapWords"
+                android:maxLength="25"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="#000"
+                android:textColorHint="#c3c3c3"
+                android:textCursorDrawable="@drawable/blackpipe"
+                android:textSize="16sp" />
+
+
+            <EditText
+                android:id="@+id/et_addline2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/edit_background"
+                android:hint="Address-2*"
+                android:inputType="textCapWords"
+                android:maxLength="25"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="#000"
+                android:textColorHint="#c3c3c3"
+                android:textCursorDrawable="@drawable/blackpipe"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/spn_country"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/spinner_bg"
+                android:drawableLeft="@mipmap/ic_glob"
+                android:drawablePadding="10dp"
+                android:visibility="gone"
+                android:textSize="14sp"/>
+
+            <Spinner
+                android:id="@+id/spn_state"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/spinner_bg"
+                android:drawableLeft="@mipmap/ic_glob"
+                android:drawablePadding="10dp"
+                android:popupBackground="#fff"
+                android:popupElevation="0dp"
+                android:textSize="14sp" />
+
+            <Spinner
+
+                android:id="@+id/spn_city"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/spinner_bg"
+                android:drawableLeft="@mipmap/ic_building"
+                android:drawablePadding="10dp"
+                android:visibility="gone"
+                android:popupBackground="#fff"
+                android:popupElevation="0dp"
+                android:textSize="14sp" />
+
+            <Spinner
+                android:id="@+id/spn_area"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/spinner_bg"
+                android:drawableLeft="@mipmap/ic_building"
+                android:drawablePadding="10dp"
+                android:textSize="14sp"
+                android:popupBackground="#fff"
+                android:popupElevation="0dp"
+                android:visibility="gone" />
+
+
+            <EditText
+                android:id="@+id/edit_pcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/edit_background"
+                android:digits="0987654321"
+                android:hint="Pincode*"
+                android:inputType="number"
+                android:maxLength="6"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="#000"
+                android:textColorHint="#c3c3c3"
+                android:textCursorDrawable="@drawable/blackpipe"
+                android:textSize="16sp" />
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/spinner_bg"
+                android:text="India"
+                android:inputType="textPersonName"
+                android:maxLength="25"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="#fff"
+                android:textColorHint="#c3c3c3"
+                android:textCursorDrawable="@drawable/blackpipe"
+                android:textSize="16sp"
+                />
+
+            <EditText
+
+                android:id="@+id/et_addline3"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edittextborder"
+                android:drawableLeft="@mipmap/ic_building"
+                android:drawablePadding="10dp"
+                android:hint=" Landmark , Area"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <EditText
+
+                android:id="@+id/et_landmark"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edittextborder"
+                android:drawableLeft="@mipmap/ic_building"
+                android:drawablePadding="10dp"
+                android:hint=" Landmark , Area"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_save"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="#396085"
+                    android:padding="5dp"
+                    android:text="Save"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btn_reset"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="#396085"
+                    android:padding="5dp"
+                    android:text="Reset"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

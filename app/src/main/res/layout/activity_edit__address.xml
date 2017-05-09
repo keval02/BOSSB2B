@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_edit__address"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.nivida.bossb2b.Edit_Address">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Customer Details"
+                android:textSize="20sp"
+                android:visibility="gone"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:visibility="gone"
+                android:background="@drawable/black_underline" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:text="Edit Address"
+                android:textSize="20sp"
+
+                android:textStyle="bold" />
+            <!--<View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+
+                android:background="@drawable/black_underline"/>-->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+
+                android:layout_weight="1"
+                android:text="Address Line1"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/Et_Addressline_no1_direct"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/border_slider"
+                android:drawableLeft="@mipmap/ic_building"
+                android:drawablePadding="10dp"
+                android:hint="Flat No , Building No"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+
+
+                android:layout_weight="1"
+                android:text="Address Line 2"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/Et_Addressline_no2_direct"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/border_slider"
+                android:drawableLeft="@mipmap/ic_place"
+                android:drawablePadding="10dp"
+                android:hint=" Street No , Locality"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:text="Address Line3"
+
+                android:textSize="16sp" />
+
+            <EditText
+
+                android:id="@+id/Et_Addressline_no3_direct"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/border_slider"
+                android:drawableLeft="@mipmap/ic_building"
+
+                android:drawablePadding="10dp"
+                android:hint=" Landmark , Area"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+
+                android:layout_weight="1"
+                android:text="Pin Code"
+                android:textSize="16sp" />
+
+            <EditText
+
+                android:id="@+id/Et_Pincode_direct"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/border_slider"
+                android:drawableLeft="@mipmap/ic_place"
+                android:drawablePadding="10dp"
+                android:inputType="number"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:text="State"
+
+                android:textSize="16sp" />
+            <!--<EditText
+
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:drawableLeft="@mipmap/ic_glob"
+                android:textSize="14sp"
+                android:drawablePadding="10dp"
+                android:id="@+id/Et_State_direct"
+
+                android:background="@drawable/border_slider"/>-->
+            <Spinner
+                android:id="@+id/spn_select_state"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/border_slider"
+                android:padding="5dp"
+                android:spinnerMode="dialog" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:text="City"
+
+                android:textSize="16sp" />
+            <!--<EditText
+
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:drawableLeft="@mipmap/ic_building"
+                android:textSize="14sp"
+                android:drawablePadding="10dp"
+                android:id="@+id/Et_city_direct"
+
+                android:background="@drawable/border_slider"/>-->
+            <Spinner
+                android:id="@+id/spn_select_city"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/border_slider"
+                android:padding="5dp"
+                android:spinnerMode="dialog" />
+
+            <CheckBox
+                android:id="@+id/checkBox_direct"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:text="Same as above"
+                android:visibility="gone" />
+            <!-- <View
+                 android:layout_width="match_parent"
+                 android:layout_height="2dp"
+                 android:layout_marginTop="5dp"
+
+                 android:background="@drawable/black_underline"/>
+  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="Delivery Address"
+                android:textSize="20sp"
+                android:textStyle="bold"
+
+                android:visibility="gone" />
+            <!--      <View
+                      android:layout_width="match_parent"
+                      android:layout_height="2dp"
+                      android:background="@drawable/black_underline"/>
+               -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:text="Address Line1"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/Et_Deliv_Addressline_no1_direct"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/border_slider"
+                android:drawableLeft="@mipmap/ic_building"
+                android:drawablePadding="10dp"
+                android:hint="Flat No , Building No"
+                android:textSize="14sp"
+
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:text="Address Line 2"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/Et_Deliv_Addressline_no2_direct"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/border_slider"
+                android:drawableLeft="@mipmap/ic_place"
+                android:drawablePadding="10dp"
+                android:hint=" Street No , Locality"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:text="Address Line3"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <EditText
+
+                android:id="@+id/Et_Deliv_Addressline_no3_direct"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/border_slider"
+                android:drawableLeft="@mipmap/ic_building"
+                android:drawablePadding="10dp"
+                android:hint=" Landmark , Area"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:text="Pin Code"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/Et_Deliv_Pincode_direct"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/border_slider"
+                android:drawableLeft="@mipmap/ic_place"
+                android:drawablePadding="10dp"
+
+                android:textSize="14sp"
+
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:text="State"
+                android:textSize="16sp"
+
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/Et_Deliv_State_direct"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/border_slider"
+                android:drawableLeft="@mipmap/ic_glob"
+                android:drawablePadding="10dp"
+
+                android:textSize="14sp"
+
+                android:visibility="gone" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:text="City"
+                android:textSize="16sp"
+
+                android:visibility="gone" />
+
+            <EditText
+
+                android:id="@+id/Et_Deliv_city"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/border_slider"
+                android:drawableLeft="@mipmap/ic_building"
+                android:drawablePadding="10dp"
+                android:hint=" Enter City Name"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_save_dist"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="#396085"
+                    android:padding="5dp"
+                    android:text="Save"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btn_Reset_dist"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="#396085"
+                    android:padding="5dp"
+                    android:text="Reset"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

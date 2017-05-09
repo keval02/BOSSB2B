@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_calender_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.nivida.bossb2b.helpers.CalenderViewActivity">
+
+
+    <include
+        android:id="@id/toolbar"
+        layout="@layout/custom_back_toolbar" />
+
+    <com.imanoweb.calendarview.CustomCalendarView
+        android:id="@+id/calendar_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        app:currentDayOfMonthColor="#00FFAA"></com.imanoweb.calendarview.CustomCalendarView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt_currentdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:drawableLeft="@drawable/currentdate"
+            android:drawablePadding="5dp"
+            android:gravity="start|center"
+            android:text="Current Date"
+            android:textColor="#396085"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txt_saved"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:drawableLeft="@drawable/savereport"
+            android:drawablePadding="5dp"
+            android:gravity="start|center"
+            android:text="Saved Report"
+            android:textColor="#396085"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txt_submitted"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:drawableLeft="@drawable/redsquare"
+            android:drawablePadding="5dp"
+            android:gravity="start|center"
+            android:text="Submitted Report"
+            android:textColor="#396085"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnSelect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_marginTop="10dp"
+            android:background="#990000FF"
+            android:text="Select"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+</LinearLayout>

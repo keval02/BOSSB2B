@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Boss DSR</string>
+    <string name="drawer_open">Open_Drawer</string>
+    <string name="drawer_close">Close_Drawer</string>
+    <string name="Rs">\u20B9</string>
+
+    <string name="Map"><u>Map</u></string>
+
+    <string name="GPSAlertDialogTitle">GPSAlertDialogTitle</string>
+    <string name="GPSAlertDialogMessage">GPSAlertDialogMessage</string>
+    <string name="action_settings">action_settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="from_date">From Date</string>
+    <string name="to_date">To Date</string>
+    <string name="cancel">Cancel</string>
+    <string name="Call"><u>Call</u></string>
+</resources>

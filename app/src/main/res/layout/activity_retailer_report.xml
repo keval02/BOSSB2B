@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_retailer_report"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context="com.nivida.bossb2b.RetailerReport">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/custom_back_toolbar" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal">
+
+
+        <Spinner
+
+            android:id="@+id/spinner_type"
+            android:layout_width="145dp"
+            android:layout_height="40dp"
+            android:layout_gravity="start"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/spinner_bg"
+            android:gravity="center|start"
+            android:popupBackground="#396085"
+            android:visibility="gone"
+            app:popupTheme="@drawable/popup" />
+
+
+        <Spinner
+
+            android:id="@+id/spinner_persons"
+            android:layout_width="145dp"
+            android:layout_height="40dp"
+            android:layout_gravity="start"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/spinner_bg"
+            android:gravity="center|start"
+            android:popupBackground="#396085"
+            android:visibility="gone"
+            app:popupTheme="@drawable/popup" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/lv_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-10dp"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <AutoCompleteTextView
+                android:id="@+id/autoTextView"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/edittextborder"
+                android:focusableInTouchMode="true"
+                android:hint="Search By Company Name"
+                android:inputType="textCapWords"
+                android:padding="5dp"
+                android:textAllCaps="false"
+                android:textColor="#396085"
+                android:textColorHint="#396085"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/txt_searchby_company"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/edittextborder"
+                android:cursorVisible="true"
+                android:gravity="start|center"
+                android:hint="Search By Company Name"
+                android:imeOptions="actionSearch"
+                android:inputType="textPersonName"
+                android:padding="5dp"
+                android:textAllCaps="false"
+                android:textColor="#396085"
+                android:textColorHint="#396085"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/img_search_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/searchfilter"
+                android:visibility="gone" />
+        </FrameLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linear_manuallist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="#396085"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="2dp"
+            android:gravity="start|center"
+            android:padding="10dp"
+            android:text="Sr."
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Firm Shop Details"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:gravity="start"
+            android:padding="10dp"
+            android:text="History"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/list_retailer_report"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
+        android:scrollbarThumbVertical="@drawable/scrollbar_vertical_thumb"
+        android:scrollbars="none"></ListView>
+</LinearLayout>

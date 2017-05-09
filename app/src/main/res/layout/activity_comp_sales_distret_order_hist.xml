@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_comp_sales_distret_order_hist"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nivida.bossb2b.CompSalesDistretOrderHist">
+
+    <include layout="@layout/custom_back_toolbar"
+        android:id="@+id/toolbar"/>
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:gravity="left|center"
+        android:padding="5dp"
+        android:id="@+id/lin_filter">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/filter"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left|center"
+            android:textColor="#000000"
+
+            android:text="Filter"/>
+
+        <View
+            android:layout_marginLeft="40dp"
+            android:layout_width="1dp"
+            android:gravity="left|center"
+            android:layout_height="match_parent"
+            android:background="#d4d4d4" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:padding="5dp"
+            android:background="#000" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:text="Order History"
+            android:padding="5dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000"
+            android:padding="5dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:layout_margin="2dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/border_slider"
+                android:padding="5dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:textColor="#000"
+                android:textColorHint="#000"
+                android:hint="Select From Date"
+                android:id="@+id/fromDate"
+                android:layout_margin="2dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/border_slider"
+                android:padding="5dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:textColor="#000"
+                android:textColorHint="#000"
+                android:hint="Select To Date"
+                android:id="@+id/toDate"
+                android:layout_margin="2dp"/>
+
+        </LinearLayout>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:id="@+id/list_myorders"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="5dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>
