@@ -148,7 +148,7 @@ public class BeanVendor {
     }
 
     public String getAddress() {
-        return address.getCity().getName() + "  " + address.getAddress();
+        return address.getCity().getName() + " , " + address.getAddress();
     }
 
     public void setAddress(String address) {
