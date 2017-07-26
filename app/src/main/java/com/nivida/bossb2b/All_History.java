@@ -330,6 +330,7 @@ public class All_History extends AppCompatActivity {
                         new app_GetAllhistory(fromDate, toDate).execute();
                         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
 
+
                     }
                     //
                 }, mYear, mMonth, mDay);

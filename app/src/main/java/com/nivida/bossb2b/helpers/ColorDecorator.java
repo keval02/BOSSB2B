@@ -64,6 +64,7 @@ public class ColorDecorator implements DayDecorator {
             SimpleDateFormat sdf=new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
             String dateInDay=sdf.format(cell.getDate());
 
+
             if (selectedDate!=null && dateInDay.equalsIgnoreCase(selectedDate)) {
 
                 Random rnd = new Random();

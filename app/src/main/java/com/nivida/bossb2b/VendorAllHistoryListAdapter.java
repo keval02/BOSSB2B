@@ -1,11 +1,14 @@
 package com.nivida.bossb2b;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -396,7 +399,7 @@ public class VendorAllHistoryListAdapter extends BaseAdapter {
                 activity.startActivity(Intent.createChooser(emailIntent, "Send feedback"));
             }
         });
-       /* d_dmobilenumber.setOnClickListener(new View.OnClickListener() {
+       d_dmobilenumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent callIntent = new Intent(Intent.ACTION_CALL);
@@ -414,7 +417,7 @@ public class VendorAllHistoryListAdapter extends BaseAdapter {
                 }
                 context.startActivity(callIntent);
             }
-        });*/
+        });
 
         d_dstartlongitude.setOnClickListener(new View.OnClickListener() {
             @Override

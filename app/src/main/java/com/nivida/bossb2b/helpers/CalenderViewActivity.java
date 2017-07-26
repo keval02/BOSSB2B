@@ -124,6 +124,7 @@ public class CalenderViewActivity extends AppCompatActivity {
 
         calendarView.setShowOverflowDate(false);
 
+
         List<DayDecorator> dayDecoratorList = new ArrayList<>();
         dayDecoratorList.add(new ColorDecorator(true));
         calendarView.setDecorators(dayDecoratorList);

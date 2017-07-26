@@ -239,7 +239,7 @@
                                 android:layout_weight="1"
                                 android:background="#ffffff"
                                 android:padding="5dp"
-                                android:text="New Retailer/Distributor"
+                                android:text="New Retailer"
                                 android:textAllCaps="false"
                                 android:textColor="#000000"
                                 android:textSize="14sp"

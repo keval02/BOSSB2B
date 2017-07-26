@@ -1,6 +1,7 @@
 package com.nivida.bossb2b;
 
 import android.Manifest;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -26,6 +28,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.NestedScrollView;
@@ -49,10 +52,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -83,7 +88,9 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -139,7 +146,6 @@ public class HomeActivity extends AppCompatActivity implements
 
     List<BeanVendor> vendornames = new ArrayList<BeanVendor>();
     List<BeanVendorName> v_names = new ArrayList<BeanVendorName>();
-
 
 
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
@@ -505,7 +511,6 @@ public class HomeActivity extends AppCompatActivity implements
                     vendor.setEnabled(true);
 
 
-
                     String start_location = "http://maps.google.com/maps?q=loc:" + "" + currentLatitude + "," + currentLongitude;
                     Log.e("start_location", "" + start_location);
                     Log.e("Selected_role_id", prefs.getSelectedUserRole());
@@ -810,8 +815,6 @@ public class HomeActivity extends AppCompatActivity implements
                             new_vendor.setEnabled(false);
 
 
-
-
                             String root_date = GetCurrentDateTime();
                             comments = edit_comment.getText().toString().trim();
 
@@ -949,6 +952,7 @@ public class HomeActivity extends AppCompatActivity implements
 
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.drawer_open, R.string.drawer_close) {
+
 
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -1099,20 +1103,77 @@ public class HomeActivity extends AppCompatActivity implements
     private void takeimage(int requestCode) {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+        /*if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+
+            try {
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, createImageFile());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else {*/
+        try {
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // }
+
         startActivityForResult(cameraIntent, requestCode);
     }
 
-    public Uri setImageUri() {
-        // Store image in dcim
+
+    public Uri setImageUri() throws IOException {
         File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/", "image" + new Date().getTime() + ".png");
-        Uri imgUri = Uri.fromFile(file);
+
+        Uri imgUri = null;
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+
+             imgUri = Uri.fromFile(file);
+        }
+        else {
+
+             imgUri = FileProvider.getUriForFile(HomeActivity.this,
+                    BuildConfig.APPLICATION_ID + ".provider",
+                    file);
+
+        }
+
+
         this.imgPath = file.getAbsolutePath();
         return imgUri;
     }
 
+    private File createImageFile() throws IOException {
+        // Create an image file name
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        /*File storageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DCIM), "Camera");*/
+        File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/", "image" + new Date().getTime() + ".png");
+        Uri photoURI = FileProvider.getUriForFile(HomeActivity.this,
+                BuildConfig.APPLICATION_ID + ".provider",
+               file);
+
+        File image = File.createTempFile(
+                imageFileName,
+                ".jpg",
+                file
+
+        );
+
+        Log.e("IMAGEPROVIDER1" , "---->"  + image);
+       // Log.e("IMAGEPROVIDERs" , "---->"  + file);
+        // Save a file: path for use with ACTION_VIEW intents
+        this.imgPath = /*"file:" +*/ file.getAbsolutePath();
+        return image;
+    }
+
+
     public String getImagePath() {
 
+        Log.e("inIMagePath" , "--->" + imgPath);
         return imgPath;
     }
 
@@ -1156,6 +1217,9 @@ public class HomeActivity extends AppCompatActivity implements
 
             String selectedImagePath = getImagePath();
 
+            Log.e("imagePaths" , "---->" + selectedImagePath);
+
+
             Bitmap photo = decodeFile(selectedImagePath);
 
 
@@ -1186,6 +1250,7 @@ public class HomeActivity extends AppCompatActivity implements
     }
 
     public void resizeImage(final String path) {
+        Log.e("imagePathssss" ,"---->" + path);
         Bitmap image2 = decodeFile(path);
         File file = new File(path);
         try {
@@ -3174,8 +3239,6 @@ public class HomeActivity extends AppCompatActivity implements
 
 
     }
-
-
 }
 
 

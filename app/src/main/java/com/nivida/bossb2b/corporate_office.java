@@ -1,7 +1,11 @@
 package com.nivida.bossb2b;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -61,7 +65,7 @@ public class corporate_office extends Fragment {
     ArrayList<String> stateid = new ArrayList<String>();
     ArrayList<String> statename = new ArrayList<String>();
 
-    TextView tvfname,tvlname,tvemail,tvmobile,tvstate,tvcity,tvmessage;
+    TextView tvfname,tvlname,tvemail,tvmobile,tvstate,tvcity,tvmessage , txt_phone;
 
     View rootView;
 
@@ -102,6 +106,7 @@ public class corporate_office extends Fragment {
         tvstate= (TextView) rootView.findViewById(R.id.tvstate);
         tvcity = (TextView) rootView.findViewById(R.id.tvcity);
         tvmessage= (TextView) rootView.findViewById(R.id.tvmessage);
+        txt_phone= (TextView) rootView.findViewById(R.id.txt_phone);
 
         String text = "First Name <font color=#ff0000>*</font>";
         tvfname.setText(Html.fromHtml(text));
@@ -238,6 +243,33 @@ public class corporate_office extends Fragment {
 
             }
         });
+
+        txt_phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String getMobileNo = txt_phone.getText().toString().trim();
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + getMobileNo));
+                callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                startActivity(callIntent);
+            }
+        });
+
+
+
+
+
+
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

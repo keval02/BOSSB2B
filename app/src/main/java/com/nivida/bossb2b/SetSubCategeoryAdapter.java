@@ -92,11 +92,6 @@ public class SetSubCategeoryAdapter extends BaseAdapter {
         edt_qut = (EditText) view.findViewById(R.id.edt_quantity);
         txt_outofstock = (TextView) view.findViewById(R.id.txt_outofstock);
 
-    /*    if(pref.getSelectedUserRole().equalsIgnoreCase(C.DISTRIBUTOR_ROLE) && product_categeories.get(position).getMax_quantity()<=0){
-            checkBox.setEnabled(false);
-            txt_outofstock.setVisibility(View.VISIBLE);
-        }*/
-
 
         if (pref.getSelectedUserRole().equalsIgnoreCase(C.DISTRIBUTOR_ROLE) && product_categeory.getB2b_stock().equalsIgnoreCase("0")) {
             checkBox.setEnabled(false);

@@ -421,7 +421,7 @@ public class VendorListAdapter extends BaseAdapter {
                 activity.startActivity(Intent.createChooser(emailIntent, "Send feedback"));
             }
         });
-       /* d_dmobilenumber.setOnClickListener(new View.OnClickListener() {
+        d_dmobilenumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent callIntent = new Intent(Intent.ACTION_CALL);
@@ -439,7 +439,7 @@ public class VendorListAdapter extends BaseAdapter {
                 }
                 context.startActivity(callIntent);
             }
-        });*/
+        });
 
         d_dstartlongitude.setOnClickListener(new View.OnClickListener() {
             @Override

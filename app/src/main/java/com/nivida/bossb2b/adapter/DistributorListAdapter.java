@@ -1,11 +1,15 @@
 package com.nivida.bossb2b.adapter;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,35 +115,34 @@ public class DistributorListAdapter extends BaseAdapter {
         for (int i = 0; i < reatailerHierarchies.size(); i++) {
             final LinearLayout layout_underView = (LinearLayout) inflater.inflate(R.layout.layout_retailer_text, null);
             final TextView txt_name = (TextView) layout_underView.findViewById(R.id.txt_name);
-            final TextView txt_email = (TextView) layout_underView.findViewById(R.id.txt_email);
-            final TextView txt_phone = (TextView) layout_underView.findViewById(R.id.txt_mobile);
-            final TextView txt_mobile = (TextView) layout_underView.findViewById(R.id.txt_mobileNo);
-            final TextView txt_address = (TextView) layout_underView.findViewById(R.id.txt_addressss);
-            final TextView txt_city = (TextView) layout_underView.findViewById(R.id.txt_city);
-            final TextView txt_first = (TextView) layout_underView.findViewById(R.id.txt_firstlast);
+
             ImageView img_info = (ImageView) layout_underView.findViewById(R.id.img_info);
 
 
             txt_name.setText(reatailerHierarchies.get(i).getFirm_shop_name());
-            txt_email.setText(reatailerHierarchies.get(i).getEmail_id());
-            txt_phone.setText(reatailerHierarchies.get(i).getPhone_no());
-            txt_address.setText(reatailerHierarchies.get(i).getAddress_1() + ", " + reatailerHierarchies.get(i).getAddress_2() + ", " + reatailerHierarchies.get(i).getAddress_3() + " " + reatailerHierarchies.get(i).getPincode());
-            txt_city.setText(reatailerHierarchies.get(i).getCity_name());
-            txt_mobile.setText(reatailerHierarchies.get(i).getMobile_no());
-            txt_first.setText(reatailerHierarchies.get(i).getFirst_name() + " " + reatailerHierarchies.get(i).getLast_name());
 
+          final   String getName = reatailerHierarchies.get(i).getFirm_shop_name();
+            final   String getMail = reatailerHierarchies.get(i).getEmail_id();
+            final   String getPhone = reatailerHierarchies.get(i).getPhone_no();
+            final  String getAddress = reatailerHierarchies.get(i).getAddress_1() + ", " + reatailerHierarchies.get(i).getAddress_2() + ", " + reatailerHierarchies.get(i).getAddress_3() + " " + reatailerHierarchies.get(i).getPincode();
+            final  String getcity = reatailerHierarchies.get(i).getCity_name();
+            final  String getFirst = reatailerHierarchies.get(i).getFirst_name() + " " + reatailerHierarchies.get(i).getLast_name();
+            final String getMobileNo = reatailerHierarchies.get(i).getMobile_no();
+
+
+            Log.e("datas" , "-->" + getName +  "-->" + getMail +  "-->" + getPhone +  "-->" + getAddress +  "-->" + getcity  +  "-->" + getFirst);
 
             img_info.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     String firmName = txt_name.getText().toString().trim();
-                    String emailId = txt_email.getText().toString().trim();
-                    String mobileNo = txt_phone.getText().toString().trim();
-                    String address = txt_address.getText().toString().trim();
-                    String cityName = txt_city.getText().toString().trim();
-                    String mobileNum = txt_mobile.getText().toString().trim();
-                    String firstLast = txt_first.getText().toString().trim();
+                    String emailId = getMail.toString().trim();
+                    String mobileNo = getPhone.toString().trim();
+                    String address = getAddress.toString().trim();
+                    String cityName = getcity.toString().trim();
+                    String mobileNum = getMobileNo.toString().trim();
+                    String firstLast = getFirst.toString().trim();
 
 
                     moreInfo(position, firmName, emailId, mobileNo, address, cityName, mobileNum , firstLast);
@@ -257,11 +260,21 @@ public class DistributorListAdapter extends BaseAdapter {
             public void onClick(View v) {
 
                 String no = mobileNo.getText().toString();
-                if(!no.equalsIgnoreCase("N/A")){
-
-                    ClipboardManager _clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                    _clipboard.setText(no);
-                    Toast.makeText(context, "Copied", Toast.LENGTH_SHORT).show();
+                if(!no.equalsIgnoreCase("N/A")) {
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse("tel:" + no));
+                    callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
+                    context.startActivity(callIntent);
                 }
             }
         });
@@ -271,10 +284,20 @@ public class DistributorListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 String no = telephoneNo.getText().toString();
                 if(!no.equalsIgnoreCase("N/A")){
-
-                    ClipboardManager _clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                    _clipboard.setText(no);
-                    Toast.makeText(context, "Copied", Toast.LENGTH_SHORT).show();
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse("tel:" + no));
+                    callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
+                    context.startActivity(callIntent);
                 }
             }
         });
@@ -369,9 +392,20 @@ public class DistributorListAdapter extends BaseAdapter {
                 String no = mobileNo.getText().toString();
                 if(!no.equalsIgnoreCase("N/A")){
 
-                    ClipboardManager _clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                    _clipboard.setText(no);
-                    Toast.makeText(context, "Copied", Toast.LENGTH_SHORT).show();
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse("tel:" + no));
+                    callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
+                    context.startActivity(callIntent);
                 }
             }
         });
@@ -382,10 +416,20 @@ public class DistributorListAdapter extends BaseAdapter {
                 String no = telephoneNo.getText().toString();
 
                 if(!no.equalsIgnoreCase("N/A")){
-
-                    ClipboardManager _clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                    _clipboard.setText(no);
-                    Toast.makeText(context, "Copied", Toast.LENGTH_SHORT).show();
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse("tel:" + no));
+                    callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
+                    context.startActivity(callIntent);
                 }
 
             }
