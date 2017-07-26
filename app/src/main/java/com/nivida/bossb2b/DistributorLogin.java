@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -107,6 +108,9 @@ public class DistributorLogin extends AppCompatActivity implements Callback<Vend
     String previousId = "", currentId = "";
 
     LinearLayout layout_cemara;
+
+    private static final int TIME_DELAY = 2000;
+    private static long back_presses ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -875,6 +879,25 @@ public class DistributorLogin extends AppCompatActivity implements Callback<Vend
         startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed() {
+
+        if(back_presses + TIME_DELAY > System.currentTimeMillis()){
+
+
+            finish();
+
+        }else {
+
+            Toast.makeText(this, "Press Back Once again to Exit", Toast.LENGTH_LONG).show();
+
+
+
+        }
+
+        back_presses = System.currentTimeMillis();
+
+    }
 }
 
 
