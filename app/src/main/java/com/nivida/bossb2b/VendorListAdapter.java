@@ -41,7 +41,7 @@ import java.util.List;
  * Created by Ajay on 11/25/2016.
  */
 
-public class VendorListAdapter extends BaseAdapter {
+public class    VendorListAdapter extends BaseAdapter {
 
     List<BeanVendorName> vnames = new ArrayList<>();
 

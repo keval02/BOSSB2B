@@ -223,28 +223,6 @@ public class SetSubCategeoryAdapter extends BaseAdapter {
                 else {
                     db.removeFromCart(product_categeories.get(position).getId());
                 }
-
-
-
-                /*if (qty.isEmpty()) {
-
-                    edt_qut.setHint("0");
-                    edt_qut.setHintTextColor(Color.parseColor("#396085"));
-                    product_categeories.get(position).setQuantity(0);
-
-                } else if (Integer.parseInt(qty) == 0) {
-                    edt_qut.setText("1");
-                    product_categeories.get(position).setQuantity(1);
-
-                } else {
-                    product_categeories.get(position).setQuantity(Integer.parseInt(qty));
-
-                }*/
-
-
-                //notifyDataSetChanged();
-
-
             }
 
 

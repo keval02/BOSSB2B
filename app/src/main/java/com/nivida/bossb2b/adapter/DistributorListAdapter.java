@@ -121,16 +121,16 @@ public class DistributorListAdapter extends BaseAdapter {
 
             txt_name.setText(reatailerHierarchies.get(i).getFirm_shop_name());
 
-          final   String getName = reatailerHierarchies.get(i).getFirm_shop_name();
-            final   String getMail = reatailerHierarchies.get(i).getEmail_id();
-            final   String getPhone = reatailerHierarchies.get(i).getPhone_no();
-            final  String getAddress = reatailerHierarchies.get(i).getAddress_1() + ", " + reatailerHierarchies.get(i).getAddress_2() + ", " + reatailerHierarchies.get(i).getAddress_3() + " " + reatailerHierarchies.get(i).getPincode();
-            final  String getcity = reatailerHierarchies.get(i).getCity_name();
-            final  String getFirst = reatailerHierarchies.get(i).getFirst_name() + " " + reatailerHierarchies.get(i).getLast_name();
+            final String getName = reatailerHierarchies.get(i).getFirm_shop_name();
+            final String getMail = reatailerHierarchies.get(i).getEmail_id();
+            final String getPhone = reatailerHierarchies.get(i).getPhone_no();
+            final String getAddress = reatailerHierarchies.get(i).getAddress_1() + ", " + reatailerHierarchies.get(i).getAddress_2() + ", " + reatailerHierarchies.get(i).getAddress_3() + " " + reatailerHierarchies.get(i).getPincode();
+            final String getcity = reatailerHierarchies.get(i).getCity_name();
+            final String getFirst = reatailerHierarchies.get(i).getFirst_name() + " " + reatailerHierarchies.get(i).getLast_name();
             final String getMobileNo = reatailerHierarchies.get(i).getMobile_no();
 
 
-            Log.e("datas" , "-->" + getName +  "-->" + getMail +  "-->" + getPhone +  "-->" + getAddress +  "-->" + getcity  +  "-->" + getFirst);
+            Log.e("datas", "-->" + getName + "-->" + getMail + "-->" + getPhone + "-->" + getAddress + "-->" + getcity + "-->" + getFirst);
 
             img_info.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -145,7 +145,7 @@ public class DistributorListAdapter extends BaseAdapter {
                     String firstLast = getFirst.toString().trim();
 
 
-                    moreInfo(position, firmName, emailId, mobileNo, address, cityName, mobileNum , firstLast);
+                    moreInfo(position, firmName, emailId, mobileNo, address, cityName, mobileNum, firstLast);
 
 
                 }
@@ -228,11 +228,11 @@ public class DistributorListAdapter extends BaseAdapter {
 
         if (mobile.isEmpty() || mobile.equalsIgnoreCase(null) || mobile.equalsIgnoreCase("null") || mobile.equalsIgnoreCase("")) {
 
-            mobileNo.setText("N/A");
+            telephoneNo.setText("N/A");
         } else {
 
 
-            mobileNo.setText(mobile);
+            telephoneNo.setText(mobile);
 
         }
 
@@ -248,10 +248,12 @@ public class DistributorListAdapter extends BaseAdapter {
 
         if (landlinrNo.isEmpty() || landlinrNo.equalsIgnoreCase("") || landlinrNo.equalsIgnoreCase(null) || landlinrNo.equalsIgnoreCase("null")) {
 
-            telephoneNo.setText("N/A");
+
+            mobileNo.setText("N/A");
         } else {
 
-            telephoneNo.setText(landlinrNo);
+
+            mobileNo.setText(landlinrNo);
         }
 
 
@@ -260,7 +262,7 @@ public class DistributorListAdapter extends BaseAdapter {
             public void onClick(View v) {
 
                 String no = mobileNo.getText().toString();
-                if(!no.equalsIgnoreCase("N/A")) {
+                if (!no.equalsIgnoreCase("N/A")) {
                     Intent callIntent = new Intent(Intent.ACTION_CALL);
                     callIntent.setData(Uri.parse("tel:" + no));
                     callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -283,7 +285,7 @@ public class DistributorListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 String no = telephoneNo.getText().toString();
-                if(!no.equalsIgnoreCase("N/A")){
+                if (!no.equalsIgnoreCase("N/A")) {
                     Intent callIntent = new Intent(Intent.ACTION_CALL);
                     callIntent.setData(Uri.parse("tel:" + no));
                     callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -308,7 +310,7 @@ public class DistributorListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent mailIntent = new Intent(Intent.ACTION_SENDTO);
                 mailIntent.setData(Uri.parse("mailto:" + mailId));
-                activity.startActivity(Intent.createChooser(mailIntent , "Send Email"));
+                activity.startActivity(Intent.createChooser(mailIntent, "Send Email"));
             }
         });
 
@@ -328,7 +330,7 @@ public class DistributorListAdapter extends BaseAdapter {
 
     }
 
-    private void moreInfo(int position, String firm, final String emailID, String mobile_No, String Address, String city_Name, String moibleNum  , String firstLast) {
+    private void moreInfo(int position, String firm, final String emailID, String mobile_No, String Address, String city_Name, String moibleNum, String firstLast) {
 
 
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
@@ -368,6 +370,7 @@ public class DistributorListAdapter extends BaseAdapter {
 
         if (mobile_No.equalsIgnoreCase("") || mobile_No.equalsIgnoreCase(null) || mobile_No.equalsIgnoreCase("null") || mobile_No.isEmpty()) {
 
+
             mobileNo.setText("N/A");
         } else {
 
@@ -377,8 +380,10 @@ public class DistributorListAdapter extends BaseAdapter {
 
         if (moibleNum.equalsIgnoreCase("") || moibleNum.equalsIgnoreCase(null) || moibleNum.equalsIgnoreCase("null") || moibleNum.isEmpty()) {
 
+
             telephoneNo.setText("N/A");
         } else {
+
 
             telephoneNo.setText(moibleNum);
         }
@@ -390,7 +395,7 @@ public class DistributorListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 String no = mobileNo.getText().toString();
-                if(!no.equalsIgnoreCase("N/A")){
+                if (!no.equalsIgnoreCase("N/A")) {
 
                     Intent callIntent = new Intent(Intent.ACTION_CALL);
                     callIntent.setData(Uri.parse("tel:" + no));
@@ -415,7 +420,7 @@ public class DistributorListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 String no = telephoneNo.getText().toString();
 
-                if(!no.equalsIgnoreCase("N/A")){
+                if (!no.equalsIgnoreCase("N/A")) {
                     Intent callIntent = new Intent(Intent.ACTION_CALL);
                     callIntent.setData(Uri.parse("tel:" + no));
                     callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -440,7 +445,7 @@ public class DistributorListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent mailIntent = new Intent(Intent.ACTION_SENDTO);
                 mailIntent.setData(Uri.parse("mailto:" + emailID));
-                activity.startActivity(mailIntent.createChooser(mailIntent , "Send Mail"));
+                activity.startActivity(mailIntent.createChooser(mailIntent, "Send Mail"));
             }
         });
 
@@ -458,7 +463,6 @@ public class DistributorListAdapter extends BaseAdapter {
 
 
     }
-
 
 
 }

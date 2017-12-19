@@ -4,11 +4,11 @@ package com.nivida.bossb2b;
  * Created by Dhruvil Bhosle on 23-11-2016.
  */
 public class Web {
-    public static final String LINK="http://www.bossindia.com/";
-  //  public static final String LINK="http://demo.bossindia.com/";
+   public static final String LINK="http://www.bossindia.com/";
+  // public static final String LINK="http://demo.bossindia.com/";
   //  public static final String LINK="http://192.168.1.221/boss/";
     public static final String IMAGELINK=LINK+"files/";
-    //public static final String IMAGELINK2="http://demo.bossindia.com";
+   // public static final String IMAGELINK2="http://demo.bossindia.com";
     public static final String IMAGELINK2="http://www.bossindia.com/";
     //public static final String IMAGELINK2="http://192.168.1.221/boss/";
 

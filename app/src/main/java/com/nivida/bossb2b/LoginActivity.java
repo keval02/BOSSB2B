@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.nivida.bossb2b.Bean.Bean_Login;
 import com.nivida.bossb2b.Bean.Bean_User_data;
 
@@ -53,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText edt_phoneno, edt_pwd;
     List<Bean_Login> array_logins = new ArrayList<>();
 
-    String mobile_no, password;
+    String mobile_no = "", password = "" , deviceId = "";
     DatabaseHandler db;
 
     ArrayList<Bean_User_data> user_data = new ArrayList<Bean_User_data>();
@@ -124,10 +125,11 @@ public class LoginActivity extends AppCompatActivity {
 
                     mobile_no = edt_phoneno.getText().toString();
                     password = edt_pwd.getText().toString();
+                    deviceId = FirebaseInstanceId.getInstance().getToken();
 
 
                     if (Internet.isConnectingToInternet(getApplicationContext())) {
-                        new WebLoging(mobile_no, password).execute();
+                        new WebLoging(mobile_no, password , deviceId).execute();
 
                     } else {
                         Internet.noInternet(getApplicationContext());
@@ -168,12 +170,14 @@ public class LoginActivity extends AppCompatActivity {
         private InputStream is;
         String mobile_no = "";
         String password = "";
+        String device_id = "";
 
 
-        public WebLoging(String mobile_no, String password) {
+        public WebLoging(String mobile_no, String password , String device_id) {
 
             this.mobile_no = mobile_no;
             this.password = password;
+            this.device_id = device_id;
 
         }
 
@@ -198,9 +202,11 @@ public class LoginActivity extends AppCompatActivity {
             List<NameValuePair> pairs = new ArrayList<>();
             pairs.add(new BasicNameValuePair("mobile_no", mobile_no));
             pairs.add(new BasicNameValuePair("password", password));
+            pairs.add(new BasicNameValuePair("device_id" , device_id));
 
             Log.e("email", "" + mobile_no);
             Log.e("password", "" + password);
+            Log.e("deviceId" , "-->" + device_id);
             String json = new ServiceHandler().makeServiceCall(Web.LINK + Web.DSRUSER_LOGIN, ServiceHandler.POST, pairs);
             Log.e("Link", "" + Web.LINK + Web.DSRUSER_LOGIN);
 

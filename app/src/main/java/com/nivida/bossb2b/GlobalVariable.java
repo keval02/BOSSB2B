@@ -36,7 +36,7 @@ public class GlobalVariable {
     public static String share = "https://play.google.com/store/apps/details?id=com.nivida.user.Boss&hl=en";
    // public static String link = "http://192.168.1.221/boss/";
     public static final String link = "http://www.bossindia.com/";
-    //   public static final String link="http://demo.bossindia.com/";
+    //  public static final String link="http://demo.bossindia.com/";
 
     public static String API_GET_DISTRIBUTOR_SALESPERSON="User/App_GetDistributorSalesPerson";
     public static String API_GET_DISTRIBUTOR_RETAILER="User/App_GetRetailer";

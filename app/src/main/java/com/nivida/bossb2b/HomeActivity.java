@@ -72,6 +72,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.nivida.bossb2b.Bean.BeanVendor;
 import com.nivida.bossb2b.Bean.BeanVendorName;
 import com.nivida.bossb2b.Model.APIServices;
@@ -182,6 +183,8 @@ public class HomeActivity extends AppCompatActivity implements
     ScrollView mainScroll;
 
     ImageView img_refersh;
+
+    String firebase_token = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -409,7 +412,7 @@ public class HomeActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
 
-
+                firebase_token = FirebaseInstanceId.getInstance().getToken();
                 if (Internet.isConnectingToInternet(getApplicationContext())) {
 
                     int off = 0;
@@ -1778,7 +1781,11 @@ public class HomeActivity extends AppCompatActivity implements
                 parameters.add(new BasicNameValuePair("start_longitude", String.valueOf(currentLongitude)));
                 Log.e("start_longitude", "" + String.valueOf(currentLongitude));
                 parameters.add(new BasicNameValuePair("start_location", start_location));
-                Log.e("start_location", "" + start_location);
+                parameters.add(new BasicNameValuePair("device_id", firebase_token));
+                parameters.add(new BasicNameValuePair("user_id", prefs.getUser_id()));
+
+
+                Log.e("parameters" , "---->" + parameters);
 
 
                 String json = new ServiceHandler().makeServiceCall(Web.LINK + Web.ROUTE_START, ServiceHandler.POST, parameters);

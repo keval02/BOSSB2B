@@ -56,7 +56,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class Allowancee extends AppCompatActivity {
+public class    Allowancee extends AppCompatActivity {
 
     private static final int CAMERA_REQUEST = 1888;
     public static final int CAMERA_DIRECT = 2;
@@ -745,10 +745,7 @@ public class Allowancee extends AppCompatActivity {
             img_attachment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     showFullImageView(path);
-
-
                 }
             });
 
