@@ -461,9 +461,9 @@ public class corporate_office extends Fragment {
 
                 if (result_1.equalsIgnoreCase("")
                         || (result_1.equalsIgnoreCase(""))) {
-                    Toast.makeText(getActivity(), "SERVER ERRER",
+                    Toast.makeText(getActivity(), "SERVER ERROR",
                             Toast.LENGTH_SHORT).show();
-                    //GlobalVariable.CustomToast(getActivity(), "SERVER ERRER", getActivity().getLayoutInflater());
+                    //GlobalVariable.CustomToast(getActivity(), "SERVER ERROR", getActivity().getLayoutInflater());
                     loadingView.dismiss();
 
                 } else {
@@ -562,9 +562,9 @@ public class corporate_office extends Fragment {
 
                 if (result_1.equalsIgnoreCase("")
                         || (result_1.equalsIgnoreCase(""))) {
-                    Toast.makeText(getActivity(), "SERVER ERRER",
+                    Toast.makeText(getActivity(), "SERVER ERROR",
                             Toast.LENGTH_SHORT).show();
-                    //GlobalVariable.CustomToast(getActivity(), "SERVER ERRER", getActivity().getLayoutInflater());
+                    //GlobalVariable.CustomToast(getActivity(), "SERVER ERROR", getActivity().getLayoutInflater());
                     loadingView.dismiss();
 
                 } else {
@@ -673,9 +673,9 @@ public class corporate_office extends Fragment {
 
                 if (result_1.equalsIgnoreCase("")
                         || (result_1.equalsIgnoreCase(""))) {
-                    Toast.makeText(getActivity(), "SERVER ERRER",
+                    Toast.makeText(getActivity(), "SERVER ERROR",
                             Toast.LENGTH_SHORT).show();
-                    //GlobalVariable.CustomToast(getActivity(), "SERVER ERRER", getActivity().getLayoutInflater());
+                    //GlobalVariable.CustomToast(getActivity(), "SERVER ERROR", getActivity().getLayoutInflater());
                     loadingView.dismiss();
 
                 } else {

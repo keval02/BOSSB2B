@@ -503,30 +503,30 @@ public class HomeActivity extends AppCompatActivity implements
             public void onClick(View v) {
 
 
-                if (Internet.isConnectingToInternet(getApplicationContext())) {
+                Log.e("ServiceCalled", "-->" + prefs.isOnceclicked());
+                new_vendor.setBackgroundColor(Color.parseColor("#ffffff"));
+                vendor.setBackgroundColor(Color.parseColor("#7BC552"));
+                start_time.setVisibility(View.VISIBLE);
+                list_hide.setVisibility(View.VISIBLE);
+                img_refersh.setVisibility(View.VISIBLE);
 
-                    new_vendor.setBackgroundColor(Color.parseColor("#ffffff"));
-                    vendor.setBackgroundColor(Color.parseColor("#7BC552"));
-                    start_time.setVisibility(View.VISIBLE);
-                    list_hide.setVisibility(View.VISIBLE);
-                    img_refersh.setVisibility(View.VISIBLE);
-
-                    vendor.setEnabled(true);
+                vendor.setEnabled(true);
 
 
-                    String start_location = "http://maps.google.com/maps?q=loc:" + "" + currentLatitude + "," + currentLongitude;
-                    Log.e("start_location", "" + start_location);
-                    Log.e("Selected_role_id", prefs.getSelectedUserRole());
+                String start_location = "http://maps.google.com/maps?q=loc:" + "" + currentLatitude + "," + currentLongitude;
+                Log.e("start_location", "" + start_location);
+                Log.e("Selected_role_id", prefs.getSelectedUserRole());
 
-                    Calendar calendar = Calendar.getInstance();
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-                    String date = simpleDateFormat.format(calendar.getTime());
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                String date = simpleDateFormat.format(calendar.getTime());
 
-                    prefs.setCurrent_date(date);
+                prefs.setCurrent_date(date);
 
-                    Log.e("ServiceCalled", "-->" + prefs.isOnceclicked());
 
-                    if (prefs.isOnceclicked() == false) {
+                if (prefs.isOnceclicked() == false) {
+                    if (Internet.isConnectingToInternet(getApplicationContext())) {
+
 
 
                         if (prefs.getRole_id().equalsIgnoreCase(C.COMP_SALES_ROLE)) {
@@ -543,24 +543,24 @@ public class HomeActivity extends AppCompatActivity implements
 
                         }
                     } else {
-
-
-                        lists.setVisibility(View.VISIBLE);
-                        vendornames = dataBase.getAllData();
-                        listAdapter = new ListAdapter(getApplicationContext(), vendornames);
-                        lists.setAdapter(listAdapter);
-                        lv_search.setVisibility(View.VISIBLE);
-                        listAdapter.notifyDataSetChanged();
-
-
+                        Internet.noInternet(getApplicationContext());
                     }
-
                 } else {
-                    Internet.noInternet(getApplicationContext());
+
+
+                    lists.setVisibility(View.VISIBLE);
+                    vendornames = dataBase.getAllData();
+                    listAdapter = new ListAdapter(getApplicationContext(), vendornames);
+                    lists.setAdapter(listAdapter);
+                    lv_search.setVisibility(View.VISIBLE);
+                    listAdapter.notifyDataSetChanged();
+
+
                 }
 
-
             }
+
+
         });
         txt_search_by_company.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -922,16 +922,23 @@ public class HomeActivity extends AppCompatActivity implements
         img_refersh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (prefs.getRole_id().equalsIgnoreCase(C.COMP_SALES_ROLE)) {
-                    loadingView.show();
-                    Call<VendorDataList> dataListCall = apiServices.companySalesPerson(prefs.getUser_id());
-                    dataListCall.enqueue(HomeActivity.this);
 
+
+                if (Internet.isConnectingToInternet(getApplicationContext())) {
+
+                    if (prefs.getRole_id().equalsIgnoreCase(C.COMP_SALES_ROLE)) {
+                        loadingView.show();
+                        Call<VendorDataList> dataListCall = apiServices.companySalesPerson(prefs.getUser_id());
+                        dataListCall.enqueue(HomeActivity.this);
+
+                    } else {
+
+                        loadingView.show();
+                        Call<VendorDataList> dataListCall = apiServices.distSalesPersonList(prefs.getUser_id());
+                        dataListCall.enqueue(HomeActivity.this);
+                    }
                 } else {
-
-                    loadingView.show();
-                    Call<VendorDataList> dataListCall = apiServices.distSalesPersonList(prefs.getUser_id());
-                    dataListCall.enqueue(HomeActivity.this);
+                    Internet.noInternet(getApplicationContext());
                 }
 
 
@@ -1130,13 +1137,12 @@ public class HomeActivity extends AppCompatActivity implements
         File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/", "image" + new Date().getTime() + ".png");
 
         Uri imgUri = null;
-        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
 
-             imgUri = Uri.fromFile(file);
-        }
-        else {
+            imgUri = Uri.fromFile(file);
+        } else {
 
-             imgUri = FileProvider.getUriForFile(HomeActivity.this,
+            imgUri = FileProvider.getUriForFile(HomeActivity.this,
                     BuildConfig.APPLICATION_ID + ".provider",
                     file);
 
@@ -1157,7 +1163,7 @@ public class HomeActivity extends AppCompatActivity implements
         File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/", "image" + new Date().getTime() + ".png");
         Uri photoURI = FileProvider.getUriForFile(HomeActivity.this,
                 BuildConfig.APPLICATION_ID + ".provider",
-               file);
+                file);
 
         File image = File.createTempFile(
                 imageFileName,
@@ -1166,8 +1172,8 @@ public class HomeActivity extends AppCompatActivity implements
 
         );
 
-        Log.e("IMAGEPROVIDER1" , "---->"  + image);
-       // Log.e("IMAGEPROVIDERs" , "---->"  + file);
+        Log.e("IMAGEPROVIDER1", "---->" + image);
+        // Log.e("IMAGEPROVIDERs" , "---->"  + file);
         // Save a file: path for use with ACTION_VIEW intents
         this.imgPath = /*"file:" +*/ file.getAbsolutePath();
         return image;
@@ -1176,7 +1182,7 @@ public class HomeActivity extends AppCompatActivity implements
 
     public String getImagePath() {
 
-        Log.e("inIMagePath" , "--->" + imgPath);
+        Log.e("inIMagePath", "--->" + imgPath);
         return imgPath;
     }
 
@@ -1220,7 +1226,7 @@ public class HomeActivity extends AppCompatActivity implements
 
             String selectedImagePath = getImagePath();
 
-            Log.e("imagePaths" , "---->" + selectedImagePath);
+            Log.e("imagePaths", "---->" + selectedImagePath);
 
 
             Bitmap photo = decodeFile(selectedImagePath);
@@ -1253,7 +1259,7 @@ public class HomeActivity extends AppCompatActivity implements
     }
 
     public void resizeImage(final String path) {
-        Log.e("imagePathssss" ,"---->" + path);
+        Log.e("imagePathssss", "---->" + path);
         Bitmap image2 = decodeFile(path);
         File file = new File(path);
         try {
@@ -1718,7 +1724,12 @@ public class HomeActivity extends AppCompatActivity implements
         @Override
         protected Void doInBackground(Void... params) {
 
-            dataBase.addAllVendors(vendorList);
+            try {
+                dataBase.addAllVendors(vendorList);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
 
             return null;
         }
@@ -1785,7 +1796,7 @@ public class HomeActivity extends AppCompatActivity implements
                 parameters.add(new BasicNameValuePair("user_id", prefs.getUser_id()));
 
 
-                Log.e("parameters" , "---->" + parameters);
+                Log.e("parameters", "---->" + parameters);
 
 
                 String json = new ServiceHandler().makeServiceCall(Web.LINK + Web.ROUTE_START, ServiceHandler.POST, parameters);

@@ -737,7 +737,7 @@ public class All_History extends AppCompatActivity {
                 if (result_1.equalsIgnoreCase("")
                         || (result_1.equalsIgnoreCase(""))) {
                     Toast.makeText(All_History.this, "SERVER ERROR", Toast.LENGTH_LONG).show();
-                    //Global.CustomToast(Activity_Login.this, "SERVER ERRER", getLayoutInflater());
+                    //Global.CustomToast(Activity_Login.this, "SERVER ERROR", getLayoutInflater());
                     loadingView.dismiss();
 
                 } else {

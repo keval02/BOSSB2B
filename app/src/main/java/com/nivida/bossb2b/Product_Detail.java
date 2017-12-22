@@ -1291,8 +1291,8 @@ public class Product_Detail extends AppCompatActivity {
 
                 if (result_1.equalsIgnoreCase("")
                         || (result_1.equalsIgnoreCase(""))) {
-                    Toast.makeText(Product_Detail.this , "SERVER ERRER" , Toast.LENGTH_SHORT);
-                    //GlobalVariable.CustomToast(Product_Detail.this, "SERVER ERRER", getLayoutInflater());
+                    Toast.makeText(Product_Detail.this , "SERVER ERROR" , Toast.LENGTH_SHORT);
+                    //GlobalVariable.CustomToast(Product_Detail.this, "SERVER ERROR", getLayoutInflater());
                     loadingView.dismiss();
 
                 } else {
@@ -1445,9 +1445,9 @@ txt_productdetail.setVisibility(View.VISIBLE);
 
                 if (result_1.equalsIgnoreCase("")
                         || (result_1.equalsIgnoreCase(""))) {
-                    Toast.makeText(Product_Detail.this, "SERVER ERRER",
+                    Toast.makeText(Product_Detail.this, "SERVER ERROR",
                             Toast.LENGTH_SHORT).show();
-                    //GlobalVariable.CustomToast(Product_Detail.this, "SERVER ERRER", getLayoutInflater());
+                    //GlobalVariable.CustomToast(Product_Detail.this, "SERVER ERROR", getLayoutInflater());
                     loadingView.dismiss();
 
                 } else {

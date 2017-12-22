@@ -187,9 +187,9 @@ public class ChangePassword extends AppCompatActivity {
 
                 if (result_1.equalsIgnoreCase("")
                         || result_1.isEmpty()) {
-                    /*Toast.makeText(ChangePassword.this, "SERVER ERRER",
+                    /*Toast.makeText(ChangePassword.this, "SERVER ERROR",
                             Toast.LENGTH_SHORT).show();*/
-                    GlobalVariable.CustomToast(ChangePassword.this, "SERVER ERRER", getLayoutInflater());
+                    GlobalVariable.CustomToast(ChangePassword.this, "SERVER ERROR", getLayoutInflater());
                     loadingView.dismiss();
 
                 } else {

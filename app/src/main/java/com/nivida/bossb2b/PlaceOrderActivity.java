@@ -30,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +56,7 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
     AppPref prefs;
     TextView cart_count;
     ActionBarDrawerToggle actionBarDrawerToggle;
-    ImageView cart_icon, home;
+    ImageView cart_icon, home, reload;
 
     LinearLayout linearLayout;
     ArrayAdapter<String> subCategeotyAdapter;
@@ -65,6 +66,7 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
     String CompanyName = "";
 
     Database db;
+    boolean isReloadTimes = false;
 
 
     @Override
@@ -86,9 +88,7 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
         cart_count = (TextView) findViewById(R.id.updatecart);
         cart_icon = (ImageView) findViewById(R.id.cart_icon);
         home = (ImageView) findViewById(R.id.dr_image_home);
-
-      /*  toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);*/
+        reload = (ImageView) findViewById(R.id.dr_image_reload);
 
 
         categoryListAdapter = new CategoryListAdapter(getApplicationContext(), bean_categeories, this);
@@ -103,8 +103,7 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(categoryListAdapter);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        // Sets the Toolbar to act as the ActionBar for this Activity window.
-        // Make sure the toolbar exists in the activity and is not null
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -120,9 +119,6 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(PlaceOrderActivity.this , HomeActivity.class);
-                startActivity(intent);
-                */
                 onBackPressed();
 
             }
@@ -145,8 +141,6 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
             @Override
             public void onClick(View v) {
                 List<Bean_Set_Product_Categeory> selectedProducts = setSubCategeoryAdapter.getProducts();
-
-                /*if (selectedProducts.size() > 0  ) {*/
                 if (db.getCartCount() > 0) {
                     Intent intent = new Intent(getApplicationContext(), InvoiceActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -154,34 +148,26 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
                     startActivity(intent);
                     finish();
                 } else {
-
-
-
                     Toast.makeText(getApplicationContext(), "Please Add Atleast One Quantity of Product", Toast.LENGTH_SHORT).show();
-
                 }
-
-                //}
-
-
-
-                /*else{
-
-*/
-
-//                }
-
 
             }
         });
+
+
+        reload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isReloadTimes = true;
+                new GetCategories("0").execute();
+            }
+        });
+
 
         btn_con.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 List<Bean_Set_Product_Categeory> selectedProducts = setSubCategeoryAdapter.getProducts();
-
-
-                //              if (selectedProducts.size() > 0  ) {
                 if (db.getCartCount() > 0) {
                     Intent intent = new Intent(getApplicationContext(), InvoiceActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -189,34 +175,14 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
                     startActivity(intent);
                     finish();
                 } else {
-
-
-
                     Toast.makeText(getApplicationContext(), "Please Add Atleast One Quantity of Product", Toast.LENGTH_SHORT).show();
-
                 }
-
-                //                                }
-
-
-
-      /*          else{
-
-
-                    Toast.makeText(getApplicationContext() , "Please Select the Products First" , Toast.LENGTH_SHORT).show();
-                }
-*/
-
-
             }
         });
 
 
-
-
         new GetCategories("0").execute();
     }
-
 
     @Override
     public void onClick(final int position) {
@@ -224,13 +190,10 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
             new GetSubCategeoryData(bean_categeories.get(position).getId()).execute();
             spinner.setVisibility(View.VISIBLE);
             productdata_listview.setVisibility(View.VISIBLE);
-
         } else {
-
             new GetProductData(bean_categeories.get(position).getId()).execute();
             productdata_listview.setVisibility(View.VISIBLE);
             spinner.setVisibility(View.GONE);
-            //Toast.makeText(this, "Item doesnt have any subitems", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -250,25 +213,22 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
 
     class GetCategories extends AsyncTask<Void, Void, String> {
 
-
         String categoryID = "";
-
         public GetCategories(String categoryID) {
             this.categoryID = categoryID;
-
         }
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            try {
-                loadingView = new ProgressActivity(PlaceOrderActivity.this, "");
+            if (isReloadTimes) {
+                try {
+                    loadingView = new ProgressActivity(PlaceOrderActivity.this, "");
+                    loadingView.setCancelable(false);
+                    loadingView.show();
 
-                loadingView.setCancelable(false);
-                loadingView.show();
-
-            } catch (Exception e) {
-
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
         }
@@ -288,7 +248,10 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
         @Override
         protected void onPostExecute(String json) {
             super.onPostExecute(json);
-            loadingView.dismiss();
+            if (isReloadTimes) {
+                loadingView.dismiss();
+            }
+
             if (json == null || json.isEmpty()) {
                 Toast.makeText(PlaceOrderActivity.this, "Server Error Occured\nPlease Try Again Later!", Toast.LENGTH_SHORT).show();
             } else {
@@ -329,7 +292,6 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
         }
     }
 
-
     class GetSubCategeoryData extends AsyncTask<Void, Void, String> {
 
         String categoryID = "";
@@ -343,13 +305,15 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            try {
-                loadingView = new ProgressActivity(PlaceOrderActivity.this, "");
-                loadingView.setCancelable(false);
-                loadingView.show();
+            if (isReloadTimes) {
+                try {
+                    loadingView = new ProgressActivity(PlaceOrderActivity.this, "");
+                    loadingView.setCancelable(false);
+                    loadingView.show();
 
-            } catch (Exception e) {
+                } catch (Exception e) {
 
+                }
             }
 
         }
@@ -372,7 +336,9 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
         protected void onPostExecute(String json) {
 
             super.onPostExecute(json);
-            loadingView.dismiss();
+            if (isReloadTimes) {
+                loadingView.dismiss();
+            }
             subCategeoryItem.clear();
             subCategoryIDs.clear();
 
@@ -429,16 +395,16 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            try {
-                loadingView = new ProgressActivity(PlaceOrderActivity.this, "");
+            if (isReloadTimes) {
+                try {
+                    loadingView = new ProgressActivity(PlaceOrderActivity.this, "");
+                    loadingView.setCancelable(false);
+                    loadingView.show();
 
-                loadingView.setCancelable(false);
-                loadingView.show();
+                } catch (Exception e) {
 
-            } catch (Exception e) {
-
+                }
             }
-
 
         }
 
@@ -463,9 +429,10 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
         @Override
         protected void onPostExecute(String json) {
             super.onPostExecute(json);
-            loadingView.dismiss();
             Log.e("json", json);
-
+            if (isReloadTimes) {
+                loadingView.dismiss();
+            }
 
             set_product_categeories.clear();
             if (json == null || json.isEmpty()) {
@@ -505,6 +472,7 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
                     }
 
                     setSubCategeoryAdapter.notifyDataSetChanged();
+                    isReloadTimes = false;
                 } catch (JSONException e) {
                     Log.e("Exception", e.getMessage());
                 }
@@ -546,6 +514,7 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
         }
         super.onStart();
     }
+
 
     public void onBackPressed() {
 

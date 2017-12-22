@@ -320,9 +320,9 @@ public class AddNewUserAddress extends AppCompatActivity {
 
                 if (result_1.equalsIgnoreCase("")
                         || (result_1.equalsIgnoreCase(""))) {
-                    Toast.makeText(AddNewUserAddress.this, "SERVER ERRER",
+                    Toast.makeText(AddNewUserAddress.this, "SERVER ERROR",
                             Toast.LENGTH_SHORT).show();
-                    //GlobalVariable.CustomToast(AddNewUserAddress.this, "SERVER ERRER", getLayoutInflater());
+                    //GlobalVariable.CustomToast(AddNewUserAddress.this, "SERVER ERROR", getLayoutInflater());
                     loadingView.dismiss();
 
                 } else {
@@ -436,9 +436,9 @@ public class AddNewUserAddress extends AppCompatActivity {
 
                 if (result_1.equalsIgnoreCase("")
                         || (result_1.equalsIgnoreCase(""))) {
-                    Toast.makeText(AddNewUserAddress.this, "SERVER ERRER",
+                    Toast.makeText(AddNewUserAddress.this, "SERVER ERROR",
                             Toast.LENGTH_SHORT).show();
-                    //GlobalVariable.CustomToast(AddNewUserAddress.this, "SERVER ERRER", getLayoutInflater());
+                    //GlobalVariable.CustomToast(AddNewUserAddress.this, "SERVER ERROR", getLayoutInflater());
                     loadingView.dismiss();
 
                 } else {
@@ -558,9 +558,9 @@ public class AddNewUserAddress extends AppCompatActivity {
 
                 if (result_1.equalsIgnoreCase("")
                         || (result_1.equalsIgnoreCase(""))) {
-                    Toast.makeText(AddNewUserAddress.this, "SERVER ERRER",
+                    Toast.makeText(AddNewUserAddress.this, "SERVER ERROR",
                             Toast.LENGTH_SHORT).show();
-                    //GlobalVariable.CustomToast(AddNewUserAddress.this, "SERVER ERRER", getLayoutInflater());
+                    //GlobalVariable.CustomToast(AddNewUserAddress.this, "SERVER ERROR", getLayoutInflater());
                     loadingView.dismiss();
 
                 } else {

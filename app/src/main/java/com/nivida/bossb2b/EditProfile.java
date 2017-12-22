@@ -225,9 +225,9 @@ public class EditProfile extends AppCompatActivity {
 
                 if (result_1==null
                         || (result_1.equalsIgnoreCase(""))) {
-                    Toast.makeText(EditProfile.this, "SERVER ERRER",
+                    Toast.makeText(EditProfile.this, "SERVER ERROR",
                             Toast.LENGTH_SHORT).show();
-                    //GlobalVariable.CustomToast(EditProfile.this, "SERVER ERRER", getLayoutInflater());
+                    //GlobalVariable.CustomToast(EditProfile.this, "SERVER ERROR", getLayoutInflater());
                     loadingView.dismiss();
 
                 } else {

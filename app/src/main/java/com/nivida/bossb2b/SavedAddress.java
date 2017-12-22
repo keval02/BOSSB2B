@@ -237,9 +237,9 @@ public class SavedAddress extends AppCompatActivity {
 
                 if (result_1.equalsIgnoreCase("")
                         || (result_1.equalsIgnoreCase(""))) {
-                    Toast.makeText(SavedAddress.this, "SERVER ERRER",
+                    Toast.makeText(SavedAddress.this, "SERVER ERROR",
                             Toast.LENGTH_SHORT).show();
-                    /*GlobalVariable.CustomToast(SavedAddress.this, "SERVER ERRER", SavedAddress.this.getLayoutInflater());*/
+                    /*GlobalVariable.CustomToast(SavedAddress.this, "SERVER ERROR", SavedAddress.this.getLayoutInflater());*/
                     loadingView.dismiss();
 
                 } else {
@@ -590,9 +590,9 @@ public class SavedAddress extends AppCompatActivity {
 
                 if (result_1.equalsIgnoreCase("")
                         || (result_1.equalsIgnoreCase(""))) {
-                   Toast.makeText(SavedAddress.this, "SERVER ERRER",
+                   Toast.makeText(SavedAddress.this, "SERVER ERROR",
                             Toast.LENGTH_SHORT).show();
-                    //GlobalVariable.CustomToast(Saved_Address.this, "SERVER ERRER", Saved_Address.this.getLayoutInflater());
+                    //GlobalVariable.CustomToast(Saved_Address.this, "SERVER ERROR", Saved_Address.this.getLayoutInflater());
                     loadingView.dismiss();
 
                 } else {
@@ -689,9 +689,9 @@ public class SavedAddress extends AppCompatActivity {
 
                 if (result_1.equalsIgnoreCase("")
                         || (result_1.equalsIgnoreCase(""))) {
-                   Toast.makeText(SavedAddress.this, "SERVER ERRER",
+                   Toast.makeText(SavedAddress.this, "SERVER ERROR",
                             Toast.LENGTH_SHORT).show();
-                    //GlobalVariable.CustomToast(Saved_Address.this, "SERVER ERRER", Saved_Address.this.getLayoutInflater());
+                    //GlobalVariable.CustomToast(Saved_Address.this, "SERVER ERROR", Saved_Address.this.getLayoutInflater());
                     loadingView.dismiss();
 
                 } else {

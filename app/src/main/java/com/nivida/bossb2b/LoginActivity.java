@@ -228,7 +228,7 @@ public class LoginActivity extends AppCompatActivity {
                         || (result_1.equalsIgnoreCase(""))) {
                     Toast.makeText(LoginActivity.this, "Server Error",
                             Toast.LENGTH_SHORT).show();
-                    //GlobalVariable.CustomToast(LoginActivity.this, "SERVER ERRER", getLayoutInflater());
+                    //GlobalVariable.CustomToast(LoginActivity.this, "SERVER ERROR", getLayoutInflater());
                     loadingView.dismiss();
 
                 } else {

@@ -219,9 +219,9 @@ pref = new AppPref(getApplicationContext());
 
                 if (result_1.equalsIgnoreCase("")
                         || (result_1.equalsIgnoreCase(""))) {
-                    /*Toast.makeText(ChangePassword.this, "SERVER ERRER",
+                    /*Toast.makeText(ChangePassword.this, "SERVER ERROR",
                             Toast.LENGTH_SHORT).show();*/
-                    GlobalVariable.CustomToast(ChangePasswordForFirstTime.this, "SERVER ERRER", getLayoutInflater());
+                    GlobalVariable.CustomToast(ChangePasswordForFirstTime.this, "SERVER ERROR", getLayoutInflater());
                     loadingView.dismiss();
 
                 } else {

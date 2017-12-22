@@ -1112,9 +1112,9 @@ public class Cart_AddNewAddress extends AppCompatActivity {
 
                 if (result_1.equalsIgnoreCase("")
                         || (result_1.equalsIgnoreCase(""))) {
-                    Toast.makeText(Cart_AddNewAddress.this, "SERVER ERRER",
+                    Toast.makeText(Cart_AddNewAddress.this, "SERVER ERROR",
                             Toast.LENGTH_SHORT).show();
-                    /*GlobalVariable.CustomToast(Cart_AddNewAddress.this, "SERVER ERRER", getLayoutInflater());*/
+                    /*GlobalVariable.CustomToast(Cart_AddNewAddress.this, "SERVER ERROR", getLayoutInflater());*/
                     loadingView.dismiss();
 
                 } else {

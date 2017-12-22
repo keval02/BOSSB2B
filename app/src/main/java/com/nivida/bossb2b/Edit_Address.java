@@ -304,9 +304,9 @@ public class Edit_Address extends AppCompatActivity {
 
                 if (result_1.equalsIgnoreCase("")
                         || (result_1.equalsIgnoreCase(""))) {
-                    Toast.makeText(Edit_Address.this, "SERVER ERRER",
+                    Toast.makeText(Edit_Address.this, "SERVER ERROR",
                             Toast.LENGTH_SHORT).show();
-                    //GlobalVariable.CustomToast(Edit_Address.this, "SERVER ERRER", getLayoutInflater());
+                    //GlobalVariable.CustomToast(Edit_Address.this, "SERVER ERROR", getLayoutInflater());
                     loadingView.dismiss();
 
                 } else {
@@ -428,9 +428,9 @@ public class Edit_Address extends AppCompatActivity {
 
                 if (result_1.equalsIgnoreCase("")
                         || (result_1.equalsIgnoreCase(""))) {
-                    Toast.makeText(Edit_Address.this, "SERVER ERRER",
+                    Toast.makeText(Edit_Address.this, "SERVER ERROR",
                             Toast.LENGTH_SHORT).show();
-                   // GlobalVariable.CustomToast(Edit_Address.this, "SERVER ERRER", getLayoutInflater());
+                   // GlobalVariable.CustomToast(Edit_Address.this, "SERVER ERROR", getLayoutInflater());
                     loadingView.dismiss();
 
                 } else {
@@ -562,9 +562,9 @@ public class Edit_Address extends AppCompatActivity {
 
                 if (result_1.equalsIgnoreCase("")
                         || (result_1.equalsIgnoreCase(""))) {
-                    /*Toast.makeText(Edit_Address.this, "SERVER ERRER",
+                    /*Toast.makeText(Edit_Address.this, "SERVER ERROR",
                             Toast.LENGTH_SHORT).show();*/
-                    GlobalVariable.CustomToast(Edit_Address.this, "SERVER ERRER", getLayoutInflater());
+                    GlobalVariable.CustomToast(Edit_Address.this, "SERVER ERROR", getLayoutInflater());
                     loadingView.dismiss();
 
                 } else {
