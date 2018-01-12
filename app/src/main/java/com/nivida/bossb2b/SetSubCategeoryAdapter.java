@@ -66,7 +66,7 @@ public class SetSubCategeoryAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, final View convertView, ViewGroup parent) {
 
         final View view;
 
@@ -134,12 +134,21 @@ public class SetSubCategeoryAdapter extends BaseAdapter {
         categeory_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppPrefs prefs = new AppPrefs(context);
-                prefs.setproduct_id(product_categeories.get(position).getId());
-                Intent intent = new Intent(context, Product_Detail.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+
+                if (Internet.isConnectingToInternet(context)) {
+
+                    AppPrefs prefs = new AppPrefs(context);
+                    prefs.setproduct_id(product_categeories.get(position).getId());
+                    Intent intent = new Intent(context, Product_Detail.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+
+                } else {
+                    Internet.noInternet(context);
+                }
+
+
             }
         });
 
@@ -184,10 +193,6 @@ public class SetSubCategeoryAdapter extends BaseAdapter {
         });
 
 
-
-
-
-
         edt_qut.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -204,10 +209,10 @@ public class SetSubCategeoryAdapter extends BaseAdapter {
             public void afterTextChanged(Editable s) {
                 String qty = edt_qut.getText().toString().trim();
 
-                if(!qty.isEmpty()){
-                    int quantity=Integer.parseInt(qty);
+                if (!qty.isEmpty()) {
+                    int quantity = Integer.parseInt(qty);
 
-                    if(quantity>0){
+                    if (quantity > 0) {
                         product_categeories.get(position).setQuantity(Integer.parseInt(qty));
                         float totalPrice = Integer.parseInt(product_categeories.get(position).getProduct_selling_price()) *
                                 product_categeories.get(position).getQuantity();
@@ -215,12 +220,10 @@ public class SetSubCategeoryAdapter extends BaseAdapter {
                         product_categeories.get(position).setTotal_price(String.valueOf(totalPrice));
 
                         db.addToCart(product_categeories.get(position));
-                    }
-                    else {
+                    } else {
                         db.removeFromCart(product_categeories.get(position).getId());
                     }
-                }
-                else {
+                } else {
                     db.removeFromCart(product_categeories.get(position).getId());
                 }
             }
@@ -232,7 +235,7 @@ public class SetSubCategeoryAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                String currentQty=edt_qut.getText().toString().trim();
+                String currentQty = edt_qut.getText().toString().trim();
                 edt_qut.setCursorVisible(false);
 
                 currentQty = currentQty.isEmpty() ? "0" : currentQty;
@@ -252,12 +255,12 @@ public class SetSubCategeoryAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
 
-                        String currentQty= edt_qut.getText().toString().trim();
+                        String currentQty = edt_qut.getText().toString().trim();
                         currentQty = currentQty.isEmpty() ? "0" : currentQty;
                         edt_qut.setCursorVisible(false);
                         int quantity = Integer.parseInt(currentQty);
 
-                        if(quantity>=1){
+                        if (quantity >= 1) {
                             quantity = quantity - 1;
                             product_categeories.get(position).setQuantity(quantity);
                             edt_qut.setText(String.valueOf(quantity));
@@ -265,9 +268,6 @@ public class SetSubCategeoryAdapter extends BaseAdapter {
 
                     }
                 });
-
-
-
 
 
         return view;

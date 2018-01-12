@@ -82,17 +82,18 @@ public class InvoiceActivity extends AppCompatActivity {
         invoice_view.setOnScrollListener(new AbsListView.OnScrollListener() {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 //hide KB
-                InputMethodManager imm =  (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
             }
 
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) { }
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            }
         });
 
 
-        if(db.getCartCount()<=0){
+        if (db.getCartCount() <= 0) {
 
-            Toast.makeText(getApplicationContext(),"There is No Product in Cart", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "There is No Product in Cart", Toast.LENGTH_LONG).show();
         }
 
 
@@ -110,10 +111,16 @@ public class InvoiceActivity extends AppCompatActivity {
                     if (customInvoiceAdapter.isAnyBlankQty()) {
                         Toast.makeText(InvoiceActivity.this, "Please Enter At least One Quantity in Product", Toast.LENGTH_SHORT).show();
                     } else {
-                        Intent intent = new Intent(InvoiceActivity.this, CheckoutPage.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent.putExtra("CompanyName", CompanyName);
-                        startActivity(intent);
+
+                        if (Internet.isConnectingToInternet(getApplicationContext())) {
+                            Intent intent = new Intent(InvoiceActivity.this, CheckoutPage.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.putExtra("CompanyName", CompanyName);
+                            startActivity(intent);
+                        } else {
+                            Internet.noInternet(getApplicationContext());
+                        }
+
                     }
 
 
@@ -146,14 +153,11 @@ public class InvoiceActivity extends AppCompatActivity {
                     }
 
 
-                }
-
-                else{
+                } else {
                     Intent intent = new Intent(getApplicationContext(), PlaceOrderActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     finish();
-
 
 
                 }
@@ -195,8 +199,7 @@ public class InvoiceActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-        }
-        else{
+        } else {
             Intent intent = new Intent(getApplicationContext(), PlaceOrderActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

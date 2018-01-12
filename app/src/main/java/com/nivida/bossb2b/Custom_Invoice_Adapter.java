@@ -83,12 +83,20 @@ public class Custom_Invoice_Adapter extends BaseAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppPrefs prefs = new AppPrefs(context);
+
+                if (Internet.isConnectingToInternet(context)) {
+
+
+                    AppPrefs prefs = new AppPrefs(context);
                 prefs.setproduct_id(set_product_categeories.get(position).getId());
                 Intent intent = new Intent(context, Product_Detail.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
+                } else {
+                    Internet.noInternet(context);
+                }
+
             }
         });
 

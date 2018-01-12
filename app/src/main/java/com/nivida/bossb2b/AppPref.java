@@ -106,6 +106,8 @@ public class AppPref {
     String disImage1 = "";
     String disImage2 = "";
     String disImage3 = "";
+    String categoryDatas = "" ;
+    String subCategoryDatas = "" ;
 
 
     boolean isServicecalled=false;
@@ -194,6 +196,8 @@ public class AppPref {
         address_1=appSharedPrefs.getString("address_1","");
         address_2=appSharedPrefs.getString("address_2","");
         comment=appSharedPrefs.getString("comment" , "");
+        categoryDatas = appSharedPrefs.getString("categorydata" , "");
+        subCategoryDatas = appSharedPrefs.getString("subCategoryData" , "");
 
         meetingStarted=appSharedPrefs.getBoolean("meetingStarted",false);
         placeorderclicked=appSharedPrefs.getBoolean("placeorderclicked",false);
@@ -259,7 +263,23 @@ public class AppPref {
     }
 
 
+    public String getCategoryDatas() {
+        return appSharedPrefs.getString("categorydata" , "");
+    }
 
+    public void setCategoryDatas(String categoryDatas) {
+        this.categoryDatas = categoryDatas;
+        prefsEditor.putString("categorydata" , categoryDatas).commit();
+    }
+
+    public String getSubCategoryDatas() {
+        return appSharedPrefs.getString("subCategoryData" , "");
+    }
+
+    public void setSubCategoryDatas(String subCategoryDatas) {
+        this.subCategoryDatas = subCategoryDatas;
+        prefsEditor.putString("subCategoryData" , subCategoryDatas).commit();
+    }
 
     public String getFirm_shop_name() {
         return firm_shop_name;

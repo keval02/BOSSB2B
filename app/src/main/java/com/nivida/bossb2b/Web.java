@@ -29,6 +29,7 @@ public class Web {
     public static final String GET_HISTORY = "Meetings/App_Get_Meetings";
    // public static final String tada = "HQMaster/App_Get_TADA_HQ_Data";
     public static final String tada = "TADAReport/App_Get_TADA_Report_Details";
+    public static final String GET_OFFLINE_PRODUCTS = "Category/app_offline_product";
 
 
     public static final String ADD_VENDOR = "User/App_AddRetailer_DSR";

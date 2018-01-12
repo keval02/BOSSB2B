@@ -3,6 +3,7 @@ package com.nivida.bossb2b;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -21,8 +22,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.nivida.bossb2b.Bean.Bean_Categeory;
 import com.nivida.bossb2b.Bean.Bean_Set_Product_Categeory;
+import com.nivida.bossb2b.Model.APIServices;
+import com.nivida.bossb2b.Model.OfflineProductModel;
+import com.nivida.bossb2b.Model.ServiceGenerator;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -31,8 +36,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.PrintStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PlaceOrderActivity extends AppCompatActivity implements CategoryListAdapter.OnViewClick, SetSubCategeoryAdapter.OnItemChecked {
 
@@ -65,14 +75,20 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
 
     String CompanyName = "";
 
+
+    OfflineProductModel offlineProductModelListData;
+
     Database db;
     boolean isReloadTimes = false;
 
+    APIServices apiServices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_order);
+
+        apiServices = ServiceGenerator.getServiceClass();
 
         Intent intent = getIntent();
 
@@ -90,9 +106,9 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
         home = (ImageView) findViewById(R.id.dr_image_home);
         reload = (ImageView) findViewById(R.id.dr_image_reload);
 
-
         categoryListAdapter = new CategoryListAdapter(getApplicationContext(), bean_categeories, this);
-
+        subCategeotyAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.custom_spinner_item, subCategeoryItem);
+        spinner.setAdapter(subCategeotyAdapter);
 
         setSubCategeoryAdapter = new SetSubCategeoryAdapter(getApplicationContext(), set_product_categeories, this);
         productdata_listview.setAdapter(setSubCategeoryAdapter);
@@ -128,7 +144,9 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                new GetProductData(subCategoryIDs.get(position)).execute();
+                // new GetProductData(subCategoryIDs.get(position)).execute();
+
+
             }
 
             @Override
@@ -159,7 +177,12 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
             @Override
             public void onClick(View view) {
                 isReloadTimes = true;
-                new GetCategories("0").execute();
+                if(Internet.isConnectingToInternet(getApplicationContext())){
+                    GetOfflineDatas();
+                }else {
+
+                    Internet.noInternet(getApplicationContext());
+                }
             }
         });
 
@@ -181,17 +204,250 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
         });
 
 
-        new GetCategories("0").execute();
+        if (!prefs.getCategoryDatas().isEmpty()) {
+            offlineProductModelListData = new Gson().fromJson(prefs.getCategoryDatas(), OfflineProductModel.class);
+            for (int i = 0; i < offlineProductModelListData.getData().size(); i++) {
+                Bean_Categeory bean_categeory = new Bean_Categeory();
+
+                bean_categeory.setId(offlineProductModelListData.getData().get(i).getId());
+                bean_categeory.setName(offlineProductModelListData.getData().get(i).getName());
+                bean_categeory.setApp_image(offlineProductModelListData.getData().get(i).getApp_image());
+                bean_categeory.setIs_child(offlineProductModelListData.getData().get(i).getIs_child());
+
+
+                if (offlineProductModelListData.getData().get(i).getIs_child() == 1) {
+
+                    subCategoryIDs.clear();
+                    subCategeoryItem.clear();
+
+                    subCategoryIDs.add("0");
+                    subCategeoryItem.add("All Products");
+                }
+
+                bean_categeories.add(bean_categeory);
+            }
+
+            for (int k = 0; k < offlineProductModelListData.getData().get(0).getSubCategory().size(); k++) {
+                subCategoryIDs.add(offlineProductModelListData.getData().get(0).getSubCategory().get(k).getId());
+                subCategeoryItem.add(offlineProductModelListData.getData().get(0).getSubCategory().get(k).getName());
+            }
+            set_product_categeories.clear();
+
+
+            for (int z = 0; z < offlineProductModelListData.getData().get(0).getSubCategory().size(); z++) {
+
+                for (int m = 0; m < offlineProductModelListData.getData().get(0).getSubCategory().get(z).getProduct().size(); m++) {
+
+                    Bean_Set_Product_Categeory categeory = new Bean_Set_Product_Categeory();
+
+                    categeory.setId(offlineProductModelListData.getData().get(0).getSubCategory().get(z).getProduct().get(m).getId());
+                    categeory.setCode(offlineProductModelListData.getData().get(0).getSubCategory().get(z).getProduct().get(m).getProduct_code());
+                    categeory.setName(offlineProductModelListData.getData().get(0).getSubCategory().get(z).getProduct().get(m).getProduct_name());
+                    categeory.setProduct_mrp(offlineProductModelListData.getData().get(0).getSubCategory().get(z).getProduct().get(m).getMrp());
+                    categeory.setProduct_selling_price(offlineProductModelListData.getData().get(0).getSubCategory().get(z).getProduct().get(m).getSelling_price());
+                    categeory.setCategeory_id(offlineProductModelListData.getData().get(0).getSubCategory().get(z).getProduct().get(m).getCategory_id());
+                    categeory.setMax_quantity(Integer.parseInt(offlineProductModelListData.getData().get(0).getSubCategory().get(z).getProduct().get(m).getQty()));
+                    categeory.setB2b_stock(offlineProductModelListData.getData().get(0).getSubCategory().get(z).getProduct().get(m).getB2b_stock());
+
+
+                    set_product_categeories.add(categeory);
+
+
+                }
+            }
+
+            spinner.setVisibility(View.VISIBLE);
+            productdata_listview.setVisibility(View.VISIBLE);
+            subCategeotyAdapter.notifyDataSetChanged();
+            setSubCategeoryAdapter.notifyDataSetChanged();
+
+
+        }
+
+
+        if (prefs.getCategoryDatas().isEmpty()) {
+            if(Internet.isConnectingToInternet(getApplicationContext())){
+                GetOfflineDatas();
+            }else {
+
+                Internet.noInternet(getApplicationContext());
+            }
+
+
+        }
+        //  new GetCategories("0").execute();
+    }
+
+    private void GetOfflineDatas() {
+
+        try {
+            loadingView = new ProgressActivity(PlaceOrderActivity.this, "");
+            loadingView.setCancelable(false);
+            loadingView.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Call<OfflineProductModel> offlineProductModelCall = apiServices.offlineModelList();
+        offlineProductModelCall.enqueue(new Callback<OfflineProductModel>() {
+            @Override
+            public void onResponse(Call<OfflineProductModel> call, Response<OfflineProductModel> response) {
+                loadingView.dismiss();
+                prefs.setCategoryDatas("");
+                bean_categeories.clear();
+
+                subCategeoryItem.clear();
+                subCategoryIDs.clear();
+
+                set_product_categeories.clear();
+                OfflineProductModel offlineProductModel = response.body();
+
+
+                if (offlineProductModel != null) {
+                    if (offlineProductModel.isStatus()) {
+
+                        for (int i = 0; i < offlineProductModel.getData().size(); i++) {
+                            Bean_Categeory bean_categeory = new Bean_Categeory();
+
+
+                            bean_categeory.setId(offlineProductModel.getData().get(i).getId());
+                            bean_categeory.setName(offlineProductModel.getData().get(i).getName());
+                            bean_categeory.setApp_image(offlineProductModel.getData().get(i).getApp_image());
+                            bean_categeory.setIs_child(offlineProductModel.getData().get(i).getIs_child());
+
+
+                            bean_categeories.add(bean_categeory);
+
+                        }
+
+
+                        if (offlineProductModel.getData().get(0).getIs_child() == 1) {
+                            subCategoryIDs.add("0");
+                            subCategeoryItem.add("All Products");
+
+                            for (int k = 0; k < offlineProductModel.getData().get(0).getSubCategory().size(); k++) {
+                                subCategoryIDs.add(offlineProductModel.getData().get(0).getSubCategory().get(k).getId());
+                                subCategeoryItem.add(offlineProductModel.getData().get(0).getSubCategory().get(k).getName());
+                            }
+                        }
+
+
+                        for (int z = 0; z < offlineProductModel.getData().get(0).getSubCategory().size(); z++) {
+
+                            for (int m = 0; m < offlineProductModel.getData().get(0).getSubCategory().get(z).getProduct().size(); m++) {
+
+                                Bean_Set_Product_Categeory categeory = new Bean_Set_Product_Categeory();
+
+                                categeory.setId(offlineProductModel.getData().get(0).getSubCategory().get(z).getProduct().get(m).getId());
+                                categeory.setCode(offlineProductModel.getData().get(0).getSubCategory().get(z).getProduct().get(m).getProduct_code());
+                                categeory.setName(offlineProductModel.getData().get(0).getSubCategory().get(z).getProduct().get(m).getProduct_name());
+                                categeory.setProduct_mrp(offlineProductModel.getData().get(0).getSubCategory().get(z).getProduct().get(m).getMrp());
+                                categeory.setProduct_selling_price(offlineProductModel.getData().get(0).getSubCategory().get(z).getProduct().get(m).getSelling_price());
+                                categeory.setCategeory_id(offlineProductModel.getData().get(0).getSubCategory().get(z).getProduct().get(m).getCategory_id());
+                                categeory.setMax_quantity(Integer.parseInt(offlineProductModel.getData().get(0).getSubCategory().get(z).getProduct().get(m).getQty()));
+                                categeory.setB2b_stock(offlineProductModel.getData().get(0).getSubCategory().get(z).getProduct().get(m).getB2b_stock());
+
+
+                                set_product_categeories.add(categeory);
+
+
+                            }
+
+
+                        }
+
+                        categoryListAdapter.notifyDataSetChanged();
+                        subCategeotyAdapter.notifyDataSetChanged();
+                        setSubCategeoryAdapter.notifyDataSetChanged();
+
+
+                        String getCategoryDatas = new Gson().toJson(response.body());
+                        prefs.setCategoryDatas(getCategoryDatas);
+                        offlineProductModelListData = new Gson().fromJson(prefs.getCategoryDatas(), OfflineProductModel.class);
+
+
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<OfflineProductModel> call, Throwable t) {
+                loadingView.dismiss();
+            }
+        });
+
+
     }
 
     @Override
     public void onClick(final int position) {
-        if (bean_categeories.get(position).getIs_child()) {
-            new GetSubCategeoryData(bean_categeories.get(position).getId()).execute();
+        if (bean_categeories.get(position).getIs_child() == 1) {
+
+            subCategoryIDs.clear();
+            subCategeoryItem.clear();
+
+            subCategoryIDs.add("0");
+            subCategeoryItem.add("All Products");
+            set_product_categeories.clear();
+
+
+            for (int k = 0; k < offlineProductModelListData.getData().get(position).getSubCategory().size(); k++) {
+                subCategoryIDs.add(offlineProductModelListData.getData().get(position).getSubCategory().get(k).getId());
+                subCategeoryItem.add(offlineProductModelListData.getData().get(position).getSubCategory().get(k).getName());
+            }
+
+            for (int z = 0; z < offlineProductModelListData.getData().get(position).getSubCategory().size(); z++) {
+
+                for (int m = 0; m < offlineProductModelListData.getData().get(position).getSubCategory().get(z).getProduct().size(); m++) {
+                    Bean_Set_Product_Categeory categeory = new Bean_Set_Product_Categeory();
+
+                    categeory.setId(offlineProductModelListData.getData().get(position).getSubCategory().get(z).getProduct().get(m).getId());
+                    categeory.setCode(offlineProductModelListData.getData().get(position).getSubCategory().get(z).getProduct().get(m).getProduct_code());
+                    categeory.setName(offlineProductModelListData.getData().get(position).getSubCategory().get(z).getProduct().get(m).getProduct_name());
+                    categeory.setProduct_mrp(offlineProductModelListData.getData().get(position).getSubCategory().get(z).getProduct().get(m).getMrp());
+                    categeory.setProduct_selling_price(offlineProductModelListData.getData().get(position).getSubCategory().get(z).getProduct().get(m).getSelling_price());
+                    categeory.setCategeory_id(offlineProductModelListData.getData().get(position).getSubCategory().get(z).getProduct().get(m).getCategory_id());
+                    categeory.setMax_quantity(Integer.parseInt(offlineProductModelListData.getData().get(position).getSubCategory().get(z).getProduct().get(m).getQty()));
+                    categeory.setB2b_stock(offlineProductModelListData.getData().get(position).getSubCategory().get(z).getProduct().get(m).getB2b_stock());
+
+                    set_product_categeories.add(categeory);
+                }
+            }
+
+
+            spinner.setAdapter(subCategeotyAdapter);
+
+            // new GetSubCategeoryData(bean_categeories.get(position).getId()).execute();
             spinner.setVisibility(View.VISIBLE);
             productdata_listview.setVisibility(View.VISIBLE);
+            setSubCategeoryAdapter.notifyDataSetChanged();
         } else {
-            new GetProductData(bean_categeories.get(position).getId()).execute();
+            // new GetProductData(bean_categeories.get(position).getId()).execute();
+
+            set_product_categeories.clear();
+            for (int z = 0; z < offlineProductModelListData.getData().get(position).getSubCategory().size(); z++) {
+
+
+                for (int m = 0; m < offlineProductModelListData.getData().get(position).getSubCategory().get(z).getProduct().size(); m++) {
+                    Bean_Set_Product_Categeory categeory = new Bean_Set_Product_Categeory();
+
+                    categeory.setId(offlineProductModelListData.getData().get(position).getSubCategory().get(z).getProduct().get(m).getId());
+                    categeory.setCode(offlineProductModelListData.getData().get(position).getSubCategory().get(z).getProduct().get(m).getProduct_code());
+                    categeory.setName(offlineProductModelListData.getData().get(position).getSubCategory().get(z).getProduct().get(m).getProduct_name());
+                    categeory.setProduct_mrp(offlineProductModelListData.getData().get(position).getSubCategory().get(z).getProduct().get(m).getMrp());
+                    categeory.setProduct_selling_price(offlineProductModelListData.getData().get(position).getSubCategory().get(z).getProduct().get(m).getSelling_price());
+                    categeory.setCategeory_id(offlineProductModelListData.getData().get(position).getSubCategory().get(z).getProduct().get(m).getCategory_id());
+                    categeory.setMax_quantity(Integer.parseInt(offlineProductModelListData.getData().get(position).getSubCategory().get(z).getProduct().get(m).getQty()));
+                    categeory.setB2b_stock(offlineProductModelListData.getData().get(position).getSubCategory().get(z).getProduct().get(m).getB2b_stock());
+
+                    set_product_categeories.add(categeory);
+                }
+            }
+
+            setSubCategeoryAdapter.notifyDataSetChanged();
             productdata_listview.setVisibility(View.VISIBLE);
             spinner.setVisibility(View.GONE);
         }
@@ -214,9 +470,11 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
     class GetCategories extends AsyncTask<Void, Void, String> {
 
         String categoryID = "";
+
         public GetCategories(String categoryID) {
             this.categoryID = categoryID;
         }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -272,7 +530,7 @@ public class PlaceOrderActivity extends AppCompatActivity implements CategoryLis
                             categeory.setId(main.getString("id"));
                             categeory.setApp_image(main.getString("app_image"));
                             categeory.setName(main.getString("name"));
-                            categeory.setIs_child(main.getInt("is_child") == 1);
+                            categeory.setIs_child(main.getInt("is_child"));
 
                             bean_categeories.add(categeory);
 

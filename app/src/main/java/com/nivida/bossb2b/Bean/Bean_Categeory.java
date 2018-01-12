@@ -11,10 +11,11 @@ import java.util.List;
 public class Bean_Categeory extends AppModel {
 
 
+
         String id = "";
         String name = "";
         String app_image = "";
-        Boolean is_child ;
+        int is_child = 0 ;
 
 
         public String getId() {
@@ -41,13 +42,15 @@ public class Bean_Categeory extends AppModel {
             this.app_image = app_image;
         }
 
-        public Boolean getIs_child() {
+
+        public int getIs_child() {
             return is_child;
         }
 
-        public void setIs_child(Boolean is_child) {
+        public void setIs_child(int is_child) {
             this.is_child = is_child;
         }
+
 
 
 
